@@ -100,6 +100,51 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
 
+        // Add receptionist user
+        User::insertOrIgnore([
+            [
+                'clinic_id' => 1,
+                'first_name' => 'Sarah',
+                'last_name' => 'Williams',
+                'role' => 'Receptionist',
+                'designation' => 'Front Desk',
+                'username' => 'receptionist1',
+                'password' => Hash::make('1234'),
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+        ]);
+
+        // Add cashier user
+        User::insertOrIgnore([
+            [
+                'clinic_id' => 1,
+                'first_name' => 'James',
+                'last_name' => 'Brown',
+                'role' => 'Cashier',
+                'designation' => 'Payment Center',
+                'username' => 'cashier1',
+                'password' => Hash::make('1234'),
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+        ]);
+
+        // Add nurse user
+        User::insertOrIgnore([
+            [
+                'clinic_id' => 1,
+                'first_name' => 'Emily',
+                'last_name' => 'Davis',
+                'role' => 'Nurse',
+                'designation' => 'Triage',
+                'username' => 'nurse1',
+                'password' => Hash::make('1234'),
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+        ]);
+
         UserPrivilege::insertOrIgnore([
             ['user_id' => 1, 'privilege' => 'dashboard'],
             ['user_id' => 1, 'privilege' => 'reception'],
