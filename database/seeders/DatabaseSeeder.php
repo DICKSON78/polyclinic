@@ -53,14 +53,16 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::insertOrIgnore([
-            'clinic_id' => 1,
-            'first_name' => 'Admin',
-            'last_name' => 'Admin',
-            'username' => 'admin',
-            'role' => 'Admin',
-            'password' => Hash::make('1234'),
-            'created_at' => $now,
-            'updated_at' => $now,
+            [
+                'clinic_id' => 1,
+                'first_name' => 'Admin',
+                'last_name' => 'Admin',
+                'username' => 'admin',
+                'role' => 'Admin',
+                'password' => Hash::make('1234'),
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
         ]);
 
         // Add doctor users
