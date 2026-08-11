@@ -2,8 +2,8 @@
   <div class="footer-container">
     <div class="footer-info">
       <h4>About Us</h4>
-      <p>Maboresho Eyecare System is dedicated to providing top-notch solutions for ophthalmic care.</p>
-      <p>&copy; 2025 Maboresho Eyecare System. All rights reserved.</p>
+      <p>Polyclinic HMS is dedicated to providing comprehensive hospital management solutions for healthcare facilities.</p>
+      <p>&copy; 2025 Polyclinic HMS. All rights reserved.</p>
       <div class="footer-links">
         <a href="/privacy">Privacy Policy</a> | <a href="/terms">Terms of Service</a>
       </div>

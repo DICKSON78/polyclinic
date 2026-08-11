@@ -495,14 +495,14 @@ const Default = ({ setThemeMode, setUser, smsBalance }) => {
                   ml={1}
                   sx={{ color: "inherit" }}
                 >
-                  EYE
+                  POLYCLINIC
                   <Typography
                     component="span"
-                    sx={{ color: theme.palette.secondary.main }}
+                    sx={{ color: theme.palette.secondary.main, ml: 0.5 }}
                     variant="h5"
                     fontWeight="bold"
                   >
-                    CARE
+                    HMS
                   </Typography>
                 </Typography>
 

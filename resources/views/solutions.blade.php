@@ -30,7 +30,7 @@
     <div class="solutions-container">
       <div class="solutions-header">
         <h1>Our Comprehensive Solutions</h1>
-        <p>At Maboresho Eyecare System, we tailor solutions to meet the unique needs of ophthalmic practices.</p>
+        <p>At Polyclinic HMS, we tailor solutions to meet the unique needs of healthcare facilities.</p>
       </div>
       <div class="solutions-content">
         <h2>Advanced Patient Care</h2>
