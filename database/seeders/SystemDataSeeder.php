@@ -55,18 +55,18 @@ class SystemDataSeeder extends Seeder
 
         // Create sample users with different roles
         $roles = [
-            ['name' => 'Admin', 'email' => 'admin@eyechake.com', 'password' => bcrypt('password123'), 'is_admin' => true],
-            ['name' => 'Client', 'email' => 'director@eyechake.com', 'password' => bcrypt('password123'), 'is_admin' => false],
-            ['name' => 'Client', 'email' => 'reception@eyechake.com', 'password' => bcrypt('password123'), 'is_admin' => false],
-            ['name' => 'Client', 'email' => 'cashier@eyechake.com', 'password' => bcrypt('password123'), 'is_admin' => false],
-            ['name' => 'Client', 'email' => 'doctor@eyechake.com', 'password' => bcrypt('password123'), 'is_admin' => false],
-            ['name' => 'Client', 'email' => 'pharmacist@eyechake.com', 'password' => bcrypt('password123'), 'is_admin' => false],
-            ['name' => 'Client', 'email' => 'optician@eyechake.com', 'password' => bcrypt('password123'), 'is_admin' => false],
-            ['name' => 'Client', 'email' => 'sales@eyechake.com', 'password' => bcrypt('password123'), 'is_admin' => false],
-            ['name' => 'Client', 'email' => 'marketing@eyechake.com', 'password' => bcrypt('password123'), 'is_admin' => false],
-            ['name' => 'Client', 'email' => 'hr@eyechake.com', 'password' => bcrypt('password123'), 'is_admin' => false],
-            ['name' => 'Client', 'email' => 'it@eyechake.com', 'password' => bcrypt('password123'), 'is_admin' => false],
-            ['name' => 'Client', 'email' => 'test@eyechake.com', 'password' => bcrypt('password123'), 'is_admin' => false, 'is_test_user' => true], // Test user for deletion
+            ['name' => 'Admin', 'email' => 'admin@polyclinic-hms.com', 'password' => bcrypt('password123'), 'is_admin' => true],
+            ['name' => 'Client', 'email' => 'director@polyclinic-hms.com', 'password' => bcrypt('password123'), 'is_admin' => false],
+            ['name' => 'Client', 'email' => 'reception@polyclinic-hms.com', 'password' => bcrypt('password123'), 'is_admin' => false],
+            ['name' => 'Client', 'email' => 'cashier@polyclinic-hms.com', 'password' => bcrypt('password123'), 'is_admin' => false],
+            ['name' => 'Client', 'email' => 'doctor@polyclinic-hms.com', 'password' => bcrypt('password123'), 'is_admin' => false],
+            ['name' => 'Client', 'email' => 'pharmacist@polyclinic-hms.com', 'password' => bcrypt('password123'), 'is_admin' => false],
+            ['name' => 'Client', 'email' => 'optician@polyclinic-hms.com', 'password' => bcrypt('password123'), 'is_admin' => false],
+            ['name' => 'Client', 'email' => 'sales@polyclinic-hms.com', 'password' => bcrypt('password123'), 'is_admin' => false],
+            ['name' => 'Client', 'email' => 'marketing@polyclinic-hms.com', 'password' => bcrypt('password123'), 'is_admin' => false],
+            ['name' => 'Client', 'email' => 'hr@polyclinic-hms.com', 'password' => bcrypt('password123'), 'is_admin' => false],
+            ['name' => 'Client', 'email' => 'it@polyclinic-hms.com', 'password' => bcrypt('password123'), 'is_admin' => false],
+            ['name' => 'Client', 'email' => 'test@polyclinic-hms.com', 'password' => bcrypt('password123'), 'is_admin' => false, 'is_test_user' => true], // Test user for deletion
         ];
 
         // Create unique usernames
@@ -206,7 +206,7 @@ class SystemDataSeeder extends Seeder
             Expense::create($expense);
         }
 
-        $this->command->info('Sample data created successfully for eyechake database!');
+        $this->command->info('Sample data created successfully for polyclinic database!');
         $this->command->info('Created:');
         $this->command->info('  - Departments: ' . count($departments) . ' departments');
         $this->command->info('  - Users: ' . count($roles) . ' users');
@@ -215,6 +215,6 @@ class SystemDataSeeder extends Seeder
         $this->command->info('  - Payments: ' . count($payments) . ' payments');
         $this->command->info('  - Expenses: ' . count($expenses) . ' expenses');
         $this->command->info('  - Test User: 1 (for deletion testing)');
-        $this->command->info('Database: eyechake (XAMPP ready)');
+        $this->command->info('Database: polyclinic (XAMPP ready)');
     }
 }

@@ -30,7 +30,7 @@ const OptometryReport = () => {
 
   if (loading || consultLoading) {
     return (
-      <Page title='Optometry Report'>
+      <Page title='Examination Report'>
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
           <CircularProgress />
         </Box>
@@ -55,13 +55,13 @@ const OptometryReport = () => {
   };
 
   return (
-    <Page title='Optometry Report'>
+    <Page title='Examination Report'>
       <Box sx={{ p: 3 }}>
         <Paper elevation={3} sx={{ p: 4, mb: 4, borderRadius: 2, background: 'linear-gradient(135deg, #1565c0 0%, #42a5f5 100%)', color: 'white' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 2 }}>
             <Box>
-              <Typography variant="h4" fontWeight={700} mb={1}>Optometry Report</Typography>
-              <Typography variant="body1" sx={{ opacity: 0.9 }}>Track optometry performance, consultation statistics and medicine sales</Typography>
+              <Typography variant="h4" fontWeight={700} mb={1}>Examination Report</Typography>
+              <Typography variant="body1" sx={{ opacity: 0.9 }}>Track examination performance, consultation statistics and medicine sales</Typography>
               <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
                 <Chip label="Monthly Analysis" color="success" size="small" sx={{ fontWeight: 'bold' }} />
                 <Chip label="Real-time Data" color="info" size="small" sx={{ fontWeight: 'bold' }} />

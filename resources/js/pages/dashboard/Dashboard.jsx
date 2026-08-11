@@ -40,6 +40,14 @@ import {
   LocalHospitalRounded as DoctorIcon,
   ScheduleRounded as ScheduleIcon,
   ShoppingCartRounded as PurchaseIcon,
+  BiotechRounded as LabIcon,
+  RadioRounded as RadiologyIcon,
+  BloodtypeRounded as BloodIcon,
+  MedicationRounded as PrescriptionIcon,
+  BedRounded as WardsIcon,
+  EmergencyRounded as EmergencyIcon,
+  LocalTaxiRounded as AmbulanceIcon,
+  MeetingRoomRounded as SurgeryIcon,
 } from "@mui/icons-material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -62,6 +70,7 @@ import {
   cyan,
   deepOrange,
   green,
+  grey,
   indigo,
   lightBlue,
   lime,
@@ -71,6 +80,7 @@ import {
   red,
   teal,
   yellow,
+  amber,
 } from "@mui/material/colors";
 import { useFetch, useToast } from "../../hooks";
 import {
@@ -115,6 +125,20 @@ const DEFAULT_DIRECTOR_DATA = {
     frame_purchases: 0,
     frame_profit: 0,
     consulted_patients: 0,
+    lab_requests: 0,
+    lab_results: 0,
+    radiology_requests: 0,
+    blood_donations: 0,
+    blood_units: 0,
+    prescriptions: 0,
+    admissions: 0,
+    active_admissions: 0,
+    surgeries: 0,
+    mortuary_bodies: 0,
+    inpatient_bills: 0,
+    er_visits: 0,
+    ambulance_requests: 0,
+    ambulance_trips: 0,
   },
   statistics: {
     sales_by_category: [],
@@ -150,7 +174,7 @@ const DEFAULT_CONSULTATION_DATA = {
   },
 };
 
-const Dashboard = () => {
+const Dashboard = ({ setSmsBalance }) => {
   const theme = useTheme();
   const addToast = useToast();
   const navigate = useNavigate();
@@ -233,6 +257,13 @@ const Dashboard = () => {
       return response.data.data;
     }
   );
+
+  // Update SMS balance when director data changes
+  useEffect(() => {
+    if (directorData && directorData.summary && directorData.summary.sms_balance !== undefined) {
+      setSmsBalance(directorData.summary.sms_balance);
+    }
+  }, [directorData, setSmsBalance]);
 
   useEffect(() => {
     fetchDirector();
@@ -553,13 +584,13 @@ const Dashboard = () => {
                       />
                     </Grid>
                     <Grid item xs={12} sm={6} md={4} lg={3}>
-                      <InfoCard
+                      {/* <InfoCard
                         title="Consulted Patients"
                         count={numberFormat(directorData?.summary?.total_patients_consulted || 0)}
                         icon={<ConsultationsIcon />}
                         color={indigo[500]}
                         onClick={() => navigate('/consultation-room/dashboard')}
-                      />
+                      /> */}
                     </Grid>
                     {/* Commented out: Duplicate Consultations Today card
                     <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -682,10 +713,18 @@ const Dashboard = () => {
                   </Grid>
                   <Grid item xs={12} sm={4}>
                     <InfoCard
-                      title="Optical (Glass)"
+                      title="Outpatient Dispensing"
                       count={numberFormat(directorData.summary?.glass || 0, 0)}
                       icon={<GlassIcon />}
                       color={purple[300]}
+                    />
+                  </Grid>
+                     <Grid item xs={12} sm={6} md={4}>
+                    <InfoCard
+                      title="Accessory Sales"
+                      count={numberFormat(directorData.summary?.frame || 0, 0)}
+                      icon={<RevenueIcon />}
+                      color={cyan[500]}
                     />
                   </Grid>
                 </Grid>
@@ -735,7 +774,7 @@ const Dashboard = () => {
 
                 <Divider sx={{ my: 4 }} />
 
-                {/* Optical Performance */}
+                {/* Outpatient Dispensing Performance */}
                 <Typography
                   variant="subtitle1"
                   sx={{
@@ -747,12 +786,12 @@ const Dashboard = () => {
                     gap: 1,
                   }}
                 >
-                  <GlassIcon /> Optical Performance
+                  <GlassIcon /> Outpatient Dispensing Performance
                 </Typography>
                 <Grid container spacing={3}>
                   <Grid item xs={12} sm={6} md={4}>
                     <InfoCard
-                      title="Lens Sales"
+                      title="Item Sales"
                       count={numberFormat(directorData.summary?.glass || 0, 0)}
                       icon={<RevenueIcon />}
                       color={purple[500]}
@@ -760,7 +799,7 @@ const Dashboard = () => {
                   </Grid>
                   <Grid item xs={12} sm={6} md={4}>
                     <InfoCard
-                      title="Lens Purchases (COGS)"
+                      title="Item Purchases (COGS)"
                       count={numberFormat(directorData.summary?.glass_purchases || 0, 0)}
                       icon={<ExpensesIcon />}
                       color={orange[500]}
@@ -768,7 +807,7 @@ const Dashboard = () => {
                   </Grid>
                   <Grid item xs={12} sm={6} md={4}>
                     <InfoCard
-                      title="Profit from Lens"
+                      title="Profit from Items"
                       count={numberFormat(directorData.summary?.glass_profit || 0, 0)}
                       icon={<NetProfitIcon />}
                       color={directorData.summary?.glass_profit >= 0 ? green[500] : red[500]}
@@ -776,15 +815,7 @@ const Dashboard = () => {
                   </Grid>
                   <Grid item xs={12} sm={6} md={4}>
                     <InfoCard
-                      title="Frame Sales"
-                      count={numberFormat(directorData.summary?.frame || 0, 0)}
-                      icon={<RevenueIcon />}
-                      color={cyan[500]}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6} md={4}>
-                    <InfoCard
-                      title="Frame Purchases (COGS)"
+                      title="Accessory Purchases (COGS)"
                       count={numberFormat(directorData.summary?.frame_purchases || 0, 0)}
                       icon={<ExpensesIcon />}
                       color={deepOrange[500]}
@@ -792,10 +823,169 @@ const Dashboard = () => {
                   </Grid>
                   <Grid item xs={12} sm={6} md={4}>
                     <InfoCard
-                      title="Profit from Frame"
+                      title="Profit from Accessories"
                       count={numberFormat(directorData.summary?.frame_profit || 0, 0)}
                       icon={<NetProfitIcon />}
                       color={directorData.summary?.frame_profit >= 0 ? green[500] : red[500]}
+                    />
+                  </Grid>
+                </Grid>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Clinical & Support Departments */}
+          {directorData && (
+            <Card sx={{ mb: 4, boxShadow: '0 2px 12px rgba(0,0,0,0.08)', borderRadius: 2 }}>
+              <CardContent>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: 600,
+                    mb: 3,
+                    color: theme.palette.text.primary,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                  }}
+                >
+                  <DoctorIcon /> Clinical & Support Departments
+                </Typography>
+                <Grid container spacing={3}>
+                  {/* Laboratory */}
+                  <Grid item xs={12} sm={6} md={4}>
+                    <InfoCard
+                      title="Lab Requests"
+                      count={numberFormat(directorData.summary?.lab_requests || 0)}
+                      icon={<LabIcon />}
+                      color={purple[500]}
+                      onClick={() => navigate('/laboratory/requests')}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4}>
+                    <InfoCard
+                      title="Lab Results Completed"
+                      count={numberFormat(directorData.summary?.lab_results || 0)}
+                      icon={<DoneIcon />}
+                      color={green[500]}
+                      onClick={() => navigate('/laboratory/results')}
+                    />
+                  </Grid>
+                  {/* Radiology */}
+                  <Grid item xs={12} sm={6} md={4}>
+                    <InfoCard
+                      title="Radiology Requests"
+                      count={numberFormat(directorData.summary?.radiology_requests || 0)}
+                      icon={<RadiologyIcon />}
+                      color={cyan[500]}
+                      onClick={() => navigate('/radiology/requests')}
+                    />
+                  </Grid>
+                  {/* Blood Bank */}
+                  <Grid item xs={12} sm={6} md={4}>
+                    <InfoCard
+                      title="Blood Donations"
+                      count={numberFormat(directorData.summary?.blood_donations || 0)}
+                      icon={<BloodIcon />}
+                      color={red[500]}
+                      onClick={() => navigate('/blood-bank/donors')}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4}>
+                    <InfoCard
+                      title="Available Blood Units"
+                      count={numberFormat(directorData.summary?.blood_units || 0)}
+                      icon={<BloodIcon />}
+                      color={pink[500]}
+                      onClick={() => navigate('/blood-bank/units')}
+                    />
+                  </Grid>
+                  {/* E-Prescription */}
+                  <Grid item xs={12} sm={6} md={4}>
+                    <InfoCard
+                      title="Prescriptions"
+                      count={numberFormat(directorData.summary?.prescriptions || 0)}
+                      icon={<PrescriptionIcon />}
+                      color={indigo[500]}
+                      onClick={() => navigate('/e-prescription/prescriptions')}
+                    />
+                  </Grid>
+                  {/* Wards/Inpatient */}
+                  <Grid item xs={12} sm={6} md={4}>
+                    <InfoCard
+                      title="Admissions"
+                      count={numberFormat(directorData.summary?.admissions || 0)}
+                      icon={<WardsIcon />}
+                      color={orange[500]}
+                      onClick={() => navigate('/wards/admissions')}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4}>
+                    <InfoCard
+                      title="Active Admissions"
+                      count={numberFormat(directorData.summary?.active_admissions || 0)}
+                      icon={<WardsIcon />}
+                      color={deepOrange[500]}
+                      onClick={() => navigate('/wards/admissions')}
+                    />
+                  </Grid>
+                  {/* Operating Theatre */}
+                  <Grid item xs={12} sm={6} md={4}>
+                    <InfoCard
+                      title="Surgeries"
+                      count={numberFormat(directorData.summary?.surgeries || 0)}
+                      icon={<SurgeryIcon />}
+                      color={teal[500]}
+                      onClick={() => navigate('/operating-theatre/surgeries')}
+                    />
+                  </Grid>
+                  {/* Mortuary */}
+                  <Grid item xs={12} sm={6} md={4}>
+                    <InfoCard
+                      title="Bodies in Mortuary"
+                      count={numberFormat(directorData.summary?.mortuary_bodies || 0)}
+                      icon={<WardsIcon />}
+                      color={grey[500]}
+                      onClick={() => navigate('/mortuary/bodies')}
+                    />
+                  </Grid>
+                  {/* Inpatient Billing */}
+                  <Grid item xs={12} sm={6} md={4}>
+                    <InfoCard
+                      title="Inpatient Bills"
+                      count={numberFormat(directorData.summary?.inpatient_bills || 0)}
+                      icon={<BillsIcon />}
+                      color={amber[500]}
+                      onClick={() => navigate('/inpatient-billing/bills')}
+                    />
+                  </Grid>
+                  {/* Emergency */}
+                  <Grid item xs={12} sm={6} md={4}>
+                    <InfoCard
+                      title="ER Visits"
+                      count={numberFormat(directorData.summary?.er_visits || 0)}
+                      icon={<EmergencyIcon />}
+                      color={red[600]}
+                      onClick={() => navigate('/emergency/visits')}
+                    />
+                  </Grid>
+                  {/* Ambulance */}
+                  <Grid item xs={12} sm={6} md={4}>
+                    <InfoCard
+                      title="Ambulance Requests"
+                      count={numberFormat(directorData.summary?.ambulance_requests || 0)}
+                      icon={<AmbulanceIcon />}
+                      color={orange[600]}
+                      onClick={() => navigate('/ambulance/requests')}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4}>
+                    <InfoCard
+                      title="Ambulance Trips"
+                      count={numberFormat(directorData.summary?.ambulance_trips || 0)}
+                      icon={<AmbulanceIcon />}
+                      color={deepOrange[600]}
+                      onClick={() => navigate('/ambulance/trips')}
                     />
                   </Grid>
                 </Grid>
@@ -939,7 +1129,7 @@ const Dashboard = () => {
                           data: [
                             { x: "Consultation", y: financialData.summary?.consultation || 0 },
                             { x: "Pharmacy", y: financialData.summary?.pharmacy || 0 },
-                            { x: "Glass", y: financialData.summary?.glass || 0 },
+                            { x: "Outpatient Dispensing", y: financialData.summary?.glass || 0 },
                             { x: "Others", y: (financialData.summary?.others || 0) - (financialData.summary?.consultation || 0) },
                           ],
                         }]}

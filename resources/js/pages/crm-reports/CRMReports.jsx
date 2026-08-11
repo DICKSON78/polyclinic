@@ -74,8 +74,8 @@ const CRMReports = () => {
       }
     },
     {
-      title: 'Optometry Report Card',
-      description: 'Monitor optometry performance metrics, patient outcomes, and service quality indicators',
+      title: 'Examination Report Card',
+      description: 'Monitor examination performance metrics, patient outcomes, and service quality indicators',
       icon: <EyeIcon />,
       color: '#00bcd4',
       path: '/optometry-reports/performance-report-card',
@@ -125,7 +125,7 @@ const CRMReports = () => {
                 CRM Analytics Dashboard
               </Typography>
               <Typography variant="body1" sx={{ opacity: 0.9, maxWidth: 600 }}>
-                Comprehensive CRM analytics with five specialized reports: Performance metrics, Contact analytics, Lead conversion tracking, Optometry performance, and Sales analytics
+                Comprehensive CRM analytics with five specialized reports: Performance metrics, Contact analytics, Lead conversion tracking, Examination performance, and Sales analytics
               </Typography>
               <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', mt: 2 }}>
                 <Chip
@@ -369,7 +369,7 @@ const CRMReports = () => {
           </Box>
           <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.6 }}>
             Our CRM reports provide comprehensive insights into customer relationship management activities across five key areas:
-            Performance metrics tracking, detailed contact analytics, lead conversion analysis, optometry performance monitoring, and sales analytics. 
+            Performance metrics tracking, detailed contact analytics, lead conversion analysis, examination performance monitoring, and sales analytics. 
             These reports help marketing teams optimize their strategies, improve customer engagement, track conversion effectiveness, monitor service quality, 
             and analyze sales performance through data-driven insights.
           </Typography>

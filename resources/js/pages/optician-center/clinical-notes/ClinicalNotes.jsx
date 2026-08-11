@@ -245,7 +245,7 @@ const ClinicalNotes = ({ patient, consultation }) => {
               </>
             )}
 
-            <Subheader title="Refraction Details" />
+            <Subheader title="Examination Details" />
             <Refraction consultation={consultation} />
 
             {/* Recommendations & Remarks */}
@@ -331,7 +331,7 @@ const ClinicalNotes = ({ patient, consultation }) => {
             {/* Lens Types Display */}
             {consultation.lens_types && (
               <Box sx={{ mb: 2 }}>
-                <Subheader title="Lens Selection" />
+                <Subheader title="Item Selection" />
                 <Box sx={{ p: 2, bgcolor: 'background.paper', borderRadius: 1, border: '1px solid', borderColor: 'divider' }}>
                   <Stack direction="row" spacing={1} flexWrap="wrap">
                     {(typeof consultation.lens_types === 'string'

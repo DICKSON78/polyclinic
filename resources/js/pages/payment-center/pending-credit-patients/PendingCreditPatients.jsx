@@ -110,7 +110,7 @@ const PendingCreditPatients = () => {
               },
               {
                 field: "require_glass",
-                headerName: "Spectacle Required",
+                headerName: "Item Required",
                 renderCell: (item) => {
                   const requireGlass = item.consultation?.require_glass;
                   if (requireGlass === 'Yes') {

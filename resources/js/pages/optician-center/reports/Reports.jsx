@@ -22,11 +22,11 @@ const Reports = () => {
   return (
     <div>
       <FormControl sx={{ minWidth: 200 }}>
-        <InputLabel>Lens Type</InputLabel>
+        <InputLabel>Item Type</InputLabel>
         <Select 
           value={selectedType}
           onChange={(e) => setSelectedType(e.target.value)}
-          label="Lens Type"
+          label="Item Type"
         >
           <MenuItem value="all">All</MenuItem>
           {(lensTypes || []).map((lt) => (

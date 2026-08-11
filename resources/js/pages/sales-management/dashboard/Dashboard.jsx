@@ -53,7 +53,10 @@ const Dashboard = () => {
     { start_date: startDate, end_date: today }, // Use month-to-date instead of just today
     true,
     null,
-    (response) => response.data.data
+    (response) => {
+      console.log('Sales Dashboard API Response:', response);
+      return response.data.data;
+    }
   );
 
   const { data: kpiData, loading: kpiLoading } = useFetch(
@@ -84,12 +87,22 @@ const Dashboard = () => {
 
   // Add null checks to prevent errors
   const salesPerformance = data?.summary?.sales_performance || 0;
-  const kpis = (kpiData?.kpis || []).map(kpi => ({
-    ...kpi,
-    description: kpi.name,
-    _r: kpi.result || 0,
-    _t: kpi.target || 0,
-  }));
+  const kpis = (kpiData?.kpis || []).map(kpi => {
+    const achievementRate = kpi.target > 0 ? Math.round((kpi.result / kpi.target) * 100) : 0;
+    let status = 'default';
+    if (achievementRate >= 75) status = 'success';
+    else if (achievementRate >= 50) status = 'warning';
+    else if (achievementRate > 0) status = 'error';
+
+    return {
+      ...kpi,
+      description: kpi.name,
+      results: `${achievementRate}%`, // Show percentage instead of formatted result
+      _r: achievementRate,
+      _t: 100,
+      status,
+    };
+  });
   const summary = data?.summary || {};
 
   return (

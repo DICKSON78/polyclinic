@@ -144,7 +144,7 @@ const OptometristMonthlyReport = () => {
   });
 
   useEffect(() => {
-    document.title = `Monthly Optometrist Report - ${window.APP_NAME}`;
+    document.title = `Monthly Clinician Report - ${window.APP_NAME}`;
     calculateDateRange();
     loadSavedReports();
   }, [dateFilter, selectedDate]);
@@ -390,7 +390,7 @@ const OptometristMonthlyReport = () => {
   const handleDelete = (report) => {
     const component = (
       <ConfirmationDialog
-        message={`Delete report for ${report.name || "Unknown Optometrist"} (${report.month || "Unknown Month"})?`}
+        message={`Delete report for ${report.name || "Unknown Clinician"} (${report.month || "Unknown Month"})?`}
         onCancel={() => modalRef.current.close()}
         onOk={async () => {
           try {
@@ -543,12 +543,12 @@ const OptometristMonthlyReport = () => {
 
   return (
     <Page
-      title="Monthly Optometrist Report"
+      title="Monthly Clinician Report"
       breadcrumbs={[
         { title: "Home" },
         { title: "Consultation Room" },
         { title: "Reports" },
-        { title: "Monthly Optometrist Report" },
+        { title: "Monthly Clinician Report" },
       ]}
     >
       <Box sx={{ mb: 3, "@media print": { display: "none" } }}>
@@ -720,7 +720,7 @@ const OptometristMonthlyReport = () => {
             fontFamily: "serif",
           }}
         >
-          SIKAF EYE CARE
+          Polyclinic HMS
         </Typography>
         <Typography
           variant="h4"
@@ -733,7 +733,7 @@ const OptometristMonthlyReport = () => {
             fontFamily: "serif",
           }}
         >
-          Monthly Optometrist Report
+          Monthly Clinician Report
         </Typography>
 
         <Box sx={{ mb: 3 }}>

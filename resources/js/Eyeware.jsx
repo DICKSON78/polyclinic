@@ -51,323 +51,318 @@ const colors = {
 };
 
 // WhatsApp Contact Information
-const WHATSAPP_NUMBER = "+255676506323"; // Eyeware Shop WhatsApp
-const WHATSAPP_MESSAGE = "Hello! I'm interested in eyewear from SIKAF Eye Care.";
+const WHATSAPP_NUMBER = "+255676506323"; // Polyclinic HMS WhatsApp
+const WHATSAPP_MESSAGE = "Hello! I'd like to know more about Polyclinic HMS facilities and services.";
 
-const Eyeware = () => {
+const Facilities = () => {
   const heroRef = useRef(null);
-  const eyewareRef = useRef(null);
+  const galleryRef = useRef(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const eyewareImages = [
-    // Children Frames (16 frames - new images)
+  const facilityImages = [
     {
       id: 1,
-      title: 'Kids Adventure Frames',
-      category: 'Children Frames',
+      title: 'General Outpatient Consultation',
+      category: 'Outpatient Departments',
       image: '/images/eyeware/children/children-1.jpeg',
-      description: 'Fun and colorful frames designed for active children',
+      description: 'Our general outpatient consultation rooms provide comfortable, private care for walk-in and scheduled patients.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 2,
-      title: 'Youth Explorer Frames',
-      category: 'Children Frames',
+      title: 'Triage & Vital Signs',
+      category: 'Outpatient Departments',
       image: '/images/eyeware/children/children-2.jpeg',
-      description: 'Durable frames perfect for school and play activities',
+      description: 'Dedicated triage area for rapid assessment of vital signs and fast-track care.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 3,
-      title: 'Junior Sport Frames',
-      category: 'Children Frames',
+      title: 'Pharmacy & E-Prescriptions',
+      category: 'Outpatient Departments',
       image: '/images/eyeware/children/children-3.jpeg',
-      description: 'Lightweight frames with UV protection for outdoor activities',
+      description: 'On-site pharmacy dispensing prescribed medicines with expert guidance from our pharmacists.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 4,
-      title: 'Kids Classic Frames',
-      category: 'Children Frames',
+      title: 'Laboratory Diagnostics',
+      category: 'Outpatient Departments',
       image: '/images/eyeware/children/children-4.jpeg',
-      description: 'Timeless designs that grow with your child',
+      description: 'Modern laboratory equipped for accurate, same-day diagnostic testing.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 5,
-      title: 'Youth Trendy Frames',
-      category: 'Children Frames',
+      title: 'Radiology & Imaging',
+      category: 'Outpatient Departments',
       image: '/images/eyeware/children/children-5.jpeg',
-      description: 'Modern styles that kids love to wear',
+      description: 'Imaging suites offering X-ray and ultrasound services for precise diagnosis.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 6,
-      title: 'Children Comfort Frames',
-      category: 'Children Frames',
+      title: 'Emergency Care',
+      category: 'Outpatient Departments',
       image: '/images/eyeware/children/children-6.jpeg',
-      description: 'Soft nose pads and lightweight materials for comfort',
+      description: '24-hour emergency care unit staffed by experienced medical teams.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 7,
-      title: 'Kids Durable Frames',
-      category: 'Children Frames',
+      title: 'Pediatric Care',
+      category: 'Outpatient Departments',
       image: '/images/eyeware/children/children-7.jpeg',
-      description: 'Strong frames that can handle rough play',
+      description: 'Child-friendly pediatric department with experienced pediatric specialists.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 8,
-      title: 'Youth Stylish Frames',
-      category: 'Children Frames',
+      title: 'Maternity & Delivery',
+      category: 'Outpatient Departments',
       image: '/images/eyeware/children/children-8.jpeg',
-      description: 'Fashionable frames for confident young wearers',
+      description: 'Safe, supportive maternity and delivery facilities with skilled midwives.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 9,
-      title: 'Children Premium Frames',
-      category: 'Children Frames',
+      title: 'Minor Surgical Procedures',
+      category: 'Outpatient Departments',
       image: '/images/eyeware/children/children-9.jpeg',
-      description: 'High-quality frames with excellent craftsmanship',
+      description: 'Well-equipped minor procedure room for safe outpatient surgical care.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 10,
-      title: 'Kids Ultimate Frames',
-      category: 'Children Frames',
+      title: 'Dental Clinic',
+      category: 'Outpatient Departments',
       image: '/images/eyeware/children/children-10.jpeg',
-      description: 'The perfect combination of style, comfort, and durability',
+      description: 'Comprehensive dental services in a clean, comfortable environment.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
-    {
-      id: 31,
-      title: 'Kids Flex Frames',
-      category: 'Children Frames',
-      image: '/images/eyeware/children/children-11.jpeg',
-      description: 'Flexible frames that adjust to active lifestyles',
-      whatsappNumber: WHATSAPP_NUMBER,
-    },
-    {
-      id: 32,
-      title: 'Youth Outdoor Frames',
-      category: 'Children Frames',
-      image: '/images/eyeware/children/children-12.jpeg',
-      description: 'Designed for outdoor adventures and sports',
-      whatsappNumber: WHATSAPP_NUMBER,
-    },
-    {
-      id: 33,
-      title: 'Kids Colorful Frames',
-      category: 'Children Frames',
-      image: '/images/eyeware/children/children-13.jpeg',
-      description: 'Bright and vibrant frames kids adore',
-      whatsappNumber: WHATSAPP_NUMBER,
-    },
-    {
-      id: 34,
-      title: 'Youth Round Frames',
-      category: 'Children Frames',
-      image: '/images/eyeware/children/children-14.jpeg',
-      description: 'Classic round frames for a fun look',
-      whatsappNumber: WHATSAPP_NUMBER,
-    },
-    {
-      id: 35,
-      title: 'Kids Lightweight Frames',
-      category: 'Children Frames',
-      image: '/images/eyeware/children/children-15.jpeg',
-      description: 'Super light frames that feel like nothing is there',
-      whatsappNumber: WHATSAPP_NUMBER,
-    },
-    {
-      id: 36,
-      title: 'Youth Smart Frames',
-      category: 'Children Frames',
-      image: '/images/eyeware/children/children-16.jpeg',
-      description: 'Smart-looking frames for the school-going child',
-      whatsappNumber: WHATSAPP_NUMBER,
-    },
-
-    // Medium Budget Frames (10 frames using existing gallery images)
     {
       id: 11,
-      title: 'Classic Office Frames',
-      category: 'Medium Budget Frames',
-      image: '/images/galarry/11.jpeg',
-      description: 'Professional frames perfect for office environments',
+      title: 'Physiotherapy',
+      category: 'Outpatient Departments',
+      image: '/images/eyeware/children/children-11.jpeg',
+      description: 'Physiotherapy and rehabilitation services to support your recovery.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 12,
-      title: 'Modern Everyday Frames',
-      category: 'Medium Budget Frames',
-      image: '/images/galarry/12.jpeg',
-      description: 'Versatile frames suitable for daily wear',
+      title: 'Health Screening',
+      category: 'Outpatient Departments',
+      image: '/images/eyeware/children/children-12.jpeg',
+      description: 'Preventive health screening packages to help you stay well.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 13,
-      title: 'Comfort Business Frames',
-      category: 'Medium Budget Frames',
-      image: '/images/galarry/13.jpeg',
-      description: 'Comfortable frames designed for long work hours',
+      title: 'Vaccination Services',
+      category: 'Outpatient Departments',
+      image: '/images/eyeware/children/children-13.jpeg',
+      description: 'Vaccination services for children and adults, including travel vaccines.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 14,
-      title: 'Stylish Casual Frames',
-      category: 'Medium Budget Frames',
-      image: '/images/galarry/1.jpeg',
-      description: 'Perfect blend of style and comfort for casual occasions',
+      title: 'Patient Registration & Records',
+      category: 'Outpatient Departments',
+      image: '/images/eyeware/children/children-14.jpeg',
+      description: 'Efficient patient registration and medical records management.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 15,
-      title: 'Durable Medium Frames',
-      category: 'Medium Budget Frames',
-      image: '/images/galarry/2.jpeg',
-      description: 'Strong and reliable frames that last',
+      title: 'Specialist Clinics',
+      category: 'Outpatient Departments',
+      image: '/images/eyeware/children/children-15.jpeg',
+      description: 'Regular specialist clinics covering a wide range of medical fields.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 16,
-      title: 'Professional Medium Frames',
-      category: 'Medium Budget Frames',
-      image: '/images/galarry/3.jpeg',
-      description: 'Business-appropriate frames with modern appeal',
+      title: 'Ambulance Services',
+      category: 'Outpatient Departments',
+      image: '/images/eyeware/children/children-16.jpeg',
+      description: 'Ambulance services for prompt medical transport when you need it most.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 17,
-      title: 'Versatile Medium Collection',
-      category: 'Medium Budget Frames',
-      image: '/images/galarry/4.jpeg',
-      description: 'Wide range of styles for different occasions',
+      title: 'Sample Collection Center',
+      category: 'Diagnostics & Laboratory',
+      image: '/images/galarry/1.jpeg',
+      description: 'Professional sample collection center with minimal waiting time.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 18,
-      title: 'Quality Mid-Range Frames',
-      category: 'Medium Budget Frames',
-      image: '/images/galarry/5.jpeg',
-      description: 'Excellent quality at an affordable price',
+      title: 'Hematology Testing',
+      category: 'Diagnostics & Laboratory',
+      image: '/images/galarry/2.jpeg',
+      description: 'Accurate blood testing for complete blood counts and related conditions.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 19,
-      title: 'Comfort Medium Frames',
-      category: 'Medium Budget Frames',
-      image: '/images/galarry/6.jpeg',
-      description: 'Designed for all-day wearing comfort',
+      title: 'Biochemistry Testing',
+      category: 'Diagnostics & Laboratory',
+      image: '/images/galarry/3.jpeg',
+      description: 'Biochemistry tests including glucose, cholesterol, and organ function.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 20,
-      title: 'Classic Medium Frames',
-      category: 'Medium Budget Frames',
-      image: '/images/galarry/7.jpeg',
-      description: 'Timeless designs that never go out of style',
+      title: 'Microbiology Testing',
+      category: 'Diagnostics & Laboratory',
+      image: '/images/galarry/4.jpeg',
+      description: 'Microbiology testing for infections and antibiotic guidance.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
-
-    // Executive Collections (11 frames - new images)
     {
       id: 21,
-      title: 'Premium Executive Frames',
-      category: 'Executive Collections',
-      image: '/images/eyeware/executive/executive-1.jpeg',
-      description: 'Luxury frames crafted with premium materials for executives',
+      title: 'Urine & Stool Analysis',
+      category: 'Diagnostics & Laboratory',
+      image: '/images/galarry/5.jpeg',
+      description: 'Urine and stool analysis for quick, reliable results.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 22,
-      title: 'Designer Executive Eyewear',
-      category: 'Executive Collections',
-      image: '/images/eyeware/executive/executive-2.jpeg',
-      description: 'High-end designer frames for the discerning professional',
+      title: 'Blood Group & Crossmatch',
+      category: 'Diagnostics & Laboratory',
+      image: '/images/galarry/6.jpeg',
+      description: 'Blood grouping and crossmatch services for safe transfusions.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 23,
-      title: 'Luxury Executive Collection',
-      category: 'Executive Collections',
-      image: '/images/eyeware/executive/executive-3.jpeg',
-      description: 'Exclusive executive frames with premium finishes',
+      title: 'Ultrasound Imaging',
+      category: 'Diagnostics & Laboratory',
+      image: '/images/galarry/7.jpeg',
+      description: 'Ultrasound imaging for safe, non-invasive diagnosis.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 24,
-      title: 'Elite Professional Frames',
-      category: 'Executive Collections',
-      image: '/images/eyeware/executive/executive-4.jpeg',
-      description: 'Elite frames designed for executives who demand the finest',
+      title: 'X-Ray Imaging',
+      category: 'Diagnostics & Laboratory',
+      image: '/images/galarry/8.jpeg',
+      description: 'Digital X-ray imaging with rapid reporting.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 25,
-      title: 'Executive Titanium Frames',
-      category: 'Executive Collections',
-      image: '/images/eyeware/executive/executive-5.jpeg',
-      description: 'Lightweight titanium frames with superior craftsmanship',
+      title: 'ECG & Cardiac Screening',
+      category: 'Diagnostics & Laboratory',
+      image: '/images/galarry/9.jpeg',
+      description: 'ECG and cardiac screening for heart health assessment.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 26,
-      title: 'Prestige Executive Frames',
-      category: 'Executive Collections',
-      image: '/images/eyeware/executive/executive-6.jpeg',
-      description: 'Prestige frames that command attention and respect',
+      title: 'Pathology Reporting',
+      category: 'Diagnostics & Laboratory',
+      image: '/images/galarry/10.jpeg',
+      description: 'Careful review and reporting of all laboratory results by qualified staff.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 27,
-      title: 'Executive Luxury Frames',
-      category: 'Executive Collections',
-      image: '/images/eyeware/executive/executive-7.jpeg',
-      description: 'Luxury frames that reflect success and sophistication',
+      title: 'Private Wards',
+      category: 'Inpatient & Wards',
+      image: '/images/eyeware/executive/executive-1.jpeg',
+      description: 'Comfortable private wards for patients who prefer extra privacy.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 28,
-      title: 'Premium Executive Collection',
-      category: 'Executive Collections',
-      image: '/images/eyeware/executive/executive-8.jpeg',
-      description: 'Premium collection for the modern executive',
+      title: 'Semi-Private Wards',
+      category: 'Inpatient & Wards',
+      image: '/images/eyeware/executive/executive-2.jpeg',
+      description: 'Semi-private wards offering quality care at an accessible cost.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 29,
-      title: 'Elite Executive Frames',
-      category: 'Executive Collections',
-      image: '/images/eyeware/executive/executive-9.jpeg',
-      description: 'Elite craftsmanship for elite professionals',
+      title: 'General Wards',
+      category: 'Inpatient & Wards',
+      image: '/images/eyeware/executive/executive-3.jpeg',
+      description: 'Spacious general wards with attentive nursing care.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 30,
-      title: 'Executive Master Collection',
-      category: 'Executive Collections',
+      title: 'Maternity Ward',
+      category: 'Inpatient & Wards',
+      image: '/images/eyeware/executive/executive-4.jpeg',
+      description: 'Dedicated maternity ward supporting mothers and newborns.',
+      whatsappNumber: WHATSAPP_NUMBER,
+    },
+    {
+      id: 31,
+      title: 'Pediatric Ward',
+      category: 'Inpatient & Wards',
+      image: '/images/eyeware/executive/executive-5.jpeg',
+      description: 'Specialist pediatric ward for the care of sick children.',
+      whatsappNumber: WHATSAPP_NUMBER,
+    },
+    {
+      id: 32,
+      title: 'Isolation Ward',
+      category: 'Inpatient & Wards',
+      image: '/images/eyeware/executive/executive-6.jpeg',
+      description: 'Controlled isolation facilities for managing infectious conditions.',
+      whatsappNumber: WHATSAPP_NUMBER,
+    },
+    {
+      id: 33,
+      title: 'Intensive Care Unit',
+      category: 'Inpatient & Wards',
+      image: '/images/eyeware/executive/executive-7.jpeg',
+      description: 'Intensive care unit for critically ill patients requiring close monitoring.',
+      whatsappNumber: WHATSAPP_NUMBER,
+    },
+    {
+      id: 34,
+      title: 'Nursing Station',
+      category: 'Inpatient & Wards',
+      image: '/images/eyeware/executive/executive-8.jpeg',
+      description: '24-hour nursing stations ensuring constant, responsive care.',
+      whatsappNumber: WHATSAPP_NUMBER,
+    },
+    {
+      id: 35,
+      title: 'Recovery Room',
+      category: 'Inpatient & Wards',
+      image: '/images/eyeware/executive/executive-9.jpeg',
+      description: 'Quiet recovery rooms for patients resting after procedures.',
+      whatsappNumber: WHATSAPP_NUMBER,
+    },
+    {
+      id: 36,
+      title: 'Inpatient Pharmacy',
+      category: 'Inpatient & Wards',
       image: '/images/eyeware/executive/executive-10.jpeg',
-      description: 'The ultimate in executive eyewear excellence',
+      description: 'Inpatient pharmacy providing medicines throughout your stay.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
     {
       id: 37,
-      title: 'Executive Signature Frames',
-      category: 'Executive Collections',
+      title: 'Cafeteria & Waiting Lounge',
+      category: 'Inpatient & Wards',
       image: '/images/eyeware/executive/executive-11.jpeg',
-      description: 'Signature collection for the distinguished executive',
+      description: 'Cafeteria and comfortable waiting lounge for families and visitors.',
       whatsappNumber: WHATSAPP_NUMBER,
     },
   ];
 
-  const categories = ['Children Frames', 'Medium Budget Frames', 'Executive Collections'];
-  const [activeCategory, setActiveCategory] = useState('Children Frames');
+  const categories = ['Outpatient Departments', 'Diagnostics & Laboratory', 'Inpatient & Wards'];
+  const [activeCategory, setActiveCategory] = useState('Outpatient Departments');
 
-  const filteredImages = eyewareImages.filter(img => img.category === activeCategory);
+  const filteredImages = facilityImages.filter(img => img.category === activeCategory);
 
   const openModal = (image, index) => {
     setSelectedImage(image);
@@ -404,13 +399,13 @@ const Eyeware = () => {
       });
     }
 
-    // Eyeware items animation - only animate position, keep opacity at 1
-    if (eyewareRef.current) {
-      const eyewareItems = eyewareRef.current.querySelectorAll('.eyeware-item');
-      gsap.set(eyewareItems, { opacity: 1 });
-      gsap.from(eyewareItems, {
+    // Facility items animation - only animate position, keep opacity at 1
+    if (galleryRef.current) {
+      const facilityItems = galleryRef.current.querySelectorAll('.facility-item');
+      gsap.set(facilityItems, { opacity: 1 });
+      gsap.from(facilityItems, {
         scrollTrigger: {
-          trigger: eyewareRef.current,
+          trigger: galleryRef.current,
           start: 'top 80%',
         },
         y: 60,
@@ -429,9 +424,9 @@ const Eyeware = () => {
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: colors.white, pt: { xs: '56px', sm: '64px' } }}>
       <SEO
-        title="eyeware shop - SIKAF Eye Care | Premium Frames & Eyewear"
-        description="Explore our eyeware shop featuring children frames, medium budget frames, and executive collections. Find the perfect frames for your style at SIKAF Eye Care."
-        keywords="eyeware shop, eyeglasses frames, optical frames, children eyewear, executive frames, SIKAF eyeware"
+        title="Our Facilities - Polyclinic HMS | Departments, Diagnostics & Wards"
+        description="Explore the facilities at Polyclinic HMS including outpatient departments, diagnostics and laboratory, and inpatient wards. Modern, well-equipped healthcare in Dar es Salaam."
+        keywords="Polyclinic HMS facilities, clinic departments, hospital wards, laboratory diagnostics, inpatient care, healthcare facilities Dar es Salaam"
       />
       <Navbar />
 
@@ -472,7 +467,7 @@ const Eyeware = () => {
                 opacity: 1,
               }}
             >
-              Premium Collection
+              Our Facilities
             </Typography>
             <Typography
               className="hero-animate"
@@ -490,7 +485,7 @@ const Eyeware = () => {
                 opacity: 1,
               }}
             >
-              eyeware shop
+              Our Facilities
             </Typography>
             <Typography
               className="hero-animate"
@@ -505,7 +500,7 @@ const Eyeware = () => {
                 opacity: 1,
               }}
             >
-              Discover our premium eyeware collection featuring carefully curated frames for every style and budget. From playful children frames to sophisticated executive collections, find the perfect eyewear that combines fashion, comfort, and quality.
+              Take a look at our modern, well-equipped facilities. From outpatient departments and laboratory diagnostics to comfortable inpatient wards, everything is designed to deliver safe, quality healthcare for you and your family.
             </Typography>
             <Box
               className="hero-animate"
@@ -519,7 +514,7 @@ const Eyeware = () => {
             >
               <Chip
                 icon={<EyeIcon />}
-                label={`${eyewareImages.length} Frames`}
+                label={`${facilityImages.length} Facilities`}
                 sx={{
                   bgcolor: colors.primary,
                   color: colors.white,
@@ -586,8 +581,8 @@ const Eyeware = () => {
         </Container>
       </Box>
 
-      {/* Eyeware Grid */}
-      <Box ref={eyewareRef} sx={{ py: { xs: 6, md: 8 }, bgcolor: colors.white }}>
+      {/* Facilities Grid */}
+      <Box ref={galleryRef} sx={{ py: { xs: 6, md: 8 }, bgcolor: colors.white }}>
         <Container maxWidth="xl">
           <Grid container spacing={{ xs: 2, sm: 3, md: 4 }}>
             {filteredImages.map((item, index) => (
@@ -596,7 +591,7 @@ const Eyeware = () => {
                 key={item.id}
               >
                 <Card
-                  className="eyeware-item"
+                  className="facility-item"
                   sx={{
                     borderRadius: 3,
                     overflow: 'hidden',
@@ -611,10 +606,10 @@ const Eyeware = () => {
                       transform: 'translateY(-12px)',
                       boxShadow: `0 20px 48px rgba(45, 90, 90, 0.2)`,
                       borderColor: colors.primary,
-                      '& .eyeware-image': {
+                      '& .facility-image': {
                         transform: 'scale(1.08)',
                       },
-                      '& .eyeware-overlay': {
+                      '& .facility-overlay': {
                         opacity: 1,
                       },
                     },
@@ -631,7 +626,7 @@ const Eyeware = () => {
                   >
                     <Box
                       component="img"
-                      className="eyeware-image"
+                      className="facility-image"
                       src={item.image}
                       alt={item.title}
                       sx={{
@@ -646,7 +641,7 @@ const Eyeware = () => {
                       }}
                     />
                     <Box
-                      className="eyeware-overlay"
+                      className="facility-overlay"
                       sx={{
                         position: 'absolute',
                         top: 0,
@@ -676,39 +671,6 @@ const Eyeware = () => {
                         fontSize: '0.75rem',
                       }}
                     />
-                    <Box
-                      sx={{
-                        position: 'absolute',
-                        bottom: 12,
-                        right: 12,
-                        bgcolor: 'rgba(255, 255, 255, 0.95)',
-                        borderRadius: 1,
-                        px: 1,
-                        py: 0.5,
-                      }}
-                    >
-                      <Button
-                        size="small"
-                        variant="contained"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          openWhatsApp(item, item.whatsappNumber);
-                        }}
-                        sx={{
-                          minWidth: 'auto',
-                          px: 1,
-                          py: 0.5,
-                          fontSize: '0.7rem',
-                          bgcolor: '#25D366',
-                          color: colors.white,
-                          '&:hover': {
-                            bgcolor: '#1DA851',
-                          },
-                        }}
-                      >
-                        WhatsApp
-                      </Button>
-                    </Box>
                   </Box>
                   <CardContent sx={{ p: { xs: 2, md: 2.5 } }}>
                     <Typography
@@ -748,10 +710,10 @@ const Eyeware = () => {
                   mb: 2,
                 }}
               >
-                No eyeware found in this category
+                No facilities found in this category
               </Typography>
               <Button
-                onClick={() => setActiveCategory('All')}
+                onClick={() => setActiveCategory('Outpatient Departments')}
                 variant="contained"
                 sx={{
                   bgcolor: colors.primary,
@@ -761,7 +723,7 @@ const Eyeware = () => {
                   },
                 }}
               >
-                View All Eyeware
+                View All Facilities
               </Button>
             </Box>
           )}
@@ -943,7 +905,7 @@ const Eyeware = () => {
                       px: 3,
                     }}
                   >
-                    Contact via WhatsApp
+                    Ask About This Facility
                   </Button>
                 </Box>
                 {filteredImages.length > 1 && (
@@ -969,10 +931,10 @@ const Eyeware = () => {
 };
 
 // WhatsApp function
-const openWhatsApp = (frame, whatsappNumber) => {
-  const message = `Hi! I'm interested in "${frame.title}" from eyeware shop. Can you provide more details?`;
+const openWhatsApp = (facility, whatsappNumber) => {
+  const message = `Hello! I'd like to know more about "${facility.title}" at Polyclinic HMS. Can you provide more details?`;
   const whatsappUrl = `https://wa.me/${whatsappNumber.replace('+', '')}?text=${encodeURIComponent(message)}`;
   window.open(whatsappUrl, '_blank');
 };
 
-export default Eyeware;
+export default Facilities;

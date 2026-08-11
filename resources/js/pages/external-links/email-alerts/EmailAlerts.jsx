@@ -223,7 +223,7 @@ const EmailAlerts = () => {
                         fullWidth
                         value={settings.from_name}
                         onChange={(value) => handleChange("from_name", value)}
-                        placeholder="SIKAF Eye Care"
+                        placeholder="Polyclinic HMS"
                       />
                     </Grid>
 

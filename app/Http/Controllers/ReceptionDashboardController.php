@@ -162,7 +162,7 @@ class ReceptionDashboardController extends Controller
                 ->count();
         }, 0);
 
-        // Spectacle patients
+        // Dispensing patients (non-pharmacy, non-procedure items)
         $data['summary']['spectacle_patients'] = $this->safe(function () use ($clinic_id, $start_date, $end_date) {
             return PatientPaymentCacheItem::query()
                 ->when($clinic_id, function ($query) use ($clinic_id) {
@@ -171,7 +171,7 @@ class ReceptionDashboardController extends Controller
                     });
                 })
                 ->whereHas('consultation_type', function ($query) {
-                    $query->where('name', 'Glass');
+                    $query->whereNotIn('name', ['Pharmacy', 'Procedure']);
                 })
                 ->whereDate('created_at', '>=', $start_date)
                 ->whereDate('created_at', '<=', $end_date)
@@ -192,7 +192,7 @@ class ReceptionDashboardController extends Controller
                 ->count();
         }, 0);
 
-        // Clients waiting for dispensing - Glass consultations sent to optician but not completed
+        // Clients waiting for dispensing - consultations with unserved outpatient items (non-Pharmacy, non-Procedure)
         $data['summary']['clients_waiting_for_dispensing'] = $this->safe(function () use ($clinic_id, $start_date, $end_date) {
             return \App\Models\Consultation::query()
                 ->when($clinic_id, function ($query) use ($clinic_id) {
@@ -200,14 +200,20 @@ class ReceptionDashboardController extends Controller
                         $query->where('clinic_id', $clinic_id);
                     });
                 })
-                ->whereNotNull('sent_to_optician_at')
-                ->whereNull('optician_completed_at')
+                ->whereHas('payment_cache', function ($query) use ($start_date, $end_date) {
+                    $query->whereHas('items', function ($itemsQuery) use ($start_date, $end_date) {
+                        $itemsQuery->whereHas('item.consultation_type', function ($typeQuery) {
+                            $typeQuery->whereNotIn('name', ['Pharmacy', 'Procedure']);
+                        })
+                        ->where('status', '!=', 'Served');
+                    });
+                })
                 ->whereDate('created_at', '>=', $start_date)
                 ->whereDate('created_at', '<=', $end_date)
                 ->count();
         }, 0);
 
-        // Clients already served - Glass consultations where optician has completed
+        // Clients already served - consultations whose outpatient items are all served
         $data['summary']['clients_already_served'] = $this->safe(function () use ($clinic_id, $start_date, $end_date) {
             return \App\Models\Consultation::query()
                 ->when($clinic_id, function ($query) use ($clinic_id) {
@@ -215,7 +221,20 @@ class ReceptionDashboardController extends Controller
                         $query->where('clinic_id', $clinic_id);
                     });
                 })
-                ->whereNotNull('optician_completed_at')
+                ->whereHas('payment_cache', function ($query) use ($start_date, $end_date) {
+                    $query->whereHas('items', function ($itemsQuery) use ($start_date, $end_date) {
+                        $itemsQuery->whereHas('item.consultation_type', function ($typeQuery) {
+                            $typeQuery->whereNotIn('name', ['Pharmacy', 'Procedure']);
+                        })
+                        ->where('status', 'Served');
+                    })
+                    ->whereDoesntHave('items', function ($itemsQuery) {
+                        $itemsQuery->whereHas('item.consultation_type', function ($typeQuery) {
+                            $typeQuery->whereNotIn('name', ['Pharmacy', 'Procedure']);
+                        })
+                        ->where('status', '!=', 'Served');
+                    });
+                })
                 ->whereDate('created_at', '>=', $start_date)
                 ->whereDate('created_at', '<=', $end_date)
                 ->count();

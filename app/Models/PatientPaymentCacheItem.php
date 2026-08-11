@@ -11,7 +11,8 @@ class PatientPaymentCacheItem extends Model
     use HasFactory;
 
     protected $fillable = [
-        'payment_cache_id', 'item_id', 'medicine_id', 'consultation_type_id', 'consultant_id', 'payment_mode_id',
+        'payment_cache_id', 'item_id', 'medicine_id', 'prescription_id', 'prescription_item_id',
+        'consultation_type_id', 'consultant_id', 'payment_mode_id',
         'unit_price', 'quantity', 'item_payment_id', 'bill_id', 'created_by', 'dosage', 'comments', 'status',
         'served_at', 'served_by',
     ];
@@ -33,6 +34,16 @@ class PatientPaymentCacheItem extends Model
     public function medicine()
     {
         return $this->belongsTo(Medicine::class, 'medicine_id');
+    }
+
+    public function prescription()
+    {
+        return $this->belongsTo(Prescription::class, 'prescription_id');
+    }
+
+    public function prescription_item()
+    {
+        return $this->belongsTo(PrescriptionItem::class, 'prescription_item_id');
     }
 
     public function consultation_type()

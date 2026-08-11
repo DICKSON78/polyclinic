@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Primary Meta Tags -->
-    <title>SIKAF Eye Care - Best Eye Care Clinic in Tanzania | Comprehensive Eye Examinations</title>
-    <meta name="title" content="SIKAF Eye Care - Best Eye Care Clinic in Tanzania | Comprehensive Eye Examinations">
-    <meta name="description" content="SIKAF Eye Care is the leading eye care clinic in Dar es Salaam, Tanzania. We offer comprehensive eye examinations, diagnosis & treatment of eye disorders, spectacles dispensing, contact lens fitting, and community eye outreach programs. Book your appointment today!">
-    <meta name="keywords" content="SIKAF Eye Care, eye care Tanzania, optometrist Dar es Salaam, eye examination, eye clinic, contact lens fitting, spectacles Tanzania, eye treatment, eye doctor Tanzania, vision care, ophthalmologist Dar es Salaam, eye surgery Tanzania, eye care clinic Dar es Salaam, SIKAF, sikafeyecare">
-    <meta name="author" content="SIKAF Eye Care">
-    <meta name="application-name" content="SIKAF Eye Care">
-    <meta name="author" content="SIKAF Eye Care">
+    <title>Polyclinic HMS - Hospital Management System | Outpatient & Inpatient Care</title>
+    <meta name="title" content="Polyclinic HMS - Hospital Management System | Outpatient & Inpatient Care">
+    <meta name="description" content="Polyclinic HMS is a comprehensive hospital management system. We offer patient registration, triage & vitals, consultations, laboratory services, pharmacy, radiology, and inpatient care. Book your appointment today!">
+    <meta name="keywords" content="Polyclinic HMS, hospital management system, polyclinic, clinic software, patient registration, triage, laboratory, pharmacy, radiology, inpatient care, Tanzania healthcare">
+    <meta name="author" content="Polyclinic HMS">
+    <meta name="application-name" content="Polyclinic HMS">
+    <meta name="author" content="Polyclinic HMS">
     <meta name="robots" content="index, follow">
     <meta name="language" content="English">
     <meta name="revisit-after" content="7 days">
@@ -20,19 +20,19 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ \Illuminate\Support\Facades\URL::to('/') }}">
-    <meta property="og:title" content="SIKAF Eye Care - Best Eye Care Clinic in Tanzania">
-    <meta property="og:description" content="Leading eye care clinic in Dar es Salaam, Tanzania. Comprehensive eye examinations, diagnosis & treatment, spectacles dispensing, and contact lens fitting. Book your appointment today!">
+    <meta property="og:title" content="Polyclinic HMS - Hospital Management System">
+    <meta property="og:description" content="Comprehensive hospital management system. Patient registration, triage & vitals, consultations, laboratory, pharmacy, radiology, and inpatient care.">
     <meta property="og:image" content="{{ \Illuminate\Support\Facades\URL::to('/') }}/logo.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:site_name" content="SIKAF Eye Care">
+    <meta property="og:site_name" content="Polyclinic HMS">
     <meta property="og:locale" content="en_US">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="{{ \Illuminate\Support\Facades\URL::to('/') }}">
-    <meta name="twitter:title" content="SIKAF Eye Care - Best Eye Care Clinic in Tanzania">
-    <meta name="twitter:description" content="Leading eye care clinic in Dar es Salaam, Tanzania. Comprehensive eye examinations, diagnosis & treatment, spectacles dispensing, and contact lens fitting.">
+    <meta name="twitter:title" content="Polyclinic HMS - Hospital Management System">
+    <meta name="twitter:description" content="Comprehensive hospital management system. Patient registration, triage & vitals, consultations, laboratory, pharmacy, radiology, and inpatient care.">
     <meta name="twitter:image" content="{{ \Illuminate\Support\Facades\URL::to('/') }}/logo.png">
 
     <!-- Geo Tags -->
@@ -42,9 +42,9 @@
     <meta name="ICBM" content="-6.7924, 39.2083">
 
     <!-- Business Information -->
-    <meta name="contact" content="info@sikafeyecare.co.tz">
+    <meta name="contact" content="info@polyclinic-hms.com">
     <meta name="phone" content="+255 676 506 323">
-    <meta name="address" content="Gerezani - Kamata traffic light near traffic post, Dar es Salaam, Tanzania">
+    <meta name="address" content="Dar es Salaam, Tanzania">
 
     <!-- Canonical URL -->
     <link rel="canonical" href="{{ \Illuminate\Support\Facades\URL::to('/') }}">
@@ -55,14 +55,14 @@
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       "@id": "{{ \Illuminate\Support\Facades\URL::to('/') }}",
-      "name": "SIKAF Eye Care",
-      "description": "Leading eye care clinic in Dar es Salaam, Tanzania. Comprehensive eye examinations, diagnosis & treatment, spectacles dispensing, and contact lens fitting.",
+      "name": "Polyclinic HMS",
+      "description": "Comprehensive hospital management system. Patient registration, triage & vitals, consultations, laboratory, pharmacy, radiology, and inpatient care.",
       "url": "{{ \Illuminate\Support\Facades\URL::to('/') }}",
       "telephone": "+255676506323",
-      "email": "info@sikafeyecare.co.tz",
+      "email": "info@polyclinic-hms.com",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Gerezani - Kamata traffic light near traffic post",
+        "streetAddress": "Dar es Salaam, Tanzania",
         "addressLocality": "Dar es Salaam",
         "addressCountry": "TZ"
       },
@@ -86,11 +86,11 @@
         "name": "Dar es Salaam"
       },
       "service": [
-        "Eye Examinations",
-        "Eye Disorder Treatment",
-        "Spectacles Dispensing",
-        "Contact Lens Fitting",
-        "Community Eye Outreach"
+        "Outpatient Care",
+        "Inpatient Care",
+        "Laboratory Services",
+        "Pharmacy & Dispensing",
+        "Radiology & Imaging"
       ]
     }
     </script>
@@ -255,7 +255,7 @@
     <div class="noscript-message">
         <div>
             <h1>JavaScript Required</h1>
-            <p>Please enable JavaScript to access SIKAF Eye Care website.</p>
+            <p>Please enable JavaScript to access the Polyclinic HMS website.</p>
         </div>
     </div>
 </noscript>

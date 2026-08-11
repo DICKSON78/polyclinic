@@ -42,7 +42,7 @@ class CreateTechUserSeeder extends Seeder
                 $clinic = Clinic::create([
                     'name' => 'Default Clinic',
                     'phone' => '0000000000',
-                    'email' => 'clinic@eyechake.com',
+                    'email' => 'clinic@polyclinic-hms.com',
                     'address' => 'Default Address',
                 ]);
             }
@@ -56,7 +56,7 @@ class CreateTechUserSeeder extends Seeder
                 'password' => Hash::make('tech'),
                 'role' => 'Admin',
                 'status' => 'Active',
-                'email' => 'tech@eyechake.com',
+                'email' => 'tech@polyclinic-hms.com',
                 'phone' => '0000000000',
                 'gender' => 'Male',
                 'created_at' => now(),

@@ -71,9 +71,9 @@ const MarketingOperationsMonthlyReport = () => {
 
   // Default key responsibilities
   const keyResponsibilities = [
-    "Supervise all SIKAF Eye Care operations to ensure smooth daily performance.",
+    "Supervise all Polyclinic HMS operations to ensure smooth daily performance.",
     "Plan and implement marketing strategies to attract new clients.",
-    "Organize and monitor outreach and community programs under SIKAF Foundation.",
+    "Organize and monitor outreach and community programs under Polyclinic HMS Foundation.",
     "Manage insurance partnerships and follow up on new insurance applications.",
     "Handle government relations and ensure compliance with all regulatory requirements.",
     "Supervise sales, reception, and cashier departments to ensure all employees meet their Monthly targets.",
@@ -128,7 +128,7 @@ const MarketingOperationsMonthlyReport = () => {
       remarks: "",
     },
     {
-      category: "SIKAF Foundation",
+      category: "Polyclinic HMS Foundation",
       task: "Outreach sponsorship applications",
       target: "8 applications",
       actualResult: "",
@@ -794,7 +794,7 @@ const MarketingOperationsMonthlyReport = () => {
             fontFamily: "serif",
           }}
         >
-          SIKAF EYE CARE
+          Polyclinic HMS
         </Typography>
         <Typography
           variant="h4"

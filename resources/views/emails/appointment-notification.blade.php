@@ -13,7 +13,7 @@
                     <!-- Header -->
                     <tr>
                         <td style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; padding: 30px; text-align: center;">
-                            <h1 style="margin: 0; font-size: 28px; font-weight: bold;">SIKAF Eye Care</h1>
+                            <h1 style="margin: 0; font-size: 28px; font-weight: bold;">Polyclinic HMS</h1>
                             <h2 style="margin: 10px 0 0 0; font-size: 20px; font-weight: normal;">{{ $subject }}</h2>
                         </td>
                     </tr>
@@ -109,7 +109,7 @@
                     <!-- Footer -->
                     <tr>
                         <td style="text-align: center; padding: 20px; color: #666666; font-size: 12px; border-top: 1px solid #e0e0e0; background-color: #ffffff;">
-                            <p style="margin: 5px 0;">This is an automated email from SIKAF Eye Care System.</p>
+                            <p style="margin: 5px 0;">This is an automated email from Polyclinic HMS System.</p>
                             <p style="margin: 5px 0;">Please do not reply to this email.</p>
                         </td>
                     </tr>

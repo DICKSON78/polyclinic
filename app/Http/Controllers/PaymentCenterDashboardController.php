@@ -208,9 +208,9 @@ class PaymentCenterDashboardController extends Controller
 
         $data['summary']['cash_payments'] = $cashItemPayments + $cashBillPayments;
 
-        // Cash available (collected cash) - should be cash in hand from today's collections
-        // This represents actual cash that should be in the cash drawer
-        $data['summary']['cash_available'] = $data['summary']['cash_payments'];
+        // Cash available (collected cash) - only cash item payments, not bill payments
+        // This represents actual cash that should be in cash drawer
+        $data['summary']['cash_available'] = $cashItemPayments;
 
         // Credit payments amount (billed/credited items)
         try {

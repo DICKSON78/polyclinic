@@ -64,6 +64,7 @@ import {
 } from "@mui/icons-material";
 
 import GlassPatientsIcon from "./icons/AddLens";
+import { BiotechRounded as LabIcon, MonitorHeartRounded as TriageIcon, RadioRounded as RadiologyIcon, BedRounded as WardsIcon, FavoriteBorderRounded as VitalsIcon, EmergencyRounded as EmergencyIcon, MeetingRoomRounded as TheatreIcon, MedicalServicesRounded as SurgeryIcon, AirRounded as AnesthesiaIcon } from "@mui/icons-material";
 
 const SingleLevelMenuItem = ({ item, setDrawerOpen, location, navigate }) => {
   const isSelected = () => {
@@ -379,6 +380,18 @@ const Menu = ({ drawerOpen, setDrawerOpen, user, ...rest }) => {
             return isAdmin(user) || hasPrivilege(user, 'crm_reports');
           case "CALENDAR":
             return hasPrivilege(user, 'office_calendar') || isAdmin(user);
+          case "TRIAGE":
+            return role === "Admin" || role === "Director" || role === "Nurse" || role === "Receptionist" || hasPrivilege(user, 'triage') || isAdmin(user);
+          case "LABORATORY":
+            return role === "Admin" || role === "Director" || role === "Lab Technician" || hasPrivilege(user, 'laboratory') || isAdmin(user);
+          case "RADIOLOGY":
+            return role === "Admin" || role === "Director" || role === "Radiologist" || hasPrivilege(user, 'radiology') || isAdmin(user);
+          case "WARDS":
+            return role === "Admin" || role === "Director" || role === "Nurse" || role === "Doctor" || hasPrivilege(user, 'wards') || isAdmin(user);
+          case "E_PRESCRIPTION":
+            return role === "Admin" || role === "Director" || role === "Doctor" || hasPrivilege(user, 'e_prescription') || isAdmin(user);
+          case "INSURANCE":
+            return role === "Admin" || role === "Director" || hasPrivilege(user, 'insurance') || hasPrivilege(user, 'insurance_management') || isAdmin(user);
           default:
             return isAdmin(user);
         }
@@ -454,7 +467,54 @@ const Menu = ({ drawerOpen, setDrawerOpen, user, ...rest }) => {
           show: getMenuVisibility('RECEPTION'),
         },
         {
-          title: "2. CASHIER",
+          title: "2. TRIAGE",
+          subheader: true,
+          show: getMenuVisibility('TRIAGE'),
+        },
+        {
+          title: "Triage Dashboard",
+          icon: <TriageIcon />,
+          to: "/triage/dashboard",
+          show: getMenuVisibility('TRIAGE'),
+        },
+        {
+          title: "Triage Queue",
+          icon: <WaitingIcon />,
+          to: "/triage/queue",
+          show: getMenuVisibility('TRIAGE'),
+        },
+        {
+          title: "Emergency Department",
+          icon: <EmergencyIcon />,
+          to: "/emergency/dashboard",
+          show: getMenuVisibility('TRIAGE'),
+        },
+        {
+          title: "ER Visits",
+          icon: <WaitingIcon />,
+          to: "/emergency/visits",
+          show: getMenuVisibility('TRIAGE'),
+        },
+        {
+          title: "Ambulance",
+          icon: <EmergencyIcon />,
+          to: "/ambulance/dashboard",
+          show: getMenuVisibility('TRIAGE'),
+        },
+        {
+          title: "Ambulance Requests",
+          icon: <WaitingIcon />,
+          to: "/ambulance/requests",
+          show: getMenuVisibility('TRIAGE'),
+        },
+        {
+          title: "Ambulance Trips",
+          icon: <EmergencyIcon />,
+          to: "/ambulance/trips",
+          show: getMenuVisibility('TRIAGE'),
+        },
+        {
+          title: "3. CASHIER",
           subheader: true,
           show: getMenuVisibility('CASHIER'),
         },
@@ -524,14 +584,243 @@ const Menu = ({ drawerOpen, setDrawerOpen, user, ...rest }) => {
           ],
         },
         {
-          title: "3. OPTOMETRY",
+          title: "4. EXAMINATIONS",
           subheader: true,
           show: getMenuVisibility('CONSULTATION ROOM'),
         },
 
 
         {
-          title: "5. CONSULTATION ROOM",
+          title: "5. LABORATORY",
+          subheader: true,
+          show: getMenuVisibility('LABORATORY'),
+        },
+        {
+          title: "Lab Dashboard",
+          icon: <LabIcon />,
+          to: "/laboratory/dashboard",
+          show: getMenuVisibility('LABORATORY'),
+        },
+        {
+          title: "Lab Requests",
+          icon: <LabIcon />,
+          to: "/laboratory/requests",
+          show: getMenuVisibility('LABORATORY'),
+        },
+        {
+          title: "Sample Collection",
+          icon: <VitalsIcon />,
+          to: "/laboratory/samples",
+          show: getMenuVisibility('LABORATORY'),
+        },
+        {
+          title: "Results Entry",
+          icon: <DoneIcon />,
+          to: "/laboratory/results",
+          show: getMenuVisibility('LABORATORY'),
+        },
+        {
+          title: "Lab Reports",
+          icon: <ReportsIcon />,
+          to: "/laboratory/reports",
+          show: getMenuVisibility('LABORATORY'),
+        },
+        {
+          title: "6. RADIOLOGY",
+          subheader: true,
+          show: getMenuVisibility('RADIOLOGY'),
+        },
+        {
+          title: "Radiology Dashboard",
+          icon: <RadiologyIcon />,
+          to: "/radiology/dashboard",
+          show: getMenuVisibility('RADIOLOGY'),
+        },
+        {
+          title: "Imaging Requests",
+          icon: <RadiologyIcon />,
+          to: "/radiology/requests",
+          show: getMenuVisibility('RADIOLOGY'),
+        },
+        {
+          title: "Results Entry",
+          icon: <DoneIcon />,
+          to: "/radiology/results",
+          show: getMenuVisibility('RADIOLOGY'),
+        },
+        {
+          title: "Exam Catalog",
+          icon: <ReportsIcon />,
+          to: "/radiology/exams",
+          show: getMenuVisibility('RADIOLOGY'),
+        },
+        {
+          title: "7. BLOOD BANK",
+          subheader: true,
+          show: getMenuVisibility('LABORATORY'),
+        },
+        {
+          title: "Blood Bank Dashboard",
+          icon: <LabIcon />,
+          to: "/blood-bank/dashboard",
+          show: getMenuVisibility('LABORATORY'),
+        },
+        {
+          title: "Blood Inventory",
+          icon: <LabIcon />,
+          to: "/blood-bank/units",
+          show: getMenuVisibility('LABORATORY'),
+        },
+        {
+          title: "Blood Donors",
+          icon: <VitalsIcon />,
+          to: "/blood-bank/donors",
+          show: getMenuVisibility('LABORATORY'),
+        },
+        {
+          title: "Transfusions",
+          icon: <DoneIcon />,
+          to: "/blood-bank/transfusions",
+          show: getMenuVisibility('LABORATORY'),
+        },
+        {
+          title: "8. E-PRESCRIPTION",
+          subheader: true,
+          show: getMenuVisibility('E_PRESCRIPTION'),
+        },
+        {
+          title: "E-Prescription Dashboard",
+          icon: <PrescriptionIcon />,
+          to: "/e-prescription/dashboard",
+          show: getMenuVisibility('E_PRESCRIPTION'),
+        },
+        {
+          title: "Prescriptions",
+          icon: <PrescriptionIcon />,
+          to: "/e-prescription/prescriptions",
+          show: getMenuVisibility('E_PRESCRIPTION'),
+        },
+        {
+          title: "9. WARDS / INPATIENT",
+          subheader: true,
+          show: getMenuVisibility('WARDS'),
+        },
+        {
+          title: "Wards Dashboard",
+          icon: <WardsIcon />,
+          to: "/wards/dashboard",
+          show: getMenuVisibility('WARDS'),
+        },
+        {
+          title: "Admissions",
+          icon: <WardsIcon />,
+          to: "/wards/admissions",
+          show: getMenuVisibility('WARDS'),
+        },
+        {
+          title: "Bed Management",
+          icon: <VitalsIcon />,
+          to: "/wards/beds",
+          show: getMenuVisibility('WARDS'),
+        },
+        {
+          title: "Inpatient Notes",
+          icon: <DoneIcon />,
+          to: "/wards/notes",
+          show: getMenuVisibility('WARDS'),
+        },
+        {
+          title: "Discharges",
+          icon: <DoneIcon />,
+          to: "/wards/discharges",
+          show: getMenuVisibility('WARDS'),
+        },
+        {
+          title: "Operating Theatre",
+          icon: <TheatreIcon />,
+          to: "/operating-theatre/dashboard",
+          show: getMenuVisibility('WARDS'),
+        },
+        {
+          title: "Surgeries",
+          icon: <SurgeryIcon />,
+          to: "/operating-theatre/surgeries",
+          show: getMenuVisibility('WARDS'),
+        },
+        {
+          title: "Anesthesia Records",
+          icon: <AnesthesiaIcon />,
+          to: "/anesthesia/dashboard",
+          show: getMenuVisibility('WARDS'),
+        },
+        {
+          title: "Mortuary",
+          icon: <VitalsIcon />,
+          to: "/mortuary/dashboard",
+          show: getMenuVisibility('WARDS'),
+        },
+        {
+          title: "Mortuary Bodies",
+          icon: <WardsIcon />,
+          to: "/mortuary/bodies",
+          show: getMenuVisibility('WARDS'),
+        },
+        {
+          title: "Death Certificates",
+          icon: <DoneIcon />,
+          to: "/mortuary/certificates",
+          show: getMenuVisibility('WARDS'),
+        },
+        {
+          title: "Inpatient Billing",
+          icon: <ReceiptIcon />,
+          to: "/inpatient-billing/dashboard",
+          show: getMenuVisibility('WARDS'),
+        },
+        {
+          title: "Inpatient Charges",
+          icon: <ItemsIcon />,
+          to: "/inpatient-billing/charges",
+          show: getMenuVisibility('WARDS'),
+        },
+        {
+          title: "Inpatient Bills",
+          icon: <ReceiptIcon />,
+          to: "/inpatient-billing/bills",
+          show: getMenuVisibility('WARDS'),
+        },
+        {
+          title: "Ward Records Dashboard",
+          icon: <WardsIcon />,
+          to: "/ward-records/dashboard",
+          show: getMenuVisibility('WARDS'),
+        },
+        {
+          title: "Discharge Summaries",
+          icon: <DoneIcon />,
+          to: "/ward-records/discharge",
+          show: getMenuVisibility('WARDS'),
+        },
+        {
+          title: "Nursing Charts",
+          icon: <VitalsIcon />,
+          to: "/ward-records/nursing",
+          show: getMenuVisibility('WARDS'),
+        },
+        {
+          title: "Fluid Balance",
+          icon: <VitalsIcon />,
+          to: "/ward-records/fluid-balance",
+          show: getMenuVisibility('WARDS'),
+        },
+        {
+          title: "Medication Admin Record",
+          icon: <ReceiptIcon />,
+          to: "/ward-records/mar",
+          show: getMenuVisibility('WARDS'),
+        },
+        {
+          title: "10. CONSULTATION ROOM",
           subheader: true,
           show: getMenuVisibility('CONSULTATION ROOM'),
         },
@@ -569,7 +858,7 @@ const Menu = ({ drawerOpen, setDrawerOpen, user, ...rest }) => {
           ],
         },
         {
-          title: "6. SALES TABLE",
+          title: "11. SALES TABLE",
           subheader: true,
           show: getMenuVisibility('SALES MANAGEMENT'),
         },
@@ -599,7 +888,7 @@ const Menu = ({ drawerOpen, setDrawerOpen, user, ...rest }) => {
           badge: notifications && typeof notifications.patients_sent_to_sales !== 'undefined' && notifications.patients_sent_to_sales != null ? (Number(notifications.patients_sent_to_sales) || 0) : 0,
         },
         {
-          title: "5. PHARMACY",
+          title: "12. PHARMACY",
           subheader: true,
           show: getMenuVisibility('PHARMACY'),
         },
@@ -689,25 +978,25 @@ const Menu = ({ drawerOpen, setDrawerOpen, user, ...rest }) => {
           ],
         },
         {
-          title: "6. WORKSHOP",
+          title: "13. OUTPATIENT DISPENSING",
           subheader: true,
           show: getMenuVisibility('WORKSHOP'),
         },
         {
-          title: "Workshop Dashboard",
+          title: "Dispensing Dashboard",
           icon: <HomeIcon />,
           to: "/optician-center/dashboard",
           show: getMenuVisibility('WORKSHOP'),
         },
         {
-          title: "Patients Sent to Optician",
+          title: "Patients Sent for Dispensing",
           icon: <WaitingIcon />,
           to: "/optician-center/glass-patients",
           badge: notifications && typeof notifications.patients_sent_to_optician !== 'undefined' && notifications.patients_sent_to_optician != null ? (Number(notifications.patients_sent_to_optician) || 0) : 0,
           show: getMenuVisibility('WORKSHOP'),
         },
         {
-          title: "Lens Stock",
+          title: "Item Stock",
           icon: <ItemsIcon />,
           to: "/optician-center/lens-stock",
           show: getMenuVisibility('WORKSHOP'),
@@ -746,7 +1035,7 @@ const Menu = ({ drawerOpen, setDrawerOpen, user, ...rest }) => {
           show: isPrivilegeGranted('procedure_room') || isPrivilegeGranted('consultation_room'),
         },
         {
-          title: "7. STOCK MANAGEMENT",
+          title: "14. STOCK MANAGEMENT",
           subheader: true,
           show: getMenuVisibility('STOCK MANAGEMENT'),
         },
@@ -763,19 +1052,25 @@ const Menu = ({ drawerOpen, setDrawerOpen, user, ...rest }) => {
           show: getMenuVisibility('STOCK MANAGEMENT'),
         },
         {
+          title: "Stocktakes",
+          icon: <ItemsIcon />,
+          to: "/inventory-management/stocktakes",
+          show: getMenuVisibility('STOCK MANAGEMENT'),
+        },
+        {
           title: "Stock Alerts (All Items)",
           icon: <WarningIcon />,
           to: "/inventory-management/stock-alerts",
           show: getMenuVisibility('STOCK MANAGEMENT'),
         },
         {
-          title: "Lens List",
+          title: "Item List",
           icon: <ItemsIcon />,
           to: "/inventory-management/lens-list",
           show: getMenuVisibility('STOCK MANAGEMENT'),
         },
         {
-          title: "Lens Tracking",
+          title: "Item Tracking",
           icon: <ItemsIcon />,
           to: "/inventory-management/lens-tracking",
           show: getMenuVisibility('STOCK MANAGEMENT'),
@@ -827,7 +1122,7 @@ const Menu = ({ drawerOpen, setDrawerOpen, user, ...rest }) => {
           ],
         },
         {
-          title: "8. FINANCIAL MANAGEMENT",
+          title: "15. FINANCIAL MANAGEMENT",
           subheader: true,
           show: hasPrivilege(user, 'financial_management') || isAdmin(user),
         },
@@ -900,7 +1195,36 @@ const Menu = ({ drawerOpen, setDrawerOpen, user, ...rest }) => {
           ],
         },
         {
-          title: "9. MARKETING",
+          title: "16. INSURANCE",
+          subheader: true,
+          show: getMenuVisibility('INSURANCE'),
+        },
+        {
+          title: "Insurance Dashboard",
+          icon: <HomeIcon />,
+          to: "/insurance/dashboard",
+          show: getMenuVisibility('INSURANCE'),
+        },
+        {
+          title: "Claims",
+          icon: <ReceiptIcon />,
+          to: "/insurance/claims",
+          show: getMenuVisibility('INSURANCE'),
+        },
+        {
+          title: "Patient Insurance",
+          icon: <PeopleIcon />,
+          to: "/insurance/patient-insurance",
+          show: getMenuVisibility('INSURANCE'),
+        },
+        {
+          title: "Insurance Companies",
+          icon: <ItemsIcon />,
+          to: "/insurance/companies",
+          show: getMenuVisibility('INSURANCE'),
+        },
+        {
+          title: "17. MARKETING",
           subheader: true,
           show: getMenuVisibility('MARKETING'),
         },
@@ -935,7 +1259,7 @@ const Menu = ({ drawerOpen, setDrawerOpen, user, ...rest }) => {
           show: getMenuVisibility('MARKETING'),
         },
         {
-          title: "Glass Patients",
+          title: "Dispensing Patients",
           icon: <GlassPatientsIcon />,
           to: "/marketing/glass-patients",
           show: getMenuVisibility('MARKETING'),
@@ -1004,7 +1328,7 @@ const Menu = ({ drawerOpen, setDrawerOpen, user, ...rest }) => {
         */
         /*
         {
-          title: "10. CRM REPORTS",
+          title: "18. CRM REPORTS",
           subheader: true,
           show: getMenuVisibility('CRM REPORTS'),
         },
@@ -1015,7 +1339,7 @@ const Menu = ({ drawerOpen, setDrawerOpen, user, ...rest }) => {
           show: getMenuVisibility('CRM REPORTS'),
         },
         {
-          title: "Optometry Performance Report",
+          title: "Examination Performance Report",
           icon: <EyeIcon />,
           to: "/optometry-reports/performance-report-card",
           show: getMenuVisibility('CRM REPORTS'),
@@ -1028,7 +1352,7 @@ const Menu = ({ drawerOpen, setDrawerOpen, user, ...rest }) => {
         },
         */
         {
-          title: "11. EMPLOYEE MANAGEMENT",
+          title: "19. EMPLOYEE MANAGEMENT",
           subheader: true,
           show: getMenuVisibility('EMPLOYEE MANAGEMENT'),
         },
@@ -1039,7 +1363,7 @@ const Menu = ({ drawerOpen, setDrawerOpen, user, ...rest }) => {
           show: isPrivilegeGranted('employee_management'),
         },
         {
-          title: "11. DIRECTOR",
+          title: "20. DIRECTOR",
           subheader: true,
           show: getMenuVisibility('DIRECTOR'),
         },
@@ -1322,7 +1646,7 @@ const Menu = ({ drawerOpen, setDrawerOpen, user, ...rest }) => {
           show: getMenuVisibility('CALENDAR'),
         },
         {
-          title: "12. SETTINGS",
+          title: "21. SETTINGS",
           subheader: true,
           show: getMenuVisibility('SETTINGS'),
         },
@@ -1339,7 +1663,7 @@ const Menu = ({ drawerOpen, setDrawerOpen, user, ...rest }) => {
               show: getMenuVisibility('SETTINGS'),
             },
             {
-              title: "Lens Types",
+              title: "Dispensing Item Types",
               icon: <SettingsIcon />,
               to: "/settings/item-management/lens-types",
               show: getMenuVisibility('SETTINGS'),

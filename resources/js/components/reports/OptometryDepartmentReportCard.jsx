@@ -97,7 +97,7 @@ const OptometryDepartmentReportCard = ({ dateParams = {} }) => {
   if (performanceError) {
     return (
       <div style={{ padding: 20, color: 'red' }}>
-        <h3>Error loading optometry data</h3>
+        <h3>Error loading examination data</h3>
         <p>{JSON.stringify(performanceError)}</p>
       </div>
     );
@@ -123,7 +123,7 @@ const OptometryDepartmentReportCard = ({ dateParams = {} }) => {
       )}
 
       <KPIReportCardTable 
-        title="OPTOMETRY DEPARTMENT REPORT CARD" 
+        title="EXAMINATION DEPARTMENT REPORT CARD" 
         kpis={finalKPIs} 
         loading={performanceLoading} 
         canEdit={true}

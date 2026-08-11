@@ -1,9 +1,9 @@
 export const CATARACT_SURGERY_RECORD_OPTIONS = {
   lensExamination: [
-    { label: "Clear lens", value: "1" },
+    { label: "Clear", value: "1" },
     { label: "Opacity, not ready for operation", value: "2" },
-    { label: "Operable cataract", value: "3" },
-    { label: "Inoperable cataract", value: "4" },
+    { label: "Operable", value: "3" },
+    { label: "Inoperable", value: "4" },
     { label: "Aphakia", value: "5" },
     { label: "Pseudophakia", value: "6" },
     { label: "Cannot examine", value: "7" },
@@ -55,7 +55,7 @@ export const CATARACT_SURGERY_RECORD_OPTIONS = {
   training: [
     { label: "Ophthalmologist", value: "Ophthalmologist" },
     { label: "Resident / Trainee", value: "Resident / Trainee" },
-    { label: "Cataract Surgeon", value: "Cataract Surgeon" },
+    { label: "Surgeon", value: "Cataract Surgeon" },
   ],
   operativeComplications: [
     { label: "None", value: "None" },
@@ -65,7 +65,7 @@ export const CATARACT_SURGERY_RECORD_OPTIONS = {
     },
     { label: "Vitreous loss", value: "Vitreous loss" },
     { label: "Zonular dehiscence", value: "Zonular dehiscence" },
-    { label: "Retained lens matter", value: "Retained lens matter" },
+    { label: "Retained matter", value: "Retained lens matter" },
     { label: "Wound leak", value: "Wound leak" },
     { label: "Striate keratopathy", value: "Striate keratopathy" },
     { label: "Endophthalmitis", value: "Endophthalmitis" },

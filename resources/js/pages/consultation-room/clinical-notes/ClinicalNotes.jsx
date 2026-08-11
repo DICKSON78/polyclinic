@@ -7,6 +7,7 @@ import {
   Card,
   CardContent,
   Checkbox,
+  Chip,
   Divider,
   FormControlLabel,
   Grid,
@@ -18,6 +19,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  TextField,
   Typography,
 } from "@mui/material";
 import {
@@ -30,7 +32,6 @@ import {
 import { Header as PageHeader } from "../../../components/Page";
 import Modal from "../../../components/Modal";
 import Form from "../../../components/Form";
-import TextField from "../../../components/TextField";
 import DatePicker from "../../../components/DatePicker";
 import ConfirmationDialog from "../../../components/ConfirmationDialog";
 import Select from "../../../components/Select";
@@ -43,7 +44,6 @@ import Refraction from "./Refraction";
 import Fundoscopy from "./Fundoscopy";
 import ConsultationItemsCard from "./ConsultationItemsCard";
 import SelectItems from "./SelectItems";
-import PatientFilePDF, { PDFReportDocument } from "../../patient-records/patient-file/PatientFilePDF";
 import PrescriptionPDF from "../prescriptions/PrescriptionPDF";
 import SickSheetDocument from "./SickSheetPDF";
 import { pdf } from "@react-pdf/renderer";
@@ -198,7 +198,13 @@ const ClinicalNotes = ({ patient, consultation }) => {
     if (dataComplete) {
       setData(dataComplete);
       // Trigger immediate notification refresh since consultation status changed
-      refreshNotificationsImmediately();
+      try {
+        if (typeof refreshNotificationsImmediately === 'function') {
+          refreshNotificationsImmediately();
+        }
+      } catch (error) {
+        console.warn('Failed to refresh notifications:', error);
+      }
 
       window.setTimeout(() => {
         navigate("/consultation-room/consultation-patients/pending");
@@ -227,11 +233,6 @@ const ClinicalNotes = ({ patient, consultation }) => {
   useEffect(() => {
     if (referralData) {
       showSuccess('Referral created successfully');
-      
-      // Download clinical note with the newly created referral (with delay to ensure data is ready)
-      setTimeout(() => {
-        downloadClinicalNoteWithReferral(referralData.data);
-      }, 500);
       
       // Reset form and hide it
       setReferralFormData({
@@ -308,10 +309,16 @@ const ClinicalNotes = ({ patient, consultation }) => {
     setData(null);
     setError(null);
 
-    if (!formRef.current.validate()) {
-      return setError(
-        getValidationError("Please complete all the required fields.")
-      );
+    // For pending consultations, skip form validation to allow saving
+    // Consultation is in pending state and may not have all required fields filled
+    if (consultation.status === "Pending") {
+      console.log('Skipping validation for pending consultation');
+    } else {
+      if (!formRef.current.validate()) {
+        return setError(
+          getValidationError("Please complete all the required fields.")
+        );
+      }
     }
 
     let component = (
@@ -378,52 +385,6 @@ const ClinicalNotes = ({ patient, consultation }) => {
 
     console.log('Submitting referral data:', submitData);
     handleCreateReferral('api/referrals', submitData);
-  };
-
-  const downloadClinicalNoteWithReferral = async (referral) => {
-    try {
-      // Wait for consultation data to be fully loaded
-      if (!consultation || !patient) {
-        throw new Error('Missing consultation or patient data');
-      }
-
-      // Ensure consultation has required nested data
-      if (!consultation.payment_cache_item) {
-        console.error('Consultation missing payment_cache_item:', consultation);
-        throw new Error('Consultation data is incomplete. Please refresh and try again.');
-      }
-
-      // Create PDF with loaded data
-      const pdfBlob = await pdf(
-        <PDFReportDocument
-          patient={patient}
-          consultation={consultation}
-          includeReferral={referral}
-        />
-      ).toBlob();
-
-      if (!pdfBlob || pdfBlob.size === 0) {
-        throw new Error('Generated PDF is empty or invalid');
-      }
-
-      const url = window.URL.createObjectURL(pdfBlob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `clinical-note-referral-${patient?.full_name || 'patient'}-${new Date().toISOString().split('T')[0]}.pdf`;
-      document.body.appendChild(link);
-      link.click();
-      setTimeout(() => {
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
-      }, 100);
-      showSuccess('Clinical note with referral downloaded successfully');
-    } catch (error) {
-      console.error('Failed to generate/download clinical note with referral:', error);
-      console.error('Consultation data:', consultation);
-      console.error('Patient data:', patient);
-      console.error('Referral data:', referral);
-      addToast({ message: `Failed to download clinical note: ${error.message}. The referral was created successfully.`, severity: 'warning' });
-    }
   };
 
   const handleCreateSickSheet = async () => {
@@ -509,11 +470,14 @@ const ClinicalNotes = ({ patient, consultation }) => {
     try {
       const resolvedPatient = patientData || patient;
 
+      // Import ReferralPDFDocument dynamically to avoid circular dependencies
+      const { ReferralPDFDocument } = await import("../referrals/ReferralPDF");
+
       const pdfBlob = await pdf(
-        <PDFReportDocument
+        <ReferralPDFDocument
+          referral={referral}
           patient={resolvedPatient}
-          consultation={consultation}
-          includeReferral={referral}
+          clinic={window.user?.clinic}
         />
       ).toBlob();
 
@@ -536,7 +500,7 @@ const ClinicalNotes = ({ patient, consultation }) => {
                 printWindow.print();
               } catch (e2) {
                 console.error('Print failed after retry:', e2);
-                showInfo('Print dialog could not be opened. PDF downloaded instead.');
+                addToast({ message: 'Print dialog could not be opened. PDF downloaded instead.', severity: 'info' });
                 const link = document.createElement('a');
                 link.href = url;
                 link.download = `clinical-note-referral-${resolvedPatient?.full_name || 'patient'}-${new Date().toISOString().split('T')[0]}.pdf`;
@@ -579,7 +543,7 @@ const ClinicalNotes = ({ patient, consultation }) => {
           }
           window.URL.revokeObjectURL(url);
         }, 100);
-        showInfo('Popup blocked. PDF downloaded instead. Please open the file to print.');
+        addToast({ message: 'Popup blocked. PDF downloaded instead. Please open the file to print.', severity: 'info' });
       }
     } catch (error) {
       console.error('Failed to generate/print referral PDF:', error);
@@ -686,7 +650,7 @@ const ClinicalNotes = ({ patient, consultation }) => {
                     rows={3}
                     placeholder="Enter the reason for referring this patient"
                     value={referralFormData.referral_reason}
-                    onChange={(value) => setReferralFormData({ ...referralFormData, referral_reason: value })}
+                    onChange={(e) => setReferralFormData({ ...referralFormData, referral_reason: e.target.value })}
                   />
                 </Grid>
                 <Grid size={{ xs: 12 }}>
@@ -698,7 +662,7 @@ const ClinicalNotes = ({ patient, consultation }) => {
                     rows={4}
                     placeholder="Describe the action taken or recommended for this patient"
                     value={referralFormData.clinical_summary}
-                    onChange={(value) => setReferralFormData({ ...referralFormData, clinical_summary: value })}
+                    onChange={(e) => setReferralFormData({ ...referralFormData, clinical_summary: e.target.value })}
                   />
                 </Grid>
                 <Grid size={{ xs: 12 }}>
@@ -782,6 +746,148 @@ const ClinicalNotes = ({ patient, consultation }) => {
         
         <Form ref={formRef}>
           <CardContent sx={{ width: '100%', px: { xs: 1, sm: 2, md: 3 } }}>
+            <Subheader
+              title="Vitals & Investigations"
+              sx={{ mt: 0 }}
+            />
+
+            <Box sx={{ mb: 2 }}>
+              {consultation.vital_signs && consultation.vital_signs.length > 0 ? (
+                <Card variant="outlined" sx={{ width: '100%', mb: 1 }}>
+                  <CardContent sx={{ p: 2 }}>
+                    <Typography variant="subtitle2" color="primary" sx={{ fontWeight: 'bold', mb: 1 }}>
+                      Vital Signs
+                    </Typography>
+                    <Table size="small" sx={{ minWidth: 640 }}>
+                      <TableHead>
+                        <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
+                          <TableCell sx={{ fontWeight: 'bold' }}>Date</TableCell>
+                          <TableCell sx={{ fontWeight: 'bold' }}>Temp (°C)</TableCell>
+                          <TableCell sx={{ fontWeight: 'bold' }}>BP (mmHg)</TableCell>
+                          <TableCell sx={{ fontWeight: 'bold' }}>HR</TableCell>
+                          <TableCell sx={{ fontWeight: 'bold' }}>RR</TableCell>
+                          <TableCell sx={{ fontWeight: 'bold' }}>SpO2 (%)</TableCell>
+                          <TableCell sx={{ fontWeight: 'bold' }}>Weight (kg)</TableCell>
+                          <TableCell sx={{ fontWeight: 'bold' }}>BMI</TableCell>
+                          <TableCell sx={{ fontWeight: 'bold' }}>Category</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {consultation.vital_signs.map((vs, index) => (
+                          <TableRow key={index}>
+                            <TableCell>{vs.created_at}</TableCell>
+                            <TableCell>{vs.temperature}</TableCell>
+                            <TableCell sx={{ whiteSpace: 'nowrap' }}>{vs.systolic_bp ? `${vs.systolic_bp}/${vs.diastolic_bp}` : ""}</TableCell>
+                            <TableCell>{vs.heart_rate}</TableCell>
+                            <TableCell>{vs.respiratory_rate}</TableCell>
+                            <TableCell>{vs.oxygen_saturation}</TableCell>
+                            <TableCell>{vs.weight_kg}</TableCell>
+                            <TableCell>{vs.bmi_calculated}</TableCell>
+                            <TableCell>{vs.triage_category}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </CardContent>
+                </Card>
+              ) : null}
+
+              {consultation.lab_results && consultation.lab_results.length > 0 ? (
+                <Card variant="outlined" sx={{ width: '100%', mb: 1 }}>
+                  <CardContent sx={{ p: 2 }}>
+                    <Typography variant="subtitle2" color="primary" sx={{ fontWeight: 'bold', mb: 1 }}>
+                      Laboratory Results
+                    </Typography>
+                    {consultation.lab_results.map((request, index) => (
+                      <Box key={index} sx={{ mb: 1 }}>
+                        <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.5 }}>
+                          <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                            {request.request_no}
+                          </Typography>
+                          <Chip size="small" label={request.status} color={request.status === "Completed" ? "success" : "warning"} />
+                        </Stack>
+                        <Table size="small" sx={{ minWidth: 480 }}>
+                          <TableHead>
+                            <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
+                              <TableCell sx={{ fontWeight: 'bold' }}>Test</TableCell>
+                              <TableCell sx={{ fontWeight: 'bold' }}>Result</TableCell>
+                              <TableCell sx={{ fontWeight: 'bold' }}>Unit</TableCell>
+                              <TableCell sx={{ fontWeight: 'bold' }}>Reference Range</TableCell>
+                              <TableCell sx={{ fontWeight: 'bold' }}>Status</TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {(request.tests || []).map((test, i) => (
+                              <TableRow key={i}>
+                                <TableCell>{test.lab_test?.name || test.labTest?.name}</TableCell>
+                                <TableCell>
+                                  {test.result}
+                                  {test.is_abnormal ? (
+                                    <Chip size="small" label="Abnormal" color="error" sx={{ ml: 0.5 }} />
+                                  ) : null}
+                                </TableCell>
+                                <TableCell>{test.unit}</TableCell>
+                                <TableCell>{test.reference_range}</TableCell>
+                                <TableCell>{test.status}</TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </Box>
+                    ))}
+                  </CardContent>
+                </Card>
+              ) : null}
+
+              {consultation.radiology_results && consultation.radiology_results.length > 0 ? (
+                <Card variant="outlined" sx={{ width: '100%' }}>
+                  <CardContent sx={{ p: 2 }}>
+                    <Typography variant="subtitle2" color="primary" sx={{ fontWeight: 'bold', mb: 1 }}>
+                      Radiology Results
+                    </Typography>
+                    {consultation.radiology_results.map((request, index) => (
+                      <Box key={index} sx={{ mb: 1 }}>
+                        <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.5 }}>
+                          <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                            {request.request_no}
+                          </Typography>
+                          <Chip size="small" label={request.status} color={request.status === "Completed" ? "success" : "warning"} />
+                        </Stack>
+                        <Table size="small" sx={{ minWidth: 480 }}>
+                          <TableHead>
+                            <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
+                              <TableCell sx={{ fontWeight: 'bold' }}>Exam</TableCell>
+                              <TableCell sx={{ fontWeight: 'bold' }}>Findings</TableCell>
+                              <TableCell sx={{ fontWeight: 'bold' }}>Impression</TableCell>
+                              <TableCell sx={{ fontWeight: 'bold' }}>Conclusion</TableCell>
+                              <TableCell sx={{ fontWeight: 'bold' }}>Status</TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {(request.exams || []).map((exam, i) => (
+                              <TableRow key={i}>
+                                <TableCell>{exam.radiology_exam?.name || exam.radiologyExam?.name}</TableCell>
+                                <TableCell>{exam.findings}</TableCell>
+                                <TableCell>{exam.impression}</TableCell>
+                                <TableCell>{exam.conclusion}</TableCell>
+                                <TableCell>{exam.status}</TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </Box>
+                    ))}
+                  </CardContent>
+                </Card>
+              ) : null}
+
+              {!consultation.vital_signs?.length && !consultation.lab_results?.length && !consultation.radiology_results?.length ? (
+                <Typography variant="body2" color="text.secondary">
+                  No vitals, laboratory or radiology results recorded for this consultation.
+                </Typography>
+              ) : null}
+            </Box>
+
             <Subheader
               title="History Taking"
               sx={{ mt: 0 }}
@@ -990,7 +1096,7 @@ const ClinicalNotes = ({ patient, consultation }) => {
             </Box>
 
 
-            <Subheader title="Visual Acuity (VA)" />
+            <Subheader title="Clinical Assessment (VA)" />
             <VisualAcuity
               ref={visualAcuityRef}
               consultation={consultation}
@@ -1008,7 +1114,7 @@ const ClinicalNotes = ({ patient, consultation }) => {
               consultation={consultation}
             />
 
-            <Subheader title="Refraction Details" />
+            <Subheader title="Examination Details" />
             <Refraction
               ref={refractionRef}
               consultation={consultation}
@@ -1205,19 +1311,19 @@ const ClinicalNotes = ({ patient, consultation }) => {
                 textAlign: 'center'
               }}>
                 <Typography variant="h6" fontWeight="bold" color="primary">
-                  Lens Selection
+                  Item Selection
                 </Typography>
               </Box>
               <Box sx={{ p: 2 }}>
                 <Grid container spacing={2}>
                   {[
                     'PGX',
-                    'Transition lens',
-                    'Bluecut lens',
-                    'Bifocal lens',
+                    'Transition item',
+                    'Bluecut item',
+                    'Bifocal item',
                     'Progressive',
-                    'Non Photochromatic lens',
-                    'Spectacle & Medication',
+                    'Non Photochromatic item',
+                    'Item & Medication',
                     'Medication only'
                   ].map((lensType) => (
                     <Grid size={{ xs: 12, sm: 6, md: 3 }} key={lensType}>
@@ -1423,7 +1529,7 @@ const ClinicalNotes = ({ patient, consultation }) => {
                             }}
                           />
                         }
-                        label="Require Spectacle"
+                        label="Require Item"
                       />
                     </Grid>
                   )}

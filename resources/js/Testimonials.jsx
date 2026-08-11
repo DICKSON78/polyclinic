@@ -62,7 +62,7 @@ const Testimonials = () => {
   const testimonials = [
     {
       name: 'Dr. Sarah Johnson',
-      role: 'Ophthalmologist',
+      role: 'General Practitioner',
       location: 'Lagos, Nigeria',
       rating: 5,
       text: 'As a healthcare professional, I\'ve been using this system for over 3 years. The comprehensive patient management features have transformed how I run my practice. The clinical documentation tools are exceptional, and the support team is always responsive.',
@@ -74,7 +74,7 @@ const Testimonials = () => {
       role: 'Patient',
       location: 'Accra, Ghana',
       rating: 5,
-      text: 'The modern equipment and professional staff made my visit comfortable and efficient. The appointment booking system is seamless, and I love how I can access my records online. Highly recommend this clinic for all your eye care needs.',
+      text: 'The modern equipment and professional staff made my visit comfortable and efficient. The appointment booking system is seamless, and I love how I can access my records online. Highly recommend this clinic for all your healthcare needs.',
       avatar: 'MC',
       verified: true,
     },
@@ -83,7 +83,7 @@ const Testimonials = () => {
       role: 'Patient',
       location: 'Nairobi, Kenya',
       rating: 5,
-      text: 'Great experience from start to finish. The appointment was on time, the examination was comprehensive, and I found the perfect frames in their optical shop. The staff went above and beyond to ensure I understood my prescription.',
+      text: 'Great experience from start to finish. The appointment was on time, my consultation was thorough, and the staff went above and beyond to make sure I understood my diagnosis and treatment plan.',
       avatar: 'ER',
       verified: true,
     },
@@ -92,7 +92,7 @@ const Testimonials = () => {
       role: 'Patient',
       location: 'Cairo, Egypt',
       rating: 5,
-      text: 'Outstanding patient care and attention to detail. The team helped me understand my prescription and found the best solution for my vision needs. The follow-up care has been exceptional, and I feel confident in their expertise.',
+      text: 'Outstanding patient care and attention to detail. The team helped me understand my diagnosis and recommended the right treatment for my health needs. The follow-up care has been exceptional, and I feel confident in their expertise.',
       avatar: 'DK',
       verified: true,
     },
@@ -110,7 +110,7 @@ const Testimonials = () => {
       role: 'Patient',
       location: 'Abuja, Nigeria',
       rating: 5,
-      text: 'I\'ve been coming here for years and always receive top-notch care. The optometrist is knowledgeable and takes time to explain everything clearly. The online portal makes it easy to book appointments and view my medical history.',
+      text: 'I\'ve been coming here for years and always receive top-notch care. The doctors are knowledgeable and take time to explain everything clearly. The online portal makes it easy to book appointments and view my medical history.',
       avatar: 'JO',
       verified: true,
     },
@@ -119,7 +119,7 @@ const Testimonials = () => {
       role: 'Patient',
       location: 'Dar es Salaam, Tanzania',
       rating: 5,
-      text: 'Excellent service! The staff was professional and friendly. My eye exam was thorough, and I felt well taken care of throughout my visit. The clinic is clean, modern, and uses the latest technology for eye examinations.',
+      text: 'Excellent service! The staff was professional and friendly. My check-up was thorough, and I felt well taken care of throughout my visit. The clinic is clean, modern, and uses the latest medical technology.',
       avatar: 'AH',
       verified: true,
     },
@@ -128,7 +128,7 @@ const Testimonials = () => {
       role: 'Patient',
       location: 'Kampala, Uganda',
       rating: 5,
-      text: 'The pediatric eye care services are outstanding. My daughter felt comfortable throughout her examination, and the doctor explained everything in a way we could understand. The follow-up care has been excellent, and we\'re very satisfied.',
+      text: 'The pediatric care services are outstanding. My daughter felt comfortable throughout her visit, and the doctor explained everything in a way we could understand. The follow-up care has been excellent, and we\'re very satisfied.',
       avatar: 'RM',
       verified: true,
     },
@@ -137,7 +137,7 @@ const Testimonials = () => {
       role: 'Patient',
       location: 'Casablanca, Morocco',
       rating: 5,
-      text: 'I had a wonderful experience with the contact lens fitting service. The optometrist was patient and thorough, helping me find the perfect lenses for my lifestyle. The clinic\'s optical shop has a great selection of frames too.',
+      text: 'I had a wonderful experience with the laboratory and diagnostic services. The staff were patient and thorough, and I got my lab results the same day. The clinic\'s pharmacy has a great selection of medications too.',
       avatar: 'FA',
       verified: true,
     },
@@ -334,7 +334,7 @@ const Testimonials = () => {
                 mb: 2,
               }}
             >
-              "Your vision is our mission, and our patients' satisfaction is our greatest reward."
+              "Your health is our mission, and our patients' satisfaction is our greatest reward."
             </Typography>
             <Typography
               variant="body1"
@@ -348,7 +348,7 @@ const Testimonials = () => {
                 color: '#666 !important',
               }}
             >
-              Discover what our patients and healthcare professionals have to say about their experience with our comprehensive eye care services. These authentic testimonials reflect our commitment to excellence and patient-centered care.
+              Discover what our patients and healthcare professionals have to say about their experience with our comprehensive healthcare services. These authentic testimonials reflect our commitment to excellence and patient-centered care.
             </Typography>
           </Box>
         </Container>
@@ -470,7 +470,7 @@ const Testimonials = () => {
                 lineHeight: 1.7,
               }}
             >
-              Real experiences from real patients and healthcare professionals who trust us with their eye care needs. Each testimonial reflects our commitment to excellence.
+              Real experiences from real patients and healthcare professionals who trust us with their healthcare needs. Each testimonial reflects our commitment to excellence.
             </Typography>
             <Button
               variant="contained"
@@ -731,7 +731,7 @@ const Testimonials = () => {
                 fontWeight: 300,
               }}
             >
-              Join thousands of satisfied patients who trust us with their eye care needs. Schedule your appointment today and experience the difference that quality care makes in your vision health journey.
+              Join thousands of satisfied patients who trust us with their healthcare needs. Schedule your appointment today and experience the difference that quality care makes in your health journey.
             </Typography>
             <Stack
               direction={{ xs: 'column', sm: 'row' }}

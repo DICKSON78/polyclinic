@@ -13,7 +13,7 @@ class ImportSecondDatabase extends Command
      *
      * @var string
      */
-    protected $signature = 'import:second-database {file=eyechake-2.sql : The SQL file to import} {--ignore-duplicates : Use INSERT IGNORE to skip duplicates}';
+    protected $signature = 'import:second-database {file=polyclinic-2.sql : The SQL file to import} {--ignore-duplicates : Use INSERT IGNORE to skip duplicates}';
 
     /**
      * The console command description.

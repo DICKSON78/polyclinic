@@ -191,7 +191,7 @@ const SickSheetDocument = ({ consultation, patient, sickSheetData }) => {
         {consultation.visual_acuity ? (
           <React.Fragment>
             <Subheader
-              title="Visual Acuity"
+              title="Clinical Assessment"
               style={{ marginBottom: 8 }}
             />
 

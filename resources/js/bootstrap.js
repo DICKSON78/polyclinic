@@ -1,4 +1,4 @@
-window.APP_NAME = "SIKAF Eye Care";
+window.APP_NAME = "Polyclinic HMS";
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

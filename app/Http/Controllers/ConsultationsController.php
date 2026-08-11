@@ -12,9 +12,12 @@ use App\Models\ConsultationFundoscopy;
 use App\Models\ConsultationRefraction;
 use App\Models\ConsultationVisualAcuity;
 use App\Models\Item;
+use App\Models\LabRequest;
 use App\Models\PatientPaymentCache;
 use App\Models\PatientPaymentCacheItem;
+use App\Models\RadiologyRequest;
 use App\Models\SurgeryRecordReport;
+use App\Models\VitalSign;
 use App\Models\DoctorTask;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -115,24 +118,13 @@ class ConsultationsController extends Controller
         }
 
         if ($status) {
-            if ($status === 'Awaiting Glass') {
-                $data->where('require_glass', 'Yes')
-                    ->whereNull('sent_to_optician_at')
-                    ->where('patient_direction', '!=', 'Direct to Optician');
-            } else if ($status === 'Sent to Optician') {
-                $data->where('require_glass', 'Yes')
-                     ->where(function ($query) {
-                         $query->whereNotNull('sent_to_optician_at')
-                               ->orWhere('patient_direction', 'Direct to Optician')
-                               ->orWhere('patient_direction', 'Sent to Optician');
-                     })
-                     // Exclude dispensed patients (optician completed)
-                     ->whereNull('optician_completed_at')
-                // Check if there are ANY glass items in the payment cache that are NOT yet served
-                ->whereHas('payment_cache', function ($query) {
+            if ($status === 'Awaiting Dispensing') {
+                // Generic dispensing queue: consultations with any item (non-Pharmacy, non-Procedure)
+                // that has not yet been served/dispensed
+                $data->whereHas('payment_cache', function ($query) {
                     $query->whereHas('items', function ($itemsQuery) {
                         $itemsQuery->whereHas('item.consultation_type', function ($typeQuery) {
-                            $typeQuery->where('name', 'Glass');
+                            $typeQuery->whereNotIn('name', ['Pharmacy', 'Procedure']);
                         })
                         ->where('status', '!=', 'Served'); // Exclude already dispensed items
                     });
@@ -248,46 +240,7 @@ class ConsultationsController extends Controller
         }
 
         if ($start_date) {
-            if ($status === 'Awaiting Glass') {
-                // For Awaiting Glass, show recent new patients (last few days)
-                $data->where(function ($query) use ($start_date) {
-                    $query->where(function ($query2) use ($start_date) {
-                        // For Direct to Optician patients, filter by when they were created recently
-                        $query2->where('patient_direction', 'Direct to Optician');
-                        $query2->whereDate('created_at', '>=', $start_date);
-                    });
-                    $query->orWhere(function ($query2) use ($start_date) {
-                        // For Direct to Doctor patients, filter by when they were created recently OR served recently
-                        $query2->where('patient_direction', 'Direct to Doctor');
-                        $query2->where(function ($query3) use ($start_date) {
-                            $query3->whereDate('created_at', '>=', $start_date);
-                            $query3->orWhereHas('payment_cache_item', function ($query4) use ($start_date) {
-                                $query4->whereNotNull('served_at');
-                                $query4->whereDate('served_at', '>=', $start_date);
-                            });
-                        });
-                    });
-                });
-            } elseif ($status === 'Sent to Optician') {
-                // For Sent to Optician, filter by date for both directly sent and doctor-sent patients
-                if ($start_date) {
-                    $data->where(function ($query) use ($start_date) {
-                        $query->where(function ($subQuery) use ($start_date) {
-                            $subQuery->whereNotNull('sent_to_optician_at');
-                            $subQuery->whereDate('sent_to_optician_at', '>=', $start_date);
-                        });
-                        $query->orWhere(function ($subQuery) use ($start_date) {
-                            $subQuery->where('patient_direction', 'Direct to Optician');
-                            $subQuery->whereDate('created_at', '>=', $start_date);
-                        });
-                        $query->orWhere(function ($subQuery) use ($start_date) {
-                            $subQuery->where('patient_direction', 'Sent to Optician')
-                                     ->whereNull('sent_to_optician_at')
-                                     ->whereDate('created_at', '>=', $start_date);
-                        });
-                    });
-                }
-            } elseif ($status === 'Consulted') {
+            if ($status === 'Consulted') {
                 $data->where('status', 'Consulted');
                 $data->whereDate('updated_at', '>=', $start_date);
             } elseif ($status === 'Pending') {
@@ -299,46 +252,7 @@ class ConsultationsController extends Controller
         }
 
         if ($end_date) {
-            if ($status === 'Awaiting Glass') {
-                // For Awaiting Glass, show recent new patients (last few days)
-                $data->where(function ($query) use ($end_date) {
-                    $query->where(function ($query2) use ($end_date) {
-                        // For Direct to Optician patients, filter by when they were created recently
-                        $query2->where('patient_direction', 'Direct to Optician');
-                        $query2->whereDate('created_at', '<=', $end_date);
-                    });
-                    $query->orWhere(function ($query2) use ($end_date) {
-                        // For Direct to Doctor patients, filter by when they were created recently OR served recently
-                        $query2->where('patient_direction', 'Direct to Doctor');
-                        $query2->where(function ($query3) use ($end_date) {
-                            $query3->whereDate('created_at', '<=', $end_date);
-                            $query3->orWhereHas('payment_cache_item', function ($query4) use ($end_date) {
-                                $query4->whereNotNull('served_at');
-                                $query4->whereDate('served_at', '<=', $end_date);
-                            });
-                        });
-                    });
-                });
-            } elseif ($status === 'Sent to Optician') {
-                // For Sent to Optician, filter by date for both directly sent and doctor-sent patients
-                if ($end_date) {
-                    $data->where(function ($query) use ($end_date) {
-                        $query->where(function ($subQuery) use ($end_date) {
-                            $subQuery->whereNotNull('sent_to_optician_at');
-                            $subQuery->whereDate('sent_to_optician_at', '<=', $end_date);
-                        });
-                        $query->orWhere(function ($subQuery) use ($end_date) {
-                            $subQuery->where('patient_direction', 'Direct to Optician');
-                            $subQuery->whereDate('created_at', '<=', $end_date);
-                        });
-                        $query->orWhere(function ($subQuery) use ($end_date) {
-                            $subQuery->where('patient_direction', 'Sent to Optician')
-                                     ->whereNull('sent_to_optician_at')
-                                     ->whereDate('created_at', '<=', $end_date);
-                        });
-                    });
-                }
-            } elseif ($status === 'Consulted') {
+            if ($status === 'Consulted') {
                 $data->whereDate('updated_at', '<=', $end_date);
             } elseif ($status === 'Pending') {
                 // For Pending status, apply date filtering to match notifications logic
@@ -367,8 +281,6 @@ class ConsultationsController extends Controller
             $request->validate([
                 'payment_cache_id' => 'required|exists:patient_payment_cache,id',
                 'patient_id' => 'nullable|exists:patients,id',
-                'send_to_optician' => 'nullable|in:Yes,No',
-                'require_glass' => 'nullable|in:Yes,No',
                 'status' => 'nullable|in:Pending,Consulted',
             ]);
 
@@ -384,20 +296,13 @@ class ConsultationsController extends Controller
             if ($paymentCache->consultation_id) {
                 $consultation = Consultation::find($paymentCache->consultation_id);
                 if ($consultation) {
-                    // Update existing consultation
-                    $consultation->update([
-                        'require_glass' => $request->require_glass ?? $consultation->require_glass ?? 'Yes',
-                        'sent_to_optician_at' => $request->send_to_optician === 'Yes' ? now() : $consultation->sent_to_optician_at,
-                        'sent_to_optician_by' => $request->send_to_optician === 'Yes' ? $user->id : $consultation->sent_to_optician_by,
-                    ]);
-                    
-                    return $this->sendResponse($consultation, Response::HTTP_OK, 'Patient sent to optician successfully.');
+                    return $this->sendResponse($consultation, Response::HTTP_OK, 'Consultation already exists.');
                 }
             }
 
             // If no existing consultation, check if there are any payment cache items we can use
             $firstItem = $paymentCache->items()->first();
-            
+
             if (!$firstItem) {
                 return $this->sendError('No items found in payment cache. Cannot create consultation.', Response::HTTP_UNPROCESSABLE_ENTITY);
             }
@@ -405,27 +310,23 @@ class ConsultationsController extends Controller
             // Create consultation using the first payment cache item
             $consultation = Consultation::create([
                 'payment_cache_item_id' => $firstItem->id,
-                'patient_direction' => 'Direct to Optician',
+                'patient_direction' => $request->patient_direction ?? 'Direct to Doctor',
                 'status' => $request->status ?? 'Pending',
                 'chief_complaint' => null,
                 'history_present_illness' => null,
                 'family_history' => null,
                 'general_health' => null,
-                // Note: family_ocular_history and family_general_history columns don't exist in the database
                 'patient_to_return' => 'No',
                 'to_return_date' => null,
                 'remarks' => null,
-                'require_glass' => $request->require_glass ?? 'Yes',
-                'sent_to_optician_at' => $request->send_to_optician === 'Yes' ? now() : null,
-                'sent_to_optician_by' => $request->send_to_optician === 'Yes' ? $user->id : null,
                 'created_by' => $user->id,
             ]);
 
-            // Update payment cache with consultation ID (note: patient_payment_cache_items table doesn't have consultation_id column)
+            // Update payment cache with consultation ID
             $paymentCache->consultation_id = $consultation->id;
             $paymentCache->save();
 
-            return $this->sendResponse($consultation, Response::HTTP_OK, 'Patient sent to optician successfully.');
+            return $this->sendResponse($consultation, Response::HTTP_OK, 'Consultation created successfully.');
         } catch (\Illuminate\Validation\ValidationException $e) {
             return $this->sendError('Validation failed.', Response::HTTP_UNPROCESSABLE_ENTITY, $e->errors());
         } catch (\Throwable $e) {
@@ -507,52 +408,6 @@ class ConsultationsController extends Controller
             $data->status = 'Pending';
             $data->loadMissing(['payment_cache.check_in.patient']);
 
-            // Auto-flag glass journeys so downstream flows push the patient to sales and optician
-            if (
-                $item->consultation_type
-                && strcasecmp($item->consultation_type->name, 'Glass') === 0
-            ) {
-                $consultationUpdates = [];
-
-                if ($consultation->require_glass !== 'Yes') {
-                    $consultationUpdates['require_glass'] = 'Yes';
-                }
-
-                $existingLensTypes = [];
-                if (!empty($consultation->lens_types)) {
-                    if (is_string($consultation->lens_types)) {
-                        $decoded = json_decode($consultation->lens_types, true);
-                        if (is_array($decoded)) {
-                            $existingLensTypes = $decoded;
-                        }
-                    } elseif (is_array($consultation->lens_types)) {
-                        $existingLensTypes = $consultation->lens_types;
-                    }
-                }
-
-                if (
-                    $item->item_type
-                    && strcasecmp($item->item_type->name, 'Lens') === 0
-                    && $item->lens_type
-                    && $item->lens_type->name
-                ) {
-                    $existingLensTypes[] = $item->lens_type->name;
-                }
-
-                if (!empty($existingLensTypes)) {
-                    $consultationUpdates['lens_types'] = json_encode(array_values(array_unique($existingLensTypes)));
-                }
-
-                if (!empty($consultationUpdates)) {
-                    $consultation->update($consultationUpdates);
-
-                    \Log::info('Consultation auto-updated after glass item added', [
-                        'consultation_id' => $consultation->id,
-                        'updates' => array_keys($consultationUpdates),
-                    ]);
-                }
-            }
-
             // Start treatment for patient waiting time tracking
             try {
                 $paymentCache = $data->payment_cache;
@@ -617,6 +472,9 @@ class ConsultationsController extends Controller
         $with_items = $request->with_items;
         $with_item_templates = $request->with_item_templates;
         $with_referral = $request->with_referral;
+        $with_lab_results = $request->with_lab_results;
+        $with_radiology_results = $request->with_radiology_results;
+        $with_vital_signs = $request->with_vital_signs;
 
         try {
             $data = Consultation::with(['payment_cache_item' => function ($query) {
@@ -657,6 +515,27 @@ class ConsultationsController extends Controller
                         $query->where('consultation_id', $id);
                     })
                     ->first();
+            }
+
+            if ($with_lab_results == 'Yes') {
+                $data->lab_results = LabRequest::with(['tests.labTest', 'requestedBy', 'completedBy', 'tests.resultEnteredBy'])
+                    ->where('consultation_id', $id)
+                    ->orderByDesc('created_at')
+                    ->get();
+            }
+
+            if ($with_radiology_results == 'Yes') {
+                $data->radiology_results = RadiologyRequest::with(['exams.radiologyExam', 'requestedBy', 'completedBy', 'exams.resultEnteredBy'])
+                    ->where('consultation_id', $id)
+                    ->orderByDesc('created_at')
+                    ->get();
+            }
+
+            if ($with_vital_signs == 'Yes') {
+                $data->vital_signs = VitalSign::with('triagedBy')
+                    ->where('consultation_id', $id)
+                    ->orderByDesc('created_at')
+                    ->get();
             }
 
             return $this->sendResponse($data, Response::HTTP_OK, 'Success.');
@@ -762,113 +641,6 @@ class ConsultationsController extends Controller
                 }
             }
 
-            if ($request->send_to_optician == 'Yes') {
-                // Only cashiers (users with payment_center privilege) can send clients to optician
-                $user = $request->user();
-                $userPrivilege = \App\Models\UserPrivilege::where('user_id', $user->id)->first();
-                $hasPaymentCenterPrivilege = $userPrivilege && $userPrivilege->payment_center == 1;
-
-                if (!$hasPaymentCenterPrivilege && !$user->is_admin) {
-                    return $this->sendResponse(
-                        null,
-                        Response::HTTP_FORBIDDEN,
-                        'Only cashiers are authorized to send clients to the optician.'
-                    );
-                }
-
-                $data->update([
-                    'sent_to_optician_at' => Carbon::now(),
-                    'sent_to_optician_by' => $user->id,
-                    'send_to_optician' => 'Yes', // Set send_to_optician flag
-                    'require_glass' => 'Yes', // Automatically set require_glass when manually sent to optician
-                    'patient_direction' => 'Sent to Optician', // Update patient direction to reflect optician status
-                ]);
-                
-                // Clear notification cache immediately for real-time updates
-                try {
-                    $cacheKey = "notifications_user_{$user->id}_clinic_" . ($user->clinic_id ?? 'null');
-                    \Cache::forget($cacheKey);
-                    event(new \App\Events\NotificationUpdate());
-                    \Log::info('Patient sent to optician - notification cache cleared and event triggered', [
-                        'consultation_id' => $data->id,
-                        'patient_id' => $patient->id ?? 'Unknown',
-                    ]);
-                } catch (\Exception $e) {
-                    \Log::error('Failed to clear notification cache after sending to optician', [
-                        'consultation_id' => $data->id,
-                        'error' => $e->getMessage()
-                    ]);
-                }
-                
-                // Get patient for both waiting time and notification
-                $patient = null;
-                try {
-                    $patient = $data->payment_cache_item->payment_cache->check_in->patient;
-                } catch (\Exception $e) {
-                    \Log::error('Failed to get patient for consultation', [
-                        'consultation_id' => $data->id,
-                        'error' => $e->getMessage()
-                    ]);
-                }
-                
-                // Move patient to consultation department (optician)
-                if ($patient) {
-                    try {
-                        $waitingTime = $patient->current_waiting_time;
-                        if ($waitingTime) {
-                            $waitingTime->sendToConsultation();
-                            \Log::info('Patient manually sent to optician - moved to consultation department', [
-                                'patient_id' => $patient->id,
-                                'patient_name' => $patient->full_name ?? 'Unknown',
-                                'consultation_id' => $data->id,
-                                'sent_by' => $request->user()->id
-                            ]);
-                        } else {
-                            \Log::warning('No waiting time found for patient when sending to optician', [
-                                'patient_id' => $patient->id,
-                                'consultation_id' => $data->id
-                            ]);
-                        }
-                    } catch (\Exception $e) {
-                        \Log::error('Failed to move patient to optician department', [
-                            'consultation_id' => $data->id,
-                            'error' => $e->getMessage(),
-                            'trace' => $e->getTraceAsString()
-                        ]);
-                        // Don't fail the entire request, just log the error
-                    }
-                } else {
-                    \Log::warning('No patient found for consultation when sending to optician', [
-                        'consultation_id' => $data->id
-                    ]);
-                }
-                
-                // Create notification for optician
-                try {
-                    if ($patient && class_exists('App\Models\PatientNotification')) {
-                        \App\Models\PatientNotification::create([
-                            'patient_id' => $patient->id,
-                            'type' => 'patient_sent_to_optician',
-                            'title' => 'New Patient Sent to Optician',
-                            'message' => "Patient {$patient->full_name} has been manually sent to optician for spectacle fitting.",
-                            'data' => [
-                                'patient_name' => $patient->full_name,
-                                'consultation_id' => $data->id,
-                                'sent_by' => $request->user()->id,
-                                'sent_at' => now()->toISOString()
-                            ],
-                            'status' => 'unread'
-                        ]);
-                    }
-                } catch (\Exception $e) {
-                    \Log::warning('Failed to create optician notification for manual send', [
-                        'error' => $e->getMessage(),
-                        'patient_id' => $patient->id ?? 'unknown'
-                    ]);
-                }
-            }
-
-            // Handle refraction update/create
             if ($request->refraction && is_array($request->refraction) && !empty(array_filter($request->refraction))) {
                 $user = $request->user();
                 try {
@@ -1234,51 +1006,6 @@ class ConsultationsController extends Controller
                 if ($patient) {
                     $patient->info_source_id = $request->info_source_id;
                     $patient->save();
-                }
-            }
-
-            // Check if lenses are prescribed and send patient to sales
-            if ($data->require_glass === 'Yes' || $data->lens_types) {
-                try {
-                    $patient = $data->payment_cache_item->payment_cache->check_in->patient;
-                    if ($patient) {
-                        $waitingTime = $patient->current_waiting_time;
-                        
-                        if ($waitingTime && $waitingTime->status === 'in_treatment') {
-                            // Send patient to sales/cashier for lens payment
-                            $waitingTime->sendToCashier();
-                            
-                            \Log::info('Patient prescribed lenses - sent to sales/cashier', [
-                                'patient_id' => $patient->id,
-                                'patient_name' => $patient->full_name,
-                                'consultation_id' => $data->id,
-                                'require_glass' => $data->require_glass,
-                                'lens_types' => $data->lens_types
-                            ]);
-
-                            // Clear notification cache and trigger refresh after sending to sales
-                            try {
-                                $user = $request->user();
-                                $cacheKey = "notifications_user_{$user->id}_clinic_" . ($user->clinic_id ?? 'null');
-                                \Cache::forget($cacheKey);
-                                event(new \App\Events\NotificationUpdate());
-                                \Log::info('Notification cache cleared and refresh triggered after sending patient to sales', [
-                                    'patient_id' => $patient->id,
-                                    'department' => 'cashier',
-                                    'cache_key' => $cacheKey
-                                ]);
-                            } catch (\Exception $e) {
-                                \Log::error('Failed to clear notification cache after sending to sales', [
-                                    'error' => $e->getMessage()
-                                ]);
-                            }
-                        }
-                    }
-                } catch (\Exception $e) {
-                    \Log::error('Failed to send patient to sales after lens prescription', [
-                        'consultation_id' => $data->id,
-                        'error' => $e->getMessage()
-                    ]);
                 }
             }
 

@@ -16,7 +16,7 @@ const Terms = () => {
       title: '1. Acceptance of Terms',
       content: [
         {
-          text: 'By accessing and using the services of SIKAF eyecare, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.',
+          text: 'By accessing and using the services of Polyclinic HMS, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.',
         },
       ],
     },
@@ -25,7 +25,7 @@ const Terms = () => {
       content: [
         {
           subtitle: '2.1 Permission',
-          text: 'Permission is granted to temporarily access the materials on SIKAF eyecare\'s website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title.',
+          text: 'Permission is granted to temporarily access the materials on Polyclinic HMS\'s website for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title.',
         },
         {
           subtitle: '2.2 Restrictions',
@@ -42,7 +42,7 @@ const Terms = () => {
         },
         {
           subtitle: '3.2 No Guarantee of Results',
-          text: 'While we strive to provide the highest quality eye care services, we cannot guarantee specific outcomes or results. Individual results may vary based on various factors including but not limited to patient condition, compliance with treatment, and other health factors.',
+          text: 'While we strive to provide the highest quality healthcare services, we cannot guarantee specific outcomes or results. Individual results may vary based on various factors including but not limited to patient condition, compliance with treatment, and other health factors.',
         },
         {
           subtitle: '3.3 Emergency Situations',
@@ -89,11 +89,11 @@ const Terms = () => {
       content: [
         {
           subtitle: '6.1 Ownership',
-          text: 'All content, including but not limited to text, graphics, logos, images, and software, is the property of SIKAF eyecare or its content suppliers and is protected by copyright, trademark, and other intellectual property laws.',
+          text: 'All content, including but not limited to text, graphics, logos, images, and software, is the property of Polyclinic HMS or its content suppliers and is protected by copyright, trademark, and other intellectual property laws.',
         },
         {
           subtitle: '6.2 Use Restrictions',
-          text: 'You may not reproduce, distribute, modify, create derivative works of, publicly display, or otherwise use any content from this website without express written permission from SIKAF eyecare.',
+          text: 'You may not reproduce, distribute, modify, create derivative works of, publicly display, or otherwise use any content from this website without express written permission from Polyclinic HMS.',
         },
       ],
     },
@@ -115,11 +115,11 @@ const Terms = () => {
       content: [
         {
           subtitle: '8.1 Disclaimer',
-          text: 'The materials on SIKAF eyecare\'s website are provided on an "as is" basis. SIKAF eyecare makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.',
+          text: 'The materials on Polyclinic HMS\'s website are provided on an "as is" basis. Polyclinic HMS makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.',
         },
         {
           subtitle: '8.2 Limitation',
-          text: 'In no event shall SIKAF eyecare or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on SIKAF eyecare\'s website, even if SIKAF eyecare or an authorized representative has been notified orally or in writing of the possibility of such damage.',
+          text: 'In no event shall Polyclinic HMS or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on Polyclinic HMS\'s website, even if Polyclinic HMS or an authorized representative has been notified orally or in writing of the possibility of such damage.',
         },
       ],
     },
@@ -127,7 +127,7 @@ const Terms = () => {
       title: '9. Revisions and Errata',
       content: [
         {
-          text: 'The materials appearing on SIKAF eyecare\'s website could include technical, typographical, or photographic errors. SIKAF eyecare does not warrant that any of the materials on its website are accurate, complete, or current. SIKAF eyecare may make changes to the materials contained on its website at any time without notice.',
+          text: 'The materials appearing on Polyclinic HMS\'s website could include technical, typographical, or photographic errors. Polyclinic HMS does not warrant that any of the materials on its website are accurate, complete, or current. Polyclinic HMS may make changes to the materials contained on its website at any time without notice.',
         },
       ],
     },
@@ -143,7 +143,7 @@ const Terms = () => {
       title: '11. Modifications to Terms',
       content: [
         {
-          text: 'SIKAF eyecare may revise these terms of service at any time without notice. By using this website, you are agreeing to be bound by the then current version of these terms of service. We encourage you to review these terms periodically.',
+          text: 'Polyclinic HMS may revise these terms of service at any time without notice. By using this website, you are agreeing to be bound by the then current version of these terms of service. We encourage you to review these terms periodically.',
         },
       ],
     },
@@ -161,7 +161,7 @@ const Terms = () => {
         {
           text: 'If you have any questions about these Terms of Service, please call us now:',
           details: [
-            'Email: legal@sikafeyecare.com',
+            'Email: legal@polyclinic-hms.com',
             'Phone: +1 (555) 123-4567',
             'Address: 123 Healthcare Street, Medical District, City 12345',
           ],
@@ -238,7 +238,7 @@ const Terms = () => {
                   color: 'text.secondary',
                 }}
               >
-                Welcome to SIKAF eyecare. These Terms of Service ("Terms") govern your access to and use of our website, services, and facilities. By accessing or using our services, you agree to be bound by these Terms. If you disagree with any part of these terms, you may not access our services.
+                Welcome to Polyclinic HMS. These Terms of Service ("Terms") govern your access to and use of our website, services, and facilities. By accessing or using our services, you agree to be bound by these Terms. If you disagree with any part of these terms, you may not access our services.
               </Typography>
 
               {sections.map((section, sectionIndex) => (

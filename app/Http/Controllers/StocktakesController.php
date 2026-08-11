@@ -173,7 +173,21 @@ class StocktakesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $stocktake = Stocktake::findOrFail($id);
+
+        if ($stocktake->status === 'Applied') {
+            return $this->sendError('Cannot update a stocktake that has already been applied.', Response::HTTP_CONFLICT);
+        }
+
+        $request->validate([
+            'reason' => 'sometimes|required|string|max:255',
+        ]);
+
+        if ($request->has('reason')) {
+            $stocktake->update(['reason' => $request->reason]);
+        }
+
+        return $this->sendResponse($stocktake->load(['creator']), Response::HTTP_OK, 'Stocktake updated successfully.');
     }
 
     /**
@@ -187,7 +201,7 @@ class StocktakesController extends Controller
         return $item->item_type && 
                $item->consultation_type && 
                $item->item_type->name === 'Frame' && 
-               $item->consultation_type->name === 'Glass';
+               !in_array($item->consultation_type->name, ['Pharmacy', 'Procedure']);
     }
 
     /**
@@ -255,6 +269,15 @@ class StocktakesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $stocktake = Stocktake::findOrFail($id);
+
+        if ($stocktake->status === 'Applied') {
+            return $this->sendError('Cannot delete a stocktake that has already been applied.', Response::HTTP_CONFLICT);
+        }
+
+        $stocktake->items()->delete();
+        $stocktake->delete();
+
+        return $this->sendResponse(null, Response::HTTP_OK, 'Stocktake deleted successfully.');
     }
 }

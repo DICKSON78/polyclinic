@@ -111,7 +111,7 @@ class InventoryManagementDashboardController extends Controller
                 ->where('items.status', 'Active')
                 ->where('items.is_stock_item', 'Yes')
                 ->where('item_types.name', 'Lens')
-                ->where('consultation_types.name', 'Glass')
+                ->whereNotIn('consultation_types.name', ['Pharmacy', 'Procedure'])
                 ->sum('items.balance');
         }, 0);
 
@@ -139,7 +139,7 @@ class InventoryManagementDashboardController extends Controller
                 ->where('items.status', 'Active')
                 ->where('items.is_stock_item', 'Yes')
                 ->where('item_types.name', 'Frame')
-                ->where('consultation_types.name', 'Glass')
+                ->whereNotIn('consultation_types.name', ['Pharmacy', 'Procedure'])
                 ->sum('items.balance');
         }, 0);
 
@@ -206,7 +206,7 @@ class InventoryManagementDashboardController extends Controller
                 ->where('items.status', 'Active')
                 ->where('items.is_stock_item', 'Yes')
                 ->where('item_types.name', 'Frame')
-                ->where('consultation_types.name', 'Glass')
+                ->whereNotIn('consultation_types.name', ['Pharmacy', 'Procedure'])
                 ->select(
                     DB::raw('COALESCE(items.category, "Uncategorized") as category'),
                     DB::raw('SUM(items.balance) as total_quantity')
@@ -227,7 +227,7 @@ class InventoryManagementDashboardController extends Controller
                     ->where('items.status', 'Active')
                     ->where('items.is_stock_item', 'Yes')
                     ->where('item_types.name', 'Frame')
-                    ->where('consultation_types.name', 'Glass')
+                    ->whereNotIn('consultation_types.name', ['Pharmacy', 'Procedure'])
                     ->sum('items.balance');
 
                 if ($frameCount > 0) {
@@ -259,7 +259,7 @@ class InventoryManagementDashboardController extends Controller
                 ->where('items.status', 'Active')
                 ->where('items.is_stock_item', 'Yes')
                 ->where('item_types.name', 'Frame')
-                ->where('consultation_types.name', 'Glass')
+                ->whereNotIn('consultation_types.name', ['Pharmacy', 'Procedure'])
                 ->select(DB::raw('DISTINCT COALESCE(items.category, "Uncategorized") as category'))
                 ->pluck('category');
 
@@ -277,7 +277,7 @@ class InventoryManagementDashboardController extends Controller
                     })
                     ->where('items.status', 'Active')
                     ->where('item_types.name', 'Frame')
-                    ->where('consultation_types.name', 'Glass')
+                    ->whereNotIn('consultation_types.name', ['Pharmacy', 'Procedure'])
                     ->where(DB::raw('COALESCE(items.category, "Uncategorized")'), $category)
                     ->whereDate('stocktakes.created_at', '>=', Carbon::now()->subDays(30))
                     ->sum('stocktake_items.quantity');
@@ -295,7 +295,7 @@ class InventoryManagementDashboardController extends Controller
                     ->where('patient_payment_cache_items.status', 'Served')
                     ->where('items.status', 'Active')
                     ->where('item_types.name', 'Frame')
-                    ->where('consultation_types.name', 'Glass')
+                    ->whereNotIn('consultation_types.name', ['Pharmacy', 'Procedure'])
                     ->where(DB::raw('COALESCE(items.category, "Uncategorized")'), $category)
                     ->whereDate('patient_payment_cache.created_at', '>=', Carbon::now()->subDays(30))
                     ->sum('patient_payment_cache_items.quantity');
@@ -322,7 +322,7 @@ class InventoryManagementDashboardController extends Controller
                 ->where('items.status', 'Active')
                 ->where('items.is_stock_item', 'Yes')
                 ->where('item_types.name', 'Lens')
-                ->where('consultation_types.name', 'Glass')
+                ->whereNotIn('consultation_types.name', ['Pharmacy', 'Procedure'])
                 ->select(
                     DB::raw('COALESCE(lens_types.name, items.category, "Unspecified") as lens_type'),
                     DB::raw('SUM(items.balance) as total_quantity')
@@ -342,7 +342,7 @@ class InventoryManagementDashboardController extends Controller
                     ->where('items.status', 'Active')
                     ->where('items.is_stock_item', 'Yes')
                     ->where('item_types.name', 'Lens')
-                    ->where('consultation_types.name', 'Glass')
+                    ->whereNotIn('consultation_types.name', ['Pharmacy', 'Procedure'])
                     ->sum('items.balance');
 
                 if ($lensCount > 0) {
@@ -376,7 +376,7 @@ class InventoryManagementDashboardController extends Controller
                 ->where('items.status', 'Active')
                 ->where('items.is_stock_item', 'Yes')
                 ->where('item_types.name', 'Lens')
-                ->where('consultation_types.name', 'Glass')
+                ->whereNotIn('consultation_types.name', ['Pharmacy', 'Procedure'])
                 ->select(
                     'items.id',
                     'items.name',
@@ -408,7 +408,7 @@ class InventoryManagementDashboardController extends Controller
                 ->where('patient_payment_cache_items.status', 'Served')
                 ->where('items.status', 'Active')
                 ->where('item_types.name', 'Lens')
-                ->where('consultation_types.name', 'Glass')
+                ->whereNotIn('consultation_types.name', ['Pharmacy', 'Procedure'])
                 ->whereDate('patient_payment_cache.created_at', '>=', Carbon::now()->subDays(30))
                 ->select(
                     'items.id',
@@ -452,7 +452,7 @@ class InventoryManagementDashboardController extends Controller
                 ->where('items.status', 'Active')
                 ->where('items.is_stock_item', 'Yes')
                 ->where('item_types.name', 'Lens')
-                ->where('consultation_types.name', 'Glass')
+                ->whereNotIn('consultation_types.name', ['Pharmacy', 'Procedure'])
                 ->where('items.balance', '>', 0)
                 ->select(
                     'items.id',
@@ -482,7 +482,7 @@ class InventoryManagementDashboardController extends Controller
                 ->where('items.status', 'Active')
                 ->where('items.is_stock_item', 'Yes')
                 ->where('item_types.name', 'Lens')
-                ->where('consultation_types.name', 'Glass')
+                ->whereNotIn('consultation_types.name', ['Pharmacy', 'Procedure'])
                 ->where(function($query) {
                     $query->whereRaw('items.balance <= items.minimum_stock AND items.minimum_stock > 0')
                           ->orWhere('items.balance', 0);
@@ -524,7 +524,7 @@ class InventoryManagementDashboardController extends Controller
                     ->where('patient_payment_cache_items.status', 'Served')
                     ->where('items.status', 'Active')
                     ->where('item_types.name', 'Lens')
-                    ->where('consultation_types.name', 'Glass')
+                    ->whereNotIn('consultation_types.name', ['Pharmacy', 'Procedure'])
                     ->whereDate('patient_payment_cache.created_at', $date)
                     ->sum('patient_payment_cache_items.quantity');
                 
@@ -617,7 +617,7 @@ class InventoryManagementDashboardController extends Controller
                 ->where('items.status', 'Active')
                 ->where('items.is_stock_item', 'Yes')
                 ->where('item_types.name', 'Frame')
-                ->where('consultation_types.name', 'Glass')
+                ->whereNotIn('consultation_types.name', ['Pharmacy', 'Procedure'])
                 ->select('items.id', 'items.name')
                 ->orderBy('items.name')
                 ->get();
@@ -644,7 +644,7 @@ class InventoryManagementDashboardController extends Controller
                     ->where('patient_payment_cache_items.status', 'Served')
                     ->where('items.status', 'Active')
                     ->where('item_types.name', 'Frame')
-                    ->where('consultation_types.name', 'Glass')
+                    ->whereNotIn('consultation_types.name', ['Pharmacy', 'Procedure'])
                     ->whereYear('patient_payment_cache.created_at', $year)
                     ->whereMonth('patient_payment_cache.created_at', $month);
 
@@ -674,7 +674,7 @@ class InventoryManagementDashboardController extends Controller
                         ->where('patient_payment_cache_items.status', 'Served')
                         ->where('items.status', 'Active')
                         ->where('item_types.name', 'Frame')
-                        ->where('consultation_types.name', 'Glass')
+                        ->whereNotIn('consultation_types.name', ['Pharmacy', 'Procedure'])
                         ->whereYear('patient_payment_cache.created_at', $year)
                         ->whereMonth('patient_payment_cache.created_at', $month)
                         ->select('items.name', DB::raw('SUM(patient_payment_cache_items.quantity) as total_qty'))

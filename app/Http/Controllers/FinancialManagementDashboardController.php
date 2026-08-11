@@ -592,7 +592,7 @@ class FinancialManagementDashboardController extends Controller
                 
                 $glassQuery = PatientPaymentCacheItem::query()
                     ->whereHas('consultation_type', function ($query) {
-                        $query->where('name', 'Glass');
+                        $query->whereNotIn('name', ['Pharmacy', 'Procedure']);
                     })
                     ->whereIn('status', ['Paid', 'Billed', 'Served'])
                     ->whereNotNull('created_at')
@@ -644,7 +644,7 @@ class FinancialManagementDashboardController extends Controller
                 
                 $glassQuery = PatientPaymentCacheItem::query()
                     ->whereHas('consultation_type', function ($query) {
-                        $query->where('name', 'Glass');
+                        $query->whereNotIn('name', ['Pharmacy', 'Procedure']);
                     })
                     ->whereIn('status', ['Paid', 'Billed', 'Served'])
                     ->whereNotNull('created_at')

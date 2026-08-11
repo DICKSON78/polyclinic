@@ -6,15 +6,15 @@ import { useLocation } from 'react-router-dom';
  * Usage: <SEO title="Page Title" description="Page description" />
  */
 const SEO = ({ 
-  title = 'SIKAF Eye Care - Best Eye Care Clinic in Tanzania',
-  description = 'SIKAF Eye Care is the leading eye care clinic in Dar es Salaam, Tanzania. We offer comprehensive eye examinations, diagnosis & treatment of eye disorders, spectacles dispensing, contact lens fitting, and community eye outreach programs.',
-  keywords = 'eye care Tanzania, optometrist Dar es Salaam, eye examination, eye clinic, contact lens fitting, spectacles Tanzania, eye treatment, SIKAF Eye Care',
+  title = 'Polyclinic HMS - Hospital Management System',
+  description = 'Polyclinic HMS is a comprehensive hospital management system for polyclinics and healthcare facilities. We offer patient registration, triage, consultations, laboratory services, pharmacy, inpatient care, and more.',
+  keywords = 'polyclinic, hospital management system, clinic software, patient management, electronic medical records, triage, laboratory, pharmacy, Polyclinic HMS',
   image = '/logo.png',
   type = 'website',
   noindex = false,
 }) => {
   const location = useLocation();
-  const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://sikafeyecare.com';
+  const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://polyclinic-hms.com';
   const fullUrl = `${baseUrl}${location.pathname}`;
   const imageUrl = image.startsWith('http') ? image : `${baseUrl}${image}`;
 
@@ -37,7 +37,7 @@ const SEO = ({
     updateMetaTag('description', description);
     updateMetaTag('keywords', keywords);
     updateMetaTag('robots', noindex ? 'noindex, nofollow' : 'index, follow');
-    updateMetaTag('author', 'SIKAF Eye Care');
+    updateMetaTag('author', 'Polyclinic HMS');
     updateMetaTag('language', 'English');
     updateMetaTag('revisit-after', '7 days');
     updateMetaTag('theme-color', '#667eea');
@@ -50,7 +50,7 @@ const SEO = ({
     updateMetaTag('og:image', imageUrl, 'property');
     updateMetaTag('og:image:width', '1200', 'property');
     updateMetaTag('og:image:height', '630', 'property');
-    updateMetaTag('og:site_name', 'SIKAF Eye Care', 'property');
+    updateMetaTag('og:site_name', 'Polyclinic HMS', 'property');
     updateMetaTag('og:locale', 'en_US', 'property');
 
     // Twitter Card Tags - MUST use 'name' attribute, not 'property'
@@ -67,9 +67,9 @@ const SEO = ({
     updateMetaTag('ICBM', '-6.7924, 39.2083');
 
     // Business Information
-    updateMetaTag('contact', 'info@sikafeyecare.co.tz');
+    updateMetaTag('contact', 'info@polyclinic-hms.com');
     updateMetaTag('phone', '+255 676 506 323');
-    updateMetaTag('address', 'Gerezani - Kamata traffic light near traffic post, Dar es Salaam, Tanzania');
+    updateMetaTag('address', 'Dar es Salaam, Tanzania');
 
     // Canonical URL
     let canonical = document.querySelector('link[rel="canonical"]');
@@ -93,14 +93,14 @@ const SEO = ({
       '@context': 'https://schema.org',
       '@type': 'LocalBusiness',
       '@id': fullUrl,
-      name: 'SIKAF Eye Care',
+      name: 'Polyclinic HMS',
       description: description,
       url: baseUrl,
       telephone: '+255676506323',
-      email: 'info@sikafeyecare.co.tz',
+      email: 'info@polyclinic-hms.com',
       address: {
         '@type': 'PostalAddress',
-        streetAddress: 'Gerezani - Kamata traffic light near traffic post',
+        streetAddress: 'Dar es Salaam, Tanzania',
         addressLocality: 'Dar es Salaam',
         addressCountry: 'TZ',
       },
@@ -122,11 +122,11 @@ const SEO = ({
         name: 'Dar es Salaam',
       },
       service: [
-        'Eye Examinations',
-        'Eye Disorder Treatment',
-        'Spectacles Dispensing',
-        'Contact Lens Fitting',
-        'Community Eye Outreach',
+        'Outpatient Care',
+        'Inpatient Care',
+        'Laboratory Services',
+        'Pharmacy & Dispensing',
+        'Radiology & Imaging',
       ],
     };
 

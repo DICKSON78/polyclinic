@@ -36,9 +36,9 @@ const Blog = () => {
 
   const blogPosts = [
     {
-      slug: 'understanding-eye-health',
-      title: 'Understanding Eye Health: A Comprehensive Guide',
-      excerpt: 'Learn about common eye conditions and how to maintain optimal eye health throughout your life. Discover preventive measures and treatment options available for various eye diseases. Our comprehensive guide covers everything from basic eye anatomy to advanced care techniques that can help preserve your vision for years to come.',
+      slug: 'understanding-your-health',
+      title: 'Understanding Your Health: A Comprehensive Guide',
+      excerpt: 'Learn about common health conditions and how to maintain good health throughout your life. Discover preventive measures and treatment options available for various illnesses. Our comprehensive guide covers everything from basic body systems to practical care tips that can help keep you well for years to come.',
       date: 'March 15, 2025',
       category: 'Health Tips',
       readTime: '5 min read',
@@ -46,39 +46,39 @@ const Blog = () => {
       image: '/images/services-vision-testing.jpeg',
     },
     {
-      slug: 'importance-regular-eye-exams',
-      title: 'The Importance of Regular Eye Exams',
-      excerpt: 'Discover why regular eye examinations are crucial for maintaining good vision and detecting early signs of eye diseases before they progress. Learn what to expect during a comprehensive exam. Early detection can prevent vision loss and help maintain optimal eye health throughout your life.',
+      slug: 'importance-regular-checkups',
+      title: 'The Importance of Regular Health Checkups',
+      excerpt: 'Discover why regular checkups are crucial for maintaining good health and detecting early signs of disease before it progresses. Learn what to expect during a consultation. Early detection can prevent complications and help maintain your health throughout your life.',
       date: 'March 10, 2025',
-      category: 'Eye Care',
+      category: 'Prevention',
       readTime: '4 min read',
       color: '#00BCD4',
       image: '/images/gallery-staff-at-work.jpeg',
     },
     {
-      slug: 'choosing-right-eyewear',
-      title: 'Choosing the Right Eyewear for Your Lifestyle',
-      excerpt: 'Tips and advice on selecting frames and lenses that match your daily activities and personal style. Find the perfect pair that combines functionality with fashion. Whether you need glasses for work, sports, or everyday wear, we guide you through the selection process to ensure comfort and style.',
+      slug: 'choosing-right-doctor',
+      title: 'How to Choose the Right Doctor for Your Family',
+      excerpt: 'Tips and advice on selecting a clinic and doctor that match your family\'s needs and lifestyle. Find the right care team that combines expertise with compassion. Whether you need routine care, chronic disease management, or specialist referrals, we guide you through the process to ensure comfort and quality care.',
       date: 'March 5, 2025',
-      category: 'Fashion',
+      category: 'Health Tips',
       readTime: '6 min read',
       color: '#42a5f5',
       image: '/images/services-glasses-frames.jpeg',
     },
     {
-      slug: 'digital-eye-strain',
-      title: 'Digital Eye Strain: Prevention and Relief',
-      excerpt: 'Learn how to protect your eyes from digital screens and reduce eye strain with practical tips and exercises for modern lifestyles. Discover the 20-20-20 rule and workspace optimization techniques. With increasing screen time, understanding digital eye strain is essential for maintaining healthy vision in the digital age.',
+      slug: 'managing-stress',
+      title: 'Managing Stress for a Healthier Lifestyle',
+      excerpt: 'Learn how to protect your health from stress and reduce its effects with practical tips and techniques for modern lifestyles. Discover simple breathing exercises and daily routines. With increasing daily demands, understanding stress is essential for maintaining wellbeing in the digital age.',
       date: 'February 28, 2025',
-      category: 'Technology',
+      category: 'Wellness',
       readTime: '5 min read',
       color: '#1565c0',
       image: '/images/appointment-receptionist.jpeg',
     },
     {
-      slug: 'nutrition-healthy-vision',
-      title: 'Nutrition for Healthy Vision',
-      excerpt: 'Explore the essential vitamins and nutrients that support eye health and learn which foods can help maintain optimal vision throughout life. Discover the power of lutein, zeaxanthin, and omega-3s. A balanced diet rich in eye-friendly nutrients can significantly contribute to long-term vision health and prevent age-related eye conditions.',
+      slug: 'nutrition-healthy-living',
+      title: 'Nutrition for a Healthy Life',
+      excerpt: 'Explore the essential vitamins and nutrients that support good health and learn which foods can help maintain your wellbeing throughout life. Discover the power of fruits, vegetables, and whole grains. A balanced diet rich in essential nutrients can significantly contribute to long-term health and prevent chronic conditions.',
       date: 'February 22, 2025',
       category: 'Nutrition',
       readTime: '7 min read',
@@ -86,9 +86,9 @@ const Blog = () => {
       image: '/images/gallery-waiting-area.jpeg',
     },
     {
-      slug: 'understanding-glaucoma',
-      title: 'Understanding Glaucoma: Early Detection Matters',
-      excerpt: 'Get informed about glaucoma, its risk factors, symptoms, and why early detection through regular eye exams is critical for vision preservation. Learn about treatment options available. Glaucoma is often called the "silent thief of sight" because it can cause irreversible vision loss before symptoms become noticeable.',
+      slug: 'understanding-hypertension',
+      title: 'Understanding Hypertension: The Silent Risk',
+      excerpt: 'Get informed about high blood pressure, its risk factors, symptoms, and why early detection through regular checkups is critical for your health. Learn about treatment options available. Hypertension is often called the "silent killer" because it can cause serious complications before symptoms become noticeable.',
       date: 'February 18, 2025',
       category: 'Medical',
       readTime: '8 min read',
@@ -96,9 +96,9 @@ const Blog = () => {
       image: '/images/services-contact-lens-fitting.jpeg',
     },
     {
-      slug: 'pediatric-eye-care',
-      title: 'Pediatric Eye Care: Ensuring Healthy Vision from Childhood',
-      excerpt: 'Early eye care for children is essential for proper vision development and academic success. Learn about common pediatric eye conditions, when to schedule your child\'s first eye exam, and how to recognize signs of vision problems. Regular eye examinations help ensure your child\'s eyes develop correctly and can identify issues before they affect learning and development.',
+      slug: 'child-health-care',
+      title: 'Child Health: Ensuring Healthy Growth from Childhood',
+      excerpt: 'Early healthcare for children is essential for proper growth, development, and academic success. Learn about common childhood conditions, when to bring your child for a checkup, and how to recognize signs of illness. Regular well-child visits help ensure your child grows and develops correctly.',
       date: 'February 12, 2025',
       category: 'Pediatric Care',
       readTime: '6 min read',
@@ -106,9 +106,9 @@ const Blog = () => {
       image: '/images/services-vision-testing.jpeg',
     },
     {
-      slug: 'cataract-awareness',
-      title: 'Cataracts: Causes, Symptoms, and Modern Treatment Options',
-      excerpt: 'Cataracts are a common age-related eye condition that affects millions worldwide. Understand the causes, early symptoms, and modern surgical treatment options available today. With advances in cataract surgery, restoring clear vision has become safer and more effective than ever before.',
+      slug: 'diabetes-awareness',
+      title: 'Diabetes: Causes, Symptoms, and Modern Management',
+      excerpt: 'Diabetes is a common condition affecting millions worldwide. Understand the causes, early symptoms, and modern treatment options available today. With good management and regular monitoring, people with diabetes can live full and active lives.',
       date: 'February 8, 2025',
       category: 'Medical',
       readTime: '7 min read',
@@ -116,11 +116,11 @@ const Blog = () => {
       image: '/images/gallery-staff-at-work.jpeg',
     },
     {
-      slug: 'contact-lens-care',
-      title: 'Proper Contact Lens Care: Essential Hygiene Practices',
-      excerpt: 'Maintaining proper hygiene with contact lenses is crucial for eye health and comfort. Learn essential care practices, cleaning routines, and safety tips to prevent infections and complications. Following proper contact lens care guidelines helps ensure comfortable wear and protects your vision for years to come.',
+      slug: 'medication-safety',
+      title: 'Medication Safety: Essential Practices for Taking Medicines',
+      excerpt: 'Taking medicines correctly is crucial for your health and recovery. Learn essential practices, dosage guidelines, and safety tips to prevent errors and complications. Following proper medication practices helps ensure effective treatment and protects your wellbeing.',
       date: 'February 3, 2025',
-      category: 'Eye Care',
+      category: 'Medication',
       readTime: '5 min read',
       color: '#95e1d3',
       image: '/images/services-contact-lens-fitting.jpeg',
@@ -129,19 +129,19 @@ const Blog = () => {
 
   const categories = [
     'Health Tips',
-    'Eye Care',
-    'Fashion',
+    'Prevention',
+    'Wellness',
     'Technology',
     'Nutrition',
     'Medical',
     'Pediatric Care',
-    'Prevention',
+    'Medication',
   ];
 
   const recentPosts = [
-    { title: 'Understanding Eye Health: A Comprehensive Guide', image: '/images/services-vision-testing.jpeg' },
-    { title: 'The Importance of Regular Eye Exams', image: '/images/gallery-staff-at-work.jpeg' },
-    { title: 'Choosing the Right Eyewear for Your Lifestyle', image: '/images/services-glasses-frames.jpeg' },
+    { title: 'Understanding Your Health: A Comprehensive Guide', image: '/images/services-vision-testing.jpeg' },
+    { title: 'The Importance of Regular Health Checkups', image: '/images/gallery-staff-at-work.jpeg' },
+    { title: 'How to Choose the Right Doctor for Your Family', image: '/images/services-glasses-frames.jpeg' },
   ];
 
   useEffect(() => {
@@ -280,7 +280,7 @@ const Blog = () => {
                 mx: 'auto',
               }}
             >
-              Stay informed with the latest eye care tips, health advice, and clinic updates from our expert team.
+              Stay informed with the latest health tips, medical advice, and clinic updates from our expert team.
             </Typography>
           </Box>
         </Container>
@@ -674,7 +674,7 @@ const Blog = () => {
                     Popular Tags
                   </Typography>
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                    {['Eye Care', 'Vision', 'Health', 'Clinic', 'Ophthalmology', 'Optometry', 'SIKAF', 'Tanzania'].map((tag, index) => (
+                    {['Healthcare', 'Clinic', 'Health', 'Polyclinic', 'Medical', 'Laboratory', 'Polyclinic HMS', 'Tanzania'].map((tag, index) => (
                       <Chip
                         key={index}
                         label={tag}
@@ -729,7 +729,7 @@ const Blog = () => {
                   mx: 'auto',
                 }}
               >
-                Explore additional articles on eye care, health tips, and vision wellness
+                Explore additional articles on health, medical tips, and wellness
               </Typography>
             </Box>
             <Grid container spacing={{ xs: 3, md: 4 }}>

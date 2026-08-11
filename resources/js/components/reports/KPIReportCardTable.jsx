@@ -145,7 +145,8 @@ const KPIReportCardTable = ({
   date = '',
   selectedDate = '',
   setSelectedDate = null,
-  onRefresh = null
+  onRefresh = null,
+  onFilterChange = null
 }) => {
   const [isEditing, setIsEditing] = React.useState(false);
   const [isEditingTargets, setIsEditingTargets] = React.useState(false);
@@ -157,6 +158,13 @@ const KPIReportCardTable = ({
   const [selectedMonth, setSelectedMonth] = React.useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = React.useState(new Date().getFullYear());
   const [showFilter, setShowFilter] = React.useState(false);
+  
+  // Debug function to check month selection
+  const handleMonthChange = (e) => {
+    const value = parseInt(e.target.value);
+    console.log('Month changed to:', value);
+    setSelectedMonth(value);
+  };
   
   // Modal states
   const [showTargetModal, setShowTargetModal] = React.useState(false);
@@ -327,6 +335,20 @@ const KPIReportCardTable = ({
       ...prev,
       [index]: Number(value) || 0
     }));
+  };
+
+  const handleApplyFilter = () => {
+    const filterParams = {
+      month: selectedMonth + 1, // Convert 0-based to 1-based month
+      year: selectedYear
+    };
+    
+    // Call the parent component's filter change handler
+    if (onFilterChange && typeof onFilterChange === 'function') {
+      onFilterChange(filterParams);
+    }
+    
+    setShowFilter(false);
   };
 
   const generatePDF = async () => {
@@ -694,7 +716,7 @@ const KPIReportCardTable = ({
                 onChange={(e) => {
                   const value = parseInt(e.target.value);
                   if (department === 'crm') setSelectedWeek(value);
-                  else setSelectedMonth(value);
+                  else handleMonthChange(e);
                 }}
                 sx={{ mt: 2 }}
               >
@@ -727,7 +749,7 @@ const KPIReportCardTable = ({
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setShowFilter(false)}>Cancel</Button>
-          <Button onClick={() => setShowFilter(false)} variant="contained">Apply Filter</Button>
+          <Button onClick={handleApplyFilter} variant="contained">Apply Filter</Button>
         </DialogActions>
       </Dialog>
     </Card>

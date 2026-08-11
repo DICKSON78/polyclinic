@@ -32,6 +32,6 @@ export default defineConfig({
   },
   define: {
     __APP_VERSION__: JSON.stringify(new Date().getTime()),
-    __BUILD_ID__: Math.random().toString(36).substr(2, 9),
+    __BUILD_ID__: JSON.stringify(Math.random().toString(36).substr(2, 9)),
   },
 });

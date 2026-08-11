@@ -65,7 +65,7 @@ class AppointmentsController extends Controller
         $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
+            'email' => 'nullable|email|max:255',
             'phone' => 'required|string|max:20',
             'preferred_date' => 'nullable|date',
             'preferred_time' => 'nullable|date_format:H:i',
@@ -155,8 +155,8 @@ class AppointmentsController extends Controller
     private function sendNewAppointmentNotificationToAdmins($appointment)
     {
         try {
-            // Get clinic_id (use 1 as default, should be configurable)
-            $clinic_id = 1;
+            // Resolve clinic from available clinics (appointments are clinic-global)
+            $clinic_id = \App\Models\Clinic::orderBy('id')->value('id') ?? 1;
 
             // Check if appointment notifications are enabled
             if (!EmailService::isNotificationEnabled($clinic_id, 'appointment_notifications')) {
@@ -194,14 +194,14 @@ class AppointmentsController extends Controller
                 return;
             }
 
-            $clinic_id = 1; // TODO: Get clinic_id from appointment or user context
+            $clinic_id = \App\Models\Clinic::orderBy('id')->value('id') ?? 1; // Resolve from available clinics
 
             // Check if appointment notifications are enabled
             if (!EmailService::isNotificationEnabled($clinic_id, 'appointment_notifications')) {
                 return;
             }
 
-            $subject = 'Appointment ' . ucfirst(strtolower($status)) . ' - SIKAF Eye Care';
+            $subject = 'Appointment ' . ucfirst(strtolower($status)) . ' - Polyclinic HMS';
             
             $message = '';
             if ($status === 'Approved') {
@@ -247,7 +247,7 @@ class AppointmentsController extends Controller
                 <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                     <tr>
                         <td style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; padding: 30px; text-align: center;">
-                            <h1 style="margin: 0; font-size: 28px; font-weight: bold;">SIKAF Eye Care</h1>
+                            <h1 style="margin: 0; font-size: 28px; font-weight: bold;">Polyclinic HMS</h1>
                             <h2 style="margin: 10px 0 0 0; font-size: 20px; font-weight: normal;">New Appointment Request</h2>
                         </td>
                     </tr>
@@ -375,7 +375,7 @@ class AppointmentsController extends Controller
                 <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                     <tr>
                         <td style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; padding: 30px; text-align: center;">
-                            <h1 style="margin: 0; font-size: 28px; font-weight: bold;">SIKAF Eye Care</h1>
+                            <h1 style="margin: 0; font-size: 28px; font-weight: bold;">Polyclinic HMS</h1>
                             <h2 style="margin: 10px 0 0 0; font-size: 20px; font-weight: normal;">Appointment ' . ucfirst(strtolower($status)) . '</h2>
                         </td>
                     </tr>
@@ -427,7 +427,7 @@ class AppointmentsController extends Controller
                     </tr>
                     <tr>
                         <td style="text-align: center; padding: 20px; color: #666666; font-size: 12px; border-top: 1px solid #e0e0e0; background-color: #ffffff;">
-                            <p style="margin: 5px 0;">This is an automated email from SIKAF Eye Care System.</p>
+                            <p style="margin: 5px 0;">This is an automated email from Polyclinic HMS System.</p>
                             <p style="margin: 5px 0;">For inquiries, please contact us directly.</p>
                         </td>
                     </tr>

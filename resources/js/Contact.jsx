@@ -202,11 +202,11 @@ const Contact = () => {
       icon: <EmailIcon />,
       title: 'Email Address',
       details: [
-        'info@sikafeyecare.co.tz',
+        'info@polyclinic-hms.com',
       ],
       action: {
         text: 'Send Email',
-        link: 'mailto:info@sikafeyecare.co.tz',
+        link: 'mailto:info@polyclinic-hms.com',
       },
     },
     {
@@ -254,9 +254,9 @@ const Contact = () => {
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: '#f8f9fa', pt: { xs: '56px', sm: '64px' } }}>
       <SEO 
-        title="Call us now - SIKAF Eye Care | Get in Touch | Dar es Salaam, Tanzania"
-        description="Contact SIKAF Eye Care in Dar es Salaam, Tanzania. Call us at +255 676 506 323, email info@sikafeyecare.co.tz, or visit us at Gerezani - Kamata traffic light near traffic post. We're here to help with all your eye care needs."
-        keywords="contact SIKAF Eye Care, eye clinic contact Tanzania, optometrist Dar es Salaam contact, eye care clinic address, SIKAF Eye Care phone number, eye clinic email"
+        title="Call us now - Polyclinic HMS | Get in Touch | Dar es Salaam, Tanzania"
+        description="Contact Polyclinic HMS in Dar es Salaam, Tanzania. Call us at +255 676 506 323, email info@polyclinic-hms.com, or visit us at Gerezani - Kamata traffic light near traffic post. We're here to help with all your healthcare needs."
+        keywords="contact Polyclinic HMS, healthcare clinic contact Tanzania, polyclinic Dar es Salaam contact, hospital clinic address, Polyclinic HMS phone number, clinic email"
       />
       <Navbar />
       
@@ -328,7 +328,7 @@ const Contact = () => {
                   fontStyle: 'italic',
                 }}
               >
-                "Your vision is our mission. We're here to provide exceptional eye care and answer all your questions."
+                "Your health is our mission. We're here to provide exceptional healthcare and answer all your questions."
               </Typography>
 
               <Typography
@@ -342,7 +342,7 @@ const Contact = () => {
                   color: '#666 !important',
                 }}
               >
-                Whether you need to schedule an appointment, ask about our services, or have questions about your eye health, our dedicated team at SIKAF Eye Care is ready to assist you. We believe in building lasting relationships with our patients through clear communication and compassionate care.
+                Whether you need to schedule an appointment, ask about our services, or have questions about your health, our dedicated team at Polyclinic HMS is ready to assist you. We believe in building lasting relationships with our patients through clear communication and compassionate care.
               </Typography>
 
               <Stack 
@@ -406,7 +406,7 @@ const Contact = () => {
                 <Box
                   component="img"
                   src="/images/clinic-exterior-building.jpeg"
-                  alt="SIKAF Eye Care Clinic Building"
+                  alt="Polyclinic HMS Clinic Building"
                   sx={{
                     width: '100%',
                     height: '100%',
@@ -974,7 +974,7 @@ const Contact = () => {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="SIKAF Eye Care Location - Gerezani, Kamata traffic light, Dar es Salaam"
+                title="Polyclinic HMS Location - Gerezani, Kamata traffic light, Dar es Salaam"
               />
               <Box
                 sx={{
@@ -1127,9 +1127,9 @@ const Contact = () => {
                 </Typography>
                 <Stack spacing={2}>
                   {[
-                    'Expert team of ophthalmologists and optometrists',
+                    'Expert team of doctors and healthcare professionals',
                     'State-of-the-art diagnostic equipment',
-                    'Comprehensive eye care services',
+                    'Comprehensive healthcare services',
                     'Patient-centered approach',
                     'Convenient location with parking',
                     'Flexible payment options',

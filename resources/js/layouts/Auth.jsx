@@ -30,6 +30,15 @@ const Auth = () => {
 
   useEffect(() => {
     document.title = `Login - ${window.APP_NAME}`;
+    
+    // Check if user is already logged in
+    const token = localStorage.getItem('token');
+    if (token) {
+      // User is already logged in, redirect to dashboard
+      const defaultRoute = getDefaultRoute({});
+      navigate(defaultRoute, { replace: true });
+      return;
+    }
   }, []);
 
   useEffect(() => {
@@ -99,13 +108,13 @@ const Auth = () => {
               sx={{ objectFit: 'contain' }}
               mx="auto"
               mb={3}
-              alt="SIKAF Eye Care Logo"
+              alt="Polyclinic HMS Logo"
               src={publicLogoUrl}
               onError={(e) => {
                 // Fallback: show text logo if image fails to load
                 e.target.style.display = 'none';
                 const textLogo = document.createElement('div');
-                textLogo.innerHTML = '<h2 style="color: #1E88E5; text-align: center; margin: 16px 0; font-weight: bold;">SIKAF Eye Care</h2>';
+                textLogo.innerHTML = '<h2 style="color: #1E88E5; text-align: center; margin: 16px 0; font-weight: bold;">Polyclinic HMS</h2>';
                 e.target.parentNode.insertBefore(textLogo, e.target.nextSibling);
               }}
               onLoad={(e) => {
@@ -135,7 +144,7 @@ const Auth = () => {
                   lineHeight: 1.6,
                 }}
               >
-                Sign in to access your account and continue managing your eye care services.
+                Sign in to access your account and continue managing your healthcare services.
               </Typography>
             </Box>
 

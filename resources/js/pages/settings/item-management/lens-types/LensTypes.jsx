@@ -45,7 +45,7 @@ const LensTypes = () => {
   );
 
   useEffect(() => {
-    document.title = `Lens Types - ${window.APP_NAME}`;
+    document.title = `Dispensing Item Types - ${window.APP_NAME}`;
   }, []);
 
   useEffect(() => {
@@ -68,7 +68,7 @@ const LensTypes = () => {
       />
     );
 
-    modalRef.current.open("Create Lens Type", component);
+    modalRef.current.open("Create Dispensing Item Type", component);
   };
 
   const openEditLensTypeModal = (item) => {
@@ -80,7 +80,7 @@ const LensTypes = () => {
       />
     );
 
-    modalRef.current.open("Edit Lens Type", component);
+    modalRef.current.open("Edit Dispensing Item Type", component);
   };
 
   const getStatusColor = (status) => {
@@ -98,12 +98,12 @@ const LensTypes = () => {
         { title: "Home" },
         { title: "Settings" },
         { title: "Item Management" },
-        { title: "Lens Types" },
+        { title: "Dispensing Item Types" },
       ]}
     >
       <Card>
         <PageHeader
-          title="Lens Types"
+          title="Dispensing Item Types"
           trailing={
             <React.Fragment>
               <SearchTextField
@@ -116,7 +116,7 @@ const LensTypes = () => {
                 startIcon={<AddIcon />}
                 onClick={openCreateLensTypeModal}
               >
-                New Lens Type
+                New Dispensing Item Type
               </Button>
             </React.Fragment>
           }

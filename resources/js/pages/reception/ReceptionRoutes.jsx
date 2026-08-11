@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Dashboard from "./dashboard/Dashboard";
 import Patients from "./patients/Patients";
+import PatientDetails from "./patients/PatientDetails";
 import RegisterNewClient from "./register-new-client/RegisterNewClient";
 import CheckInPatient from "./CheckInPatient";
 import PatientRecords from "./patients/PatientRecords";
@@ -20,6 +21,10 @@ const ReceptionRoutes = () => {
         path="/patients"
         exact
         element={<Patients />}
+      />
+      <Route
+        path="/patients/:patientId"
+        element={<PatientDetails />}
       />
       <Route
         path="/register-new-client"

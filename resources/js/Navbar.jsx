@@ -76,7 +76,6 @@ const Navbar = () => {
       items: [
         { label: 'FAQ', path: '/faq' },
         { label: 'Testimonials', path: '/testimonials' },
-        { label: 'Eyeware', path: '/gallery' },
       ],
     },
     { label: 'Blog', path: '/blog', type: 'link' },
@@ -127,7 +126,7 @@ const Navbar = () => {
             <Box
               component="img"
               src={`/logo.png?v=${Date.now()}`}
-              alt="SIKAF Eye Care Logo"
+              alt="Polyclinic HMS Logo"
               sx={{
                 height: { xs: 32, sm: 40, md: 45 },
                 width: 'auto',
@@ -168,9 +167,9 @@ const Navbar = () => {
                   lineHeight: 1.1,
                   flexShrink: 1,
                 }}
-                title="SIKAF Eye Care"
+                title="Polyclinic HMS"
               >
-                SIKAF
+                Polyclinic HMS
               </Typography>
             )}
             <Typography
@@ -189,9 +188,9 @@ const Navbar = () => {
                 lineHeight: 1.1,
                 flexShrink: 1,
               }}
-              title="SIKAF Eye Care"
+              title="Polyclinic HMS"
             >
-              SIKAF Eye Care
+              Polyclinic HMS
             </Typography>
           </Box>
 

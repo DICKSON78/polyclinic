@@ -362,6 +362,25 @@ const Patients = () => {
                       />
                     );
                   }
+                  if (item.is_prestige === true) {
+                    types.push(
+                      <Chip
+                        key="prestige"
+                        icon={<StarIcon sx={{ fontSize: 14 }} />}
+                        label="Prestige Client"
+                        size="small"
+                        sx={{ 
+                          mr: 0.5,
+                          mb: 0.5,
+                          height: 22,
+                          fontSize: '0.65rem',
+                          '& .MuiChip-icon': {
+                            fontSize: 14,
+                          }
+                        }}
+                      />
+                    );
+                  }
                   return types.length > 0 ? (
                     <Box
                       sx={{

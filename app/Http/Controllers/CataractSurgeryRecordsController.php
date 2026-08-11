@@ -168,7 +168,19 @@ class CataractSurgeryRecordsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = CataractSurgeryRecord::with(['creator'])->findOrFail($id);
+
+        $input = $request->except('payment_cache_item_id', 'created_by', 'status', 'saved_at', 'saved_by');
+
+        if ($data->status == 'Draft' && $request->status == 'Saved') {
+            $input['status'] = 'Saved';
+            $input['saved_at'] = Carbon::now();
+            $input['saved_by'] = $request->user()->id;
+        }
+
+        $data->update($input);
+
+        return $this->sendResponse($data, Response::HTTP_OK, 'Saved successfully.');
     }
 
     /**
@@ -179,6 +191,14 @@ class CataractSurgeryRecordsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = CataractSurgeryRecord::findOrFail($id);
+
+        if ($data->status == 'Saved') {
+            return $this->sendError('Cannot delete a saved cataract surgery record.', Response::HTTP_CONFLICT);
+        }
+
+        $data->delete();
+
+        return $this->sendResponse(null, Response::HTTP_OK, 'Deleted successfully.');
     }
 }

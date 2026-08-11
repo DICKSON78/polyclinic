@@ -167,7 +167,7 @@ const CreateItem = ({ modal, fetchItems }) => {
               <TextField
                 label="Category"
                 fullWidth
-                placeholder="e.g., Antibiotics, Designer Frames, Progressive Lenses"
+                placeholder="e.g., Antibiotics, Accessories, Items"
                 onChange={(value) => setFormData({ ...formData, category: value })}
                 helperText="Optional: Categorize this item for better organization"
               />

@@ -34,8 +34,6 @@ const PendingCashPatients = () => {
     patient_phone: undefined,
     start_date: new Date(), // Default to current day
     end_date: new Date(), // Default to current day
-    // Include both pharmacy and glass items to match notification count
-    include_optician_glass: true,
   });
 
   const { data, loading, error, handleFetch } = useFetch(
@@ -268,7 +266,7 @@ const PendingCashPatients = () => {
               },
               {
                 field: "require_glass",
-                headerName: "Spectacle Required",
+                headerName: "Item Required",
                 renderCell: (item) => {
                   const requireGlass = item.consultation?.require_glass;
                   if (requireGlass === 'Yes') {

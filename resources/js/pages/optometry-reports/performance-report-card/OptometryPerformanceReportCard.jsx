@@ -34,6 +34,7 @@ const OptometryPerformanceReportCard = ({ user, editable = false, refreshTrigger
   const [editedRemarks, setEditedRemarks] = useState('');
   const [editedRecommendations, setEditedRecommendations] = useState('');
   const [patchLoading, setPatchLoading] = useState(false);
+  const [currentFilter, setCurrentFilter] = useState({});
 
   // Safe toast destructuring
   const toastHook = useToast();
@@ -184,9 +185,41 @@ const OptometryPerformanceReportCard = ({ user, editable = false, refreshTrigger
 
   const handleRefresh = () => fetchData();
 
+  const handleFilterChange = (filterParams) => {
+    console.log('handleFilterChange called with:', filterParams);
+    setCurrentFilter(filterParams);
+    
+    // Convert month/year to start_date and end_date format
+    const { month, year } = filterParams;
+    let apiUrl = '/api/performance-reports/optometry';
+    
+    if (month && year) {
+      // Create start_date (first day of month) and end_date (last day of month)
+      const startDate = new Date(year, month - 1, 1); // month is 1-based, Date constructor is 0-based
+      const endDate = new Date(year, month, 0); // Last day of previous month (which is our target month)
+      
+      const startDateStr = startDate.toISOString().split('T')[0];
+      const endDateStr = endDate.toISOString().split('T')[0];
+      
+      const queryParams = new URLSearchParams({
+        start_date: startDateStr,
+        end_date: endDateStr
+      });
+      
+      apiUrl += '?' + queryParams.toString();
+      
+      console.log('Filter API URL:', apiUrl);
+      console.log('Date range:', startDateStr, 'to', endDateStr);
+    }
+    
+    console.log('Calling fetchData with URL:', apiUrl);
+    // Fetch data with filters
+    fetchData(apiUrl);
+  };
+
   if (performanceLoading && !performanceData) {
     return (
-      <Page title="Optometry Report Card">
+      <Page title="Examination Report Card">
         <Box sx={{ p: 3, display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
           <CircularProgress />
         </Box>
@@ -196,9 +229,9 @@ const OptometryPerformanceReportCard = ({ user, editable = false, refreshTrigger
 
   if (performanceError || !performanceData) {
     return (
-      <Page title="Optometry Report Card">
+      <Page title="Examination Report Card">
         <Box sx={{ p: 3 }}>
-          <Alert severity="error" sx={{ mb: 2 }}>Failed to load optometry performance data.</Alert>
+          <Alert severity="error" sx={{ mb: 2 }}>Failed to load examination performance data.</Alert>
           <Button variant="contained" onClick={handleRefresh} startIcon={<RefreshIcon />}>Retry</Button>
         </Box>
       </Page>
@@ -206,7 +239,7 @@ const OptometryPerformanceReportCard = ({ user, editable = false, refreshTrigger
   }
 
   return (
-    <Page title="Optometry Report Card">
+    <Page title="Examination Report Card">
       <Box sx={{ p: 3 }}>
 
         {/* Header */}
@@ -217,7 +250,7 @@ const OptometryPerformanceReportCard = ({ user, editable = false, refreshTrigger
         }}>
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 2 }}>
             <Box>
-              <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>Optometry Report Card</Typography>
+              <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>Examination Report Card</Typography>
               <Typography variant="body1" sx={{ opacity: 0.9, maxWidth: 600 }}>
                 Medicine sales, return patient rate — real data from the system
               </Typography>
@@ -290,13 +323,14 @@ const OptometryPerformanceReportCard = ({ user, editable = false, refreshTrigger
 
         {/* KPI Table - medicines only */}
         <KPIReportCardTable
-          title="OPTOMETRY DEPARTMENT REPORT CARD"
+          title="EXAMINATION DEPARTMENT REPORT CARD"
           kpis={transformToKPIs(calculatedData?.kpis?.filter(kpi => !kpi.is_separate_card) || [])}
           loading={performanceLoading || targetsLoading}
           canEdit={calculatedData?.can_edit || false}
           department="optometry"
           date={new Date().toISOString().split('T')[0]}
           onRefresh={handleRefresh}
+          onFilterChange={handleFilterChange}
           recommendations={
             Array.isArray(calculatedData?.recommendations)
               ? calculatedData.recommendations.join('\n')

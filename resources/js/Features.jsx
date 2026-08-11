@@ -16,7 +16,6 @@ import {
   Assessment as AnalyticsIcon,
   Payment as PaymentIcon,
   Medication as MedicineIcon,
-  Visibility as EyeIcon,
   Schedule as ScheduleIcon,
   Security as SecurityIcon,
   Speed as SpeedIcon,
@@ -43,7 +42,7 @@ const Features = () => {
       icon: <HospitalIcon sx={{ fontSize: 50 }} />,
       title: 'Clinical Tools',
       description: 'Advanced clinical documentation for consultations, prescriptions, and examinations.',
-      benefits: ['Clinical Notes', 'Prescriptions', 'Eye Examinations', 'Diagnosis Management'],
+      benefits: ['Clinical Notes', 'Prescriptions', 'Triage & Vitals', 'Diagnosis Management'],
       color: '#764ba2',
     },
     {
@@ -68,10 +67,10 @@ const Features = () => {
       color: '#43e97b',
     },
     {
-      icon: <EyeIcon sx={{ fontSize: 50 }} />,
-      title: 'Optical Services',
-      description: 'Specialized tools for optician services, lens fitting, and spectacle management.',
-      benefits: ['Lens Fitting', 'Spectacle Management', 'Optical Stock', 'Patient Records'],
+      icon: <AnalyticsIcon sx={{ fontSize: 50 }} />,
+      title: 'Radiology & Imaging',
+      description: 'Advanced radiology reporting tools for imaging studies and accurate diagnostics.',
+      benefits: ['X-Ray Imaging', 'Ultrasound', 'Imaging Reports', 'Diagnostic Support'],
       color: '#fa709a',
     },
     {
@@ -131,7 +130,7 @@ const Features = () => {
                 mb: 4,
               }}
             >
-              Everything you need to manage your eye care practice efficiently and effectively
+              Everything you need to manage your healthcare facility efficiently and effectively
             </Typography>
             <Stack direction="row" spacing={2} justifyContent="center" flexWrap="wrap">
               {highlights.map((highlight, index) => (
@@ -232,7 +231,7 @@ const Features = () => {
               Ready to Experience These Features?
             </Typography>
             <Typography variant="h6" sx={{ mb: 4, opacity: 0.95, maxWidth: 600, mx: 'auto' }}>
-              Start your free trial today and see how SIKAF eyecare can transform your practice
+              Start your free trial today and see how Polyclinic HMS can transform your practice
             </Typography>
             <Button
               variant="contained"

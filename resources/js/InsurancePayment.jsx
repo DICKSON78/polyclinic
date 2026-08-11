@@ -155,14 +155,14 @@ const InsurancePayment = () => {
     {
       title: 'Standard Payment Plan',
       duration: '3-6 months',
-      description: 'Flexible monthly payments for eye exams and basic services',
+      description: 'Flexible monthly payments for consultations and basic services',
       features: ['No interest for 3 months', 'Easy monthly installments', 'Quick approval process'],
       color: '#1976d2',
     },
     {
       title: 'Extended Payment Plan',
       duration: '6-12 months',
-      description: 'Longer-term payment plans for major procedures and eyewear',
+      description: 'Longer-term payment plans for major procedures and inpatient care',
       features: ['Low interest rates', 'Flexible terms', 'No prepayment penalties'],
       color: '#00BCD4',
     },
@@ -176,11 +176,11 @@ const InsurancePayment = () => {
   ];
 
   const insuranceBenefits = [
-    'Comprehensive eye examinations',
-    'Vision correction (glasses and contact lenses)',
-    'Treatment of eye diseases',
-    'Surgical procedures (when covered)',
-    'Emergency eye care services',
+    'General outpatient consultations',
+    'Laboratory diagnostic tests',
+    'Radiology and imaging services',
+    'Pharmacy and e-prescriptions',
+    'Inpatient care (when covered)',
     'Follow-up appointments',
   ];
 
@@ -275,7 +275,7 @@ const InsurancePayment = () => {
                 fontSize: { xs: '0.95rem', md: '1.05rem' },
               }}
             >
-              Making quality eye care accessible through flexible insurance acceptance and convenient payment options
+              Making quality healthcare accessible through flexible insurance acceptance and convenient payment options
             </Typography>
           </Box>
         </Container>
@@ -404,7 +404,7 @@ const InsurancePayment = () => {
                 lineHeight: 1.8,
               }}
             >
-              We accept a wide range of insurance plans to make your eye care more affordable
+              We accept a wide range of insurance plans to make your healthcare more affordable
             </Typography>
           </Box>
 
@@ -611,7 +611,7 @@ const InsurancePayment = () => {
                 lineHeight: 1.8,
               }}
             >
-              We offer flexible payment options to make quality eye care accessible to everyone
+              We offer flexible payment options to make quality healthcare accessible to everyone
             </Typography>
           </Box>
 
@@ -777,7 +777,7 @@ const InsurancePayment = () => {
                     lineHeight: 1.8,
                   }}
                 >
-                  Most insurance plans cover a variety of eye care services. Coverage varies by plan, but typically includes:
+                  Most insurance plans cover a variety of healthcare services. Coverage varies by plan, but typically includes:
                 </Typography>
                 <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                   <List sx={{ flex: 1 }}>
@@ -942,8 +942,8 @@ const InsurancePayment = () => {
                 answer: 'Yes, we offer flexible payment plans for eligible patients. Plans range from 3-12 months depending on the service. Please speak with our billing department to discuss your options.',
               },
               {
-                question: 'Will my insurance cover contact lenses?',
-                answer: 'Coverage for contact lenses varies by insurance plan. Some plans cover contact lenses as an alternative to glasses, while others may have specific limitations. We recommend contacting your insurance provider or our office to verify coverage.',
+                question: 'Will my insurance cover laboratory tests?',
+                answer: 'Coverage for laboratory tests and diagnostics varies by insurance plan. Most plans cover essential diagnostic tests, while others may have specific limitations. We recommend contacting your insurance provider or our office to verify coverage.',
               },
               {
                 question: 'What if I don\'t have insurance?',

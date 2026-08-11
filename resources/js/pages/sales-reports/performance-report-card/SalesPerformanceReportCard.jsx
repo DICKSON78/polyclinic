@@ -109,7 +109,7 @@ const SalesPerformanceReportCard = ({ user, editable = false, refreshTrigger = n
     };
   }, [performanceData, targetsData]);
 
-  // Transform for KPIReportCardTable - results shown as achievement %
+  // Transform for KPIReportCardTable - results shown as achievement % for all KPIs
   const transformToKPIs = (data) => {
     if (!data?.kpis) return [];
     return data.kpis.map(kpi => {
@@ -119,11 +119,14 @@ const SalesPerformanceReportCard = ({ user, editable = false, refreshTrigger = n
       else if (pct >= 50) status = 'warning';
       else if (pct > 0) status = 'error';
 
+      // Always show percentage for results
+      const resultText = `${pct}%`;
+
       return {
         description: kpi.name,
         id: kpi.id,
         target: kpi.formatted_target || String(kpi.target),
-        results: `${pct}%`,  // achievement percentage
+        results: resultText,  // Always show percentage
         status,
         _r: kpi.achievement_rate || 0,
         _t: 100,
@@ -213,7 +216,7 @@ const SalesPerformanceReportCard = ({ user, editable = false, refreshTrigger = n
             <Box>
               <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>Sales Department Report Card</Typography>
               <Typography variant="body1" sx={{ opacity: 0.9, maxWidth: 600 }}>
-                Average glass daily sales, glass customer conversion — real data
+                Average daily sales, customer conversion — real data
               </Typography>
               <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', mt: 2 }}>
                 <Chip label={`Updated: ${formatDate(new Date())}`} size="small"

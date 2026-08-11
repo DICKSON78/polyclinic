@@ -65,7 +65,7 @@ const EyeExaminations = () => {
   // CRUD disabled on this list; edits happen in consultation context
 
   useEffect(() => {
-    document.title = `Eye Examinations - ${window.APP_NAME}`;
+    document.title = `Examinations - ${window.APP_NAME}`;
   }, []);
 
   useEffect(() => {
@@ -126,16 +126,16 @@ const EyeExaminations = () => {
 
   return (
     <Page
-      title="Eye Examinations"
+      title="Examinations"
       breadcrumbs={[
         { title: "Home" },
         { title: "Consultation Room" },
-        { title: "Eye Examinations" },
+        { title: "Examinations" },
       ]}
     >
       <Card>
         <CardHeader
-          title="Eye Examinations"
+          title="Examinations"
           action={
             <Button
               variant="contained"
@@ -212,7 +212,7 @@ const EyeExaminations = () => {
                 ) : !data || !Array.isArray(data) || data.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={5} align="center">
-                      No eye examinations found
+                      No examinations found
                     </TableCell>
                   </TableRow>
                 ) : (

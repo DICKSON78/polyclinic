@@ -165,7 +165,7 @@ class CompleteSystemSetup extends Command
                         'gender' => 'Female',
                         'national_id' => null,
                         'phone' => '0000000000',
-                        'email' => $userData['username'] . '@eyechake.com',
+                        'email' => $userData['username'] . '@polyclinic-hms.com',
                         'username' => $userData['username'],
                         'password' => Hash::make('password123'),
                         'remember_token' => null,

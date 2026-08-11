@@ -46,6 +46,20 @@ const ExternalLinksRoutes = lazy(() => import("../pages/external-links/ExternalL
 const CRMReportsRoutes = lazy(() => import("../pages/crm-reports/CRMReportsRoutes"));
 const OptometryReportsRoutes = lazy(() => import("../pages/optometry-reports/OptometryReportsRoutes"));
 const SalesReportsRoutes = lazy(() => import("../pages/sales-reports/SalesReportsRoutes"));
+const TriageRoutes = lazy(() => import("../pages/triage/TriageRoutes"));
+const LaboratoryRoutes = lazy(() => import("../pages/laboratory/LaboratoryRoutes"));
+const RadiologyRoutes = lazy(() => import("../pages/radiology/RadiologyRoutes"));
+const EPrescriptionRoutes = lazy(() => import("../pages/e-prescription/EPrescriptionRoutes"));
+const InsuranceRoutes = lazy(() => import("../pages/insurance/InsuranceRoutes"));
+const EmergencyRoutes = lazy(() => import("../pages/emergency/EmergencyRoutes"));
+const OperatingTheatreRoutes = lazy(() => import("../pages/operating-theatre/OperatingTheatreRoutes"));
+const AnesthesiaRoutes = lazy(() => import("../pages/anesthesia/AnesthesiaRoutes"));
+const WardsRoutes = lazy(() => import("../pages/wards/WardsRoutes"));
+const BloodBankRoutes = lazy(() => import("../pages/blood-bank/BloodBankRoutes"));
+const AmbulanceRoutes = lazy(() => import("../pages/ambulance/AmbulanceRoutes"));
+const MortuaryRoutes = lazy(() => import("../pages/mortuary/MortuaryRoutes"));
+const InpatientBillingRoutes = lazy(() => import("../pages/inpatient-billing/InpatientBillingRoutes"));
+const WardRecordsRoutes = lazy(() => import("../pages/ward-records/WardRecordsRoutes"));
 
 import Home from "../Home";
 import About from "../About";
@@ -251,6 +265,19 @@ const App = () => {
                       <Route path="dashboard/sales-expenses" element={<SalesExpenses />} />
                       <Route path="dashboard/patient-registration" element={<PatientRegistration />} />
                       <Route path="reception/*" element={<Suspense fallback={<div>Loading...</div>}><ReceptionRoutes /></Suspense>} />
+                      <Route path="triage/*" element={<Suspense fallback={<div>Loading...</div>}><TriageRoutes /></Suspense>} />
+                      <Route path="emergency/*" element={<Suspense fallback={<div>Loading...</div>}><EmergencyRoutes /></Suspense>} />
+                      <Route path="operating-theatre/*" element={<Suspense fallback={<div>Loading...</div>}><OperatingTheatreRoutes /></Suspense>} />
+                      <Route path="anesthesia/*" element={<Suspense fallback={<div>Loading...</div>}><AnesthesiaRoutes /></Suspense>} />
+                      <Route path="laboratory/*" element={<Suspense fallback={<div>Loading...</div>}><LaboratoryRoutes /></Suspense>} />
+                      <Route path="radiology/*" element={<Suspense fallback={<div>Loading...</div>}><RadiologyRoutes /></Suspense>} />
+                      <Route path="e-prescription/*" element={<Suspense fallback={<div>Loading...</div>}><EPrescriptionRoutes /></Suspense>} />
+                      <Route path="wards/*" element={<Suspense fallback={<div>Loading...</div>}><WardsRoutes /></Suspense>} />
+                      <Route path="blood-bank/*" element={<Suspense fallback={<div>Loading...</div>}><BloodBankRoutes /></Suspense>} />
+                      <Route path="ambulance/*" element={<Suspense fallback={<div>Loading...</div>}><AmbulanceRoutes /></Suspense>} />
+                      <Route path="mortuary/*" element={<Suspense fallback={<div>Loading...</div>}><MortuaryRoutes /></Suspense>} />
+                      <Route path="inpatient-billing/*" element={<Suspense fallback={<div>Loading...</div>}><InpatientBillingRoutes /></Suspense>} />
+                      <Route path="ward-records/*" element={<Suspense fallback={<div>Loading...</div>}><WardRecordsRoutes /></Suspense>} />
                       <Route path="payment-center/*" element={<Suspense fallback={<div>Loading...</div>}><PaymentCenterRoutes /></Suspense>} />
                       <Route path="consultation-room/*" element={<Suspense fallback={<div>Loading...</div>}><ConsultationRoomRoutes /></Suspense>} />
                       <Route path="patient-records/*" element={<Suspense fallback={<div>Loading...</div>}><PatientRecordsRoutes /></Suspense>} />
@@ -270,6 +297,7 @@ const App = () => {
                       />
                       <Route path="inventory-management/*" element={<Suspense fallback={<div>Loading...</div>}><InventoryManagementRoutes /></Suspense>} />
                       <Route path="financial-management/*" element={<Suspense fallback={<div>Loading...</div>}><FinancialManagementRoutes /></Suspense>} />
+                      <Route path="insurance/*" element={<Suspense fallback={<div>Loading...</div>}><InsuranceRoutes /></Suspense>} />
                       <Route path="marketing/*" element={<Suspense fallback={<div>Loading...</div>}><MarketingRoutes /></Suspense>} />
                       <Route path="crm-reports/*" element={<Suspense fallback={<div>Loading...</div>}><CRMReportsRoutes /></Suspense>} />
                       <Route path="optometry-reports/*" element={<Suspense fallback={<div>Loading...</div>}><OptometryReportsRoutes /></Suspense>} />

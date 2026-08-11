@@ -1,7 +1,7 @@
 <nav class="navbar">
   <div class="navbar-container">
     <a href="/" class="logo">
-      <img src="/logo.png" alt="SIKAF Eye Care" height="50">
+      <img src="/logo.png" alt="Polyclinic HMS" height="50">
     </a>
     <ul class="navbar-menu">
       <li><a href="/">Home</a></li>

@@ -30,8 +30,22 @@ class PerformanceDashboardController extends Controller
 
             $user = $request->user();
 
+            // DEBUG: Log received parameters
+            \Log::info('PerformanceDashboard - Received params:', [
+                'department' => $department,
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+                'all_params' => $request->all()
+            ]);
+
             $start_date = $request->start_date ?? Carbon::today()->startOfMonth()->format('Y-m-d');
             $end_date   = $request->end_date   ?? Carbon::today()->format('Y-m-d');
+
+            // DEBUG: Log effective date range
+            \Log::info('PerformanceDashboard - Effective date range:', [
+                'start_date' => $start_date,
+                'end_date' => $end_date
+            ]);
 
             if (!$user || $user->is_admin) {
                 $clinic_id = $request->clinic_id;
@@ -205,19 +219,12 @@ class PerformanceDashboardController extends Controller
 
     private function getOptometryKPIs($clinic_id, $start_date, $end_date)
     {
-        // Medicine Sales
-        $medicineSales = DB::table('patient_payment_cache_items as ppci')
-            ->join('patient_payment_cache as ppc', 'ppci.payment_cache_id', '=', 'ppc.id')
-            ->join('items as i', 'ppci.item_id', '=', 'i.id')
-            ->join('users as u', 'ppci.created_by', '=', 'u.id')
-            ->where('i.item_type_id', 2)
-            ->where('ppci.status', 'Paid')
-            ->when($clinic_id, fn($q) => $q->where('u.clinic_id', $clinic_id))
-            ->whereDate('ppc.created_at', '>=', $start_date)
-            ->whereDate('ppc.created_at', '<=', $end_date)
-            ->sum(DB::raw('ppci.quantity * ppci.unit_price'));
-
-        $medicineSalesTarget = $this->getTarget('optometry', 'medicine_sales', $clinic_id);
+        // DEBUG: Log method call with parameters
+        \Log::info('getOptometryKPIs called:', [
+            'clinic_id' => $clinic_id,
+            'start_date' => $start_date,
+            'end_date' => $end_date
+        ]);
 
         // Return Patient % (Monthly)
         $totalPatients = DB::table('patient_check_ins as pci')
@@ -245,26 +252,15 @@ class PerformanceDashboardController extends Controller
         $returnPatientPct = $totalPatients > 0 ? round(($returnPatients / $totalPatients) * 100, 1) : 0;
         $returnPatientTarget = $this->getTarget('optometry', 'return_patient_percentage', $clinic_id);
 
-        // Softdrop Sales
-        $softdropSales = DB::table('patient_payment_cache_items as ppci')
-            ->join('patient_payment_cache as ppc', 'ppci.payment_cache_id', '=', 'ppc.id')
-            ->join('items as i', 'ppci.item_id', '=', 'i.id')
-            ->join('users as u', 'ppci.created_by', '=', 'u.id')
-            ->where(function ($q) {
-                $q->where('i.name', 'like', '%Softdrop%')
-                  ->orWhere('i.name', 'like', '%Soft drop%')
-                  ->orWhere('i.name', 'like', '%softdrop%');
-            })
-            ->where('ppci.status', 'Paid')
-            ->when($clinic_id, fn($q) => $q->where('u.clinic_id', $clinic_id))
-            ->whereDate('ppc.created_at', '>=', $start_date)
-            ->whereDate('ppc.created_at', '<=', $end_date)
-            ->sum(DB::raw('ppci.quantity'));
-
-        $softdropSalesTarget = $this->getTarget('optometry', 'softdrop_sales', $clinic_id);
-
-        // Get only specific medicines for Optometry Report Card
-        $targetMedicines = ['Carofit', 'Lotel', 'Olopatadine', 'Softdrop', 'Levofloxacin'];
+        // Get only specific medicines for Optometry Report Card (using actual database names)
+        $targetMedicines = [
+            'Carofit (Multi vitamins)', 
+            'LOTEL', 
+            'OLOPAT OD (Olopatadine hydrochloride 0.2%)', 
+            'Softdrops (lubricating eye drop)', 
+            'Levofloxacin', 
+            'PROBETA N (Betamethasone+Neomycin)'
+        ];
         
         $medicineKPIs = [];
         foreach ($targetMedicines as $medicine) {
@@ -280,6 +276,13 @@ class PerformanceDashboardController extends Controller
                 ->sum('ppci.quantity');
 
             $target = $this->getTarget('optometry', md5($medicine), $clinic_id) ?: 50; // Default target 50 units
+
+            // DEBUG: Log individual medicine calculation
+            \Log::info("Medicine calculation for {$medicine}:", [
+                'sales' => $sales,
+                'target' => $target,
+                'date_range' => "{$start_date} to {$end_date}"
+            ]);
 
             $medicineKPIs[] = [
                 'id' => md5($medicine),
@@ -458,12 +461,16 @@ class PerformanceDashboardController extends Controller
     {
         $achievedCount = 0;
         $totalCount    = 0;
+        
         foreach ($kpis as $kpi) {
-            if ($kpi['target'] > 0) {
+            // For optometry, exclude return_patient_percentage from summary calculation
+            if ($kpi['target'] > 0 && 
+                !(strtolower($department) === 'optometry' && $kpi['id'] === 'return_patient_percentage')) {
                 $totalCount++;
                 if ($kpi['result'] >= $kpi['target']) $achievedCount++;
             }
         }
+        
         $rate = $totalCount > 0 ? round(($achievedCount / $totalCount) * 100, 0) : 0;
         return "Achieved {$achievedCount} out of {$totalCount} targets ({$rate}% completion rate).";
     }

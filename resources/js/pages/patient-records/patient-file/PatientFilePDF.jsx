@@ -192,7 +192,7 @@ const PDFReportDocument = ({ consultation, patient, includeReferral }) => {
                 consultation.created_at ||
                 "N/A",
             },
-            { label: "Require Spectacle", value: consultation.require_glass || "No" },
+            { label: "Require Item", value: consultation.require_glass || "No" },
             { label: "To Return", value: consultation.patient_to_return || "No" },
             { label: "Return Date", value: consultation.to_return_date || "N/A" },
           ]}
@@ -290,10 +290,186 @@ const PDFReportDocument = ({ consultation, patient, includeReferral }) => {
           </View>
         </View>
 
+        {/* Vital Signs */}
+        {consultation.vital_signs && consultation.vital_signs.length > 0 ? (
+          <React.Fragment>
+            <Subheader
+              title="Vital Signs"
+              style={{ marginBottom: 8 }}
+            />
+            <Table
+              caption=""
+              columns={[
+                {
+                  field: "created_at",
+                  headerName: "Date",
+                  valueGetter: (item) => item.created_at,
+                  flex: 1.2,
+                },
+                {
+                  field: "temperature",
+                  headerName: "Temp (°C)",
+                  valueGetter: (item) => item.temperature,
+                },
+                {
+                  field: "bp",
+                  headerName: "BP (mmHg)",
+                  valueGetter: (item) =>
+                    item.systolic_bp ? `${item.systolic_bp}/${item.diastolic_bp}` : "",
+                },
+                {
+                  field: "heart_rate",
+                  headerName: "HR",
+                  valueGetter: (item) => item.heart_rate,
+                },
+                {
+                  field: "respiratory_rate",
+                  headerName: "RR",
+                  valueGetter: (item) => item.respiratory_rate,
+                },
+                {
+                  field: "oxygen_saturation",
+                  headerName: "SpO2 (%)",
+                  valueGetter: (item) => item.oxygen_saturation,
+                },
+                {
+                  field: "weight_kg",
+                  headerName: "Wt (kg)",
+                  valueGetter: (item) => item.weight_kg,
+                },
+                {
+                  field: "bmi",
+                  headerName: "BMI",
+                  valueGetter: (item) => item.bmi_calculated,
+                },
+                {
+                  field: "triage_category",
+                  headerName: "Category",
+                  valueGetter: (item) => item.triage_category,
+                },
+              ]}
+              items={consultation.vital_signs}
+            />
+          </React.Fragment>
+        ) : null}
+
+        {/* Laboratory Results */}
+        {consultation.lab_results && consultation.lab_results.length > 0 ? (
+          <React.Fragment>
+            <Subheader
+              title="Laboratory Results"
+              style={{ marginBottom: 8 }}
+            />
+            {consultation.lab_results.map((request, index) => (
+              <View key={index} style={{ marginBottom: 8 }}>
+                <Text
+                  style={[
+                    styles.text,
+                    { fontSize: 9, fontWeight: "bold", marginBottom: 4, color: "#039be5" },
+                  ]}
+                >
+                  {request.request_no} - {request.status} ({request.created_at})
+                </Text>
+                <Table
+                  caption=""
+                  columns={[
+                    {
+                      field: "index",
+                      headerName: "S/N",
+                      valueGetter: (item, i) => i + 1,
+                      flex: 0.25,
+                    },
+                    {
+                      field: "test",
+                      headerName: "Test",
+                      valueGetter: (item) => item.lab_test?.name || item.labTest?.name || "N/A",
+                    },
+                    {
+                      field: "result",
+                      headerName: "Result",
+                      valueGetter: (item) => item.result,
+                    },
+                    {
+                      field: "unit",
+                      headerName: "Unit",
+                      valueGetter: (item) => item.unit,
+                    },
+                    {
+                      field: "reference_range",
+                      headerName: "Ref. Range",
+                      valueGetter: (item) => item.reference_range,
+                    },
+                    {
+                      field: "status",
+                      headerName: "Status",
+                      valueGetter: (item) => item.status,
+                    },
+                  ]}
+                  items={request.tests || []}
+                />
+              </View>
+            ))}
+          </React.Fragment>
+        ) : null}
+
+        {/* Radiology Results */}
+        {consultation.radiology_results && consultation.radiology_results.length > 0 ? (
+          <React.Fragment>
+            <Subheader
+              title="Radiology Results"
+              style={{ marginBottom: 8 }}
+            />
+            {consultation.radiology_results.map((request, index) => (
+              <View key={index} style={{ marginBottom: 8 }}>
+                <Text
+                  style={[
+                    styles.text,
+                    { fontSize: 9, fontWeight: "bold", marginBottom: 4, color: "#039be5" },
+                  ]}
+                >
+                  {request.request_no} - {request.status} ({request.created_at})
+                </Text>
+                <Table
+                  caption=""
+                  columns={[
+                    {
+                      field: "index",
+                      headerName: "S/N",
+                      valueGetter: (item, i) => i + 1,
+                      flex: 0.25,
+                    },
+                    {
+                      field: "exam",
+                      headerName: "Exam",
+                      valueGetter: (item) => item.radiology_exam?.name || item.radiologyExam?.name || "N/A",
+                    },
+                    {
+                      field: "findings",
+                      headerName: "Findings",
+                      valueGetter: (item) => item.findings,
+                    },
+                    {
+                      field: "impression",
+                      headerName: "Impression",
+                      valueGetter: (item) => item.impression,
+                    },
+                    {
+                      field: "conclusion",
+                      headerName: "Conclusion",
+                      valueGetter: (item) => item.conclusion,
+                    },
+                  ]}
+                  items={request.exams || []}
+                />
+              </View>
+            ))}
+          </React.Fragment>
+        ) : null}
+
         {consultation.visual_acuity ? (
           <React.Fragment>
             <Subheader
-              title="Visual Acuity (VA)"
+              title="Clinical Assessment (VA)"
               style={{ marginBottom: 8 }}
             />
 
@@ -649,7 +825,7 @@ const PDFReportDocument = ({ consultation, patient, includeReferral }) => {
           <React.Fragment>
             {/* Objective Refraction */}
             <Subheader
-              title="Refraction Details - Objective Refraction"
+              title="Examination Details - Objective Examination"
               style={{ marginBottom: 8 }}
             />
 
@@ -778,7 +954,7 @@ const PDFReportDocument = ({ consultation, patient, includeReferral }) => {
 
             {/* Subjective Refraction */}
             <Subheader
-              title="Refraction Details - Subjective Refraction"
+              title="Examination Details - Subjective Examination"
               style={{ marginBottom: 8 }}
             />
 
@@ -1060,7 +1236,7 @@ const PDFReportDocument = ({ consultation, patient, includeReferral }) => {
                 }}
               >
                 <ConsultationItemsCard
-                  title="Glass"
+                  title="Dispensing"
                   consultationType="Glass"
                   items={consultation.items}
                 />
@@ -1260,6 +1436,9 @@ const PDFReport = ({ consultationId, patient, includeReferral, ...rest }) => {
       with_items: "Yes",
       with_item_templates: "Yes",
       with_referral: "Yes",
+      with_lab_results: "Yes",
+      with_radiology_results: "Yes",
+      with_vital_signs: "Yes",
     },
     false,
     null,

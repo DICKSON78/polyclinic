@@ -39,7 +39,7 @@ class LensStockController extends Controller
                 $query->where('name', 'Lens');
             })
             ->whereHas('consultation_type', function ($query) {
-                $query->where('name', 'Glass');
+                $query->whereNotIn('name', ['Pharmacy', 'Procedure']);
             })
             ->where('status', 'Active');
 

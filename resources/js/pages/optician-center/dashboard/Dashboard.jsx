@@ -110,7 +110,7 @@ const Dashboard = () => {
   );
 
   useEffect(() => {
-    document.title = `Workshop Dashboard - ${window.APP_NAME}`;
+    document.title = `Dispensing Dashboard - ${window.APP_NAME}`;
   }, []);
 
   useEffect(() => {
@@ -132,7 +132,7 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-        <Page title="Workshop Dashboard">
+        <Page title="Dispensing Dashboard">
         <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "50vh" }}>
           <CircularProgress />
         </Box>
@@ -142,52 +142,52 @@ const Dashboard = () => {
 
   return (
     <Page
-      title="Workshop Dashboard"
+      title="Dispensing Dashboard"
       breadcrumbs={[
         { title: "Home" },
-        { title: "Workshop" },
-        { title: "Workshop Dashboard" },
+        { title: "Outpatient Dispensing" },
+        { title: "Dispensing Dashboard" },
       ]}
     >
       <Card sx={{ mb: 2 }}>
         <PageHeader
-          title="Workshop Dashboard"
+          title="Dispensing Dashboard"
           trailing={
             <Stack direction="row" spacing={1} alignItems="center">
               {data && (
                 <>
                   <PDFReport
-                    title="Workshop Dashboard Report"
+                    title="Dispensing Dashboard Report"
                     subtitle={`From ${dateParams.start_date ? formatDateForDb(dateParams.start_date) : 'N/A'} to ${dateParams.end_date ? formatDateForDb(dateParams.end_date) : 'N/A'}`}
                     columns={[
                       { field: "metric", headerName: "Metric" },
                       { field: "value", headerName: "Value" },
                     ]}
                     items={[
-                      { metric: "Total Spectacles Dispensed", value: numberFormat(data.summary?.total_spectacles_dispensed || 0) },
-                      { metric: "Total Spectacles Waiting", value: numberFormat(data.summary?.total_waiting_spectacles || 0) },
-                      { metric: "Progressive Lenses Dispensed", value: numberFormat(data.summary?.progressive_lenses_dispensed || 0) },
-                      { metric: "Bifocal Lenses Dispensed", value: numberFormat(data.summary?.bifocal_lenses_dispensed || 0) },
-                      { metric: "Blue-cut Lenses Dispensed", value: numberFormat(data.summary?.blue_cut_lenses_dispensed || 0) },
-                      { metric: "Transition Lenses Dispensed", value: numberFormat(data.summary?.transition_lenses_dispensed || 0) },
-                      { metric: "PGX Lenses Dispensed", value: numberFormat(data.summary?.pgx_lenses_dispensed || 0) },
+                      { metric: "Total Items Dispensed", value: numberFormat(data.summary?.total_spectacles_dispensed || 0) },
+                      { metric: "Total Items Waiting", value: numberFormat(data.summary?.total_waiting_spectacles || 0) },
+                      { metric: "Progressive Items Dispensed", value: numberFormat(data.summary?.progressive_lenses_dispensed || 0) },
+                      { metric: "Bifocal Items Dispensed", value: numberFormat(data.summary?.bifocal_lenses_dispensed || 0) },
+                      { metric: "Blue-cut Items Dispensed", value: numberFormat(data.summary?.blue_cut_lenses_dispensed || 0) },
+                      { metric: "Transition Items Dispensed", value: numberFormat(data.summary?.transition_lenses_dispensed || 0) },
+                      { metric: "PGX Items Dispensed", value: numberFormat(data.summary?.pgx_lenses_dispensed || 0) },
                     ]}
                   />
                   <SpreadsheetReport
-                    title="Workshop Dashboard Report"
+                    title="Dispensing Dashboard Report"
                     format="xlsx"
                     columns={[
                       { field: "metric", headerName: "Metric" },
                       { field: "value", headerName: "Value" },
                     ]}
                     items={[
-                      { metric: "Total Spectacles Dispensed", value: numberFormat(data.summary?.total_spectacles_dispensed || 0) },
-                      { metric: "Total Spectacles Waiting", value: numberFormat(data.summary?.total_waiting_spectacles || 0) },
-                      { metric: "Progressive Lenses Dispensed", value: numberFormat(data.summary?.progressive_lenses_dispensed || 0) },
-                      { metric: "Bifocal Lenses Dispensed", value: numberFormat(data.summary?.bifocal_lenses_dispensed || 0) },
-                      { metric: "Blue-cut Lenses Dispensed", value: numberFormat(data.summary?.blue_cut_lenses_dispensed || 0) },
-                      { metric: "Transition Lenses Dispensed", value: numberFormat(data.summary?.transition_lenses_dispensed || 0) },
-                      { metric: "PGX Lenses Dispensed", value: numberFormat(data.summary?.pgx_lenses_dispensed || 0) },
+                      { metric: "Total Items Dispensed", value: numberFormat(data.summary?.total_spectacles_dispensed || 0) },
+                      { metric: "Total Items Waiting", value: numberFormat(data.summary?.total_waiting_spectacles || 0) },
+                      { metric: "Progressive Items Dispensed", value: numberFormat(data.summary?.progressive_lenses_dispensed || 0) },
+                      { metric: "Bifocal Items Dispensed", value: numberFormat(data.summary?.bifocal_lenses_dispensed || 0) },
+                      { metric: "Blue-cut Items Dispensed", value: numberFormat(data.summary?.blue_cut_lenses_dispensed || 0) },
+                      { metric: "Transition Items Dispensed", value: numberFormat(data.summary?.transition_lenses_dispensed || 0) },
+                      { metric: "PGX Items Dispensed", value: numberFormat(data.summary?.pgx_lenses_dispensed || 0) },
                     ]}
                   />
                 </>
@@ -216,7 +216,7 @@ const Dashboard = () => {
           >
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <InfoCard
-                title="Total Glass Patients"
+                title="Total Dispensing Patients"
                 count={numberFormat(data.summary?.total_glass_patients || 0)}
                 icon={<GlassIcon />}
                 color={purple[300]}
@@ -225,7 +225,7 @@ const Dashboard = () => {
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <InfoCard
-                title="Glass Patients Today"
+                title="Dispensing Patients Today"
                 count={numberFormat(data.summary?.glass_patients_today || 0)}
                 icon={<PatientIcon />}
                 color={blue[400]}
@@ -234,7 +234,7 @@ const Dashboard = () => {
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <InfoCard
-                title="Refractions Today"
+                title="Examinations Today"
                 count={numberFormat(data.summary?.refractions_today || 0)}
                 icon={<RefractionIcon />}
                 color={green[400]}
@@ -243,7 +243,7 @@ const Dashboard = () => {
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <InfoCard
-                title="Lens Fittings"
+                title="Item Fittings"
                 count={numberFormat(data.summary?.lens_fittings || 0)}
                 icon={<LensIcon />}
                 color={teal[400]}
@@ -298,7 +298,7 @@ const Dashboard = () => {
               color: theme.palette.text.primary,
             }}
           >
-            Lens Dispensing Summary
+            Item Dispensing Summary
           </Typography>
           <Grid
             container
@@ -346,7 +346,7 @@ const Dashboard = () => {
           >
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <InfoCard
-                title="Total Spectacles Dispensed"
+                title="Total Items Dispensed"
                 count={numberFormat(data.summary?.total_spectacles_dispensed || 0)}
                 icon={<SpectaclesIcon />}
                 color={green[500]}
@@ -355,7 +355,7 @@ const Dashboard = () => {
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <InfoCard
-                title="Total Spectacles Waiting"
+                title="Total Items Waiting"
                 count={numberFormat(data.summary?.total_waiting_spectacles || 0)}
                 icon={<HourglassIcon />}
                 color={orange[500]}
@@ -364,7 +364,7 @@ const Dashboard = () => {
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <InfoCard
-                title="Progressive Lenses Dispensed"
+                title="Progressive Items Dispensed"
                 count={numberFormat(data.summary?.progressive_lenses_dispensed || 0)}
                 icon={<ProgressiveIcon />}
                 color={blue[500]}
@@ -372,7 +372,7 @@ const Dashboard = () => {
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <InfoCard
-                title="Bifocal Lenses Dispensed"
+                title="Bifocal Items Dispensed"
                 count={numberFormat(data.summary?.bifocal_lenses_dispensed || 0)}
                 icon={<BifocalIcon />}
                 color={purple[500]}

@@ -321,13 +321,13 @@ const EditPatient = ({ item, modal, fetchPatients }) => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={formData.is_employee}
+                      checked={formData.is_prestige}
                       onChange={(event) =>
-                        setFormData({ ...formData, is_employee: event.target.checked })
+                        setFormData({ ...formData, is_prestige: event.target.checked })
                       }
                     />
                   }
-                  label="VIP"
+                  label="Prestige Client"
                 />
               </Stack>
             </Grid>

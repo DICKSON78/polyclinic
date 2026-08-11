@@ -62,33 +62,33 @@ const salesInformationInitial = {
 };
 
 const itemCategories = [
-  { label: "Frames", key: "frames" },
-  { label: "Transition Lenses", key: "transitionLenses" },
-  { label: "Blue-cut Lenses", key: "bluecutLenses" },
+  { label: "Accessories", key: "frames" },
+  { label: "Transition Items", key: "transitionLenses" },
+  { label: "Blue-cut Items", key: "bluecutLenses" },
   { label: "Progressive transition", key: "progressiveTransition" },
   { label: "Progressive bluecut", key: "progressiveBluecut" },
   { label: "Bifocal transition", key: "bifocalTransition" },
   { label: "Bifocal bluecut", key: "bifocalBluecut" },
   { label: "Special orders (China)", key: "specialOrdersChina" },
-  { label: "Contact Lenses", key: "contactLenses" },
+  { label: "Contact Items", key: "contactLenses" },
 ];
 
 const salesPerformanceLabels = [
   { label: "Sales Closed", key: "salesClosed" },
   { label: "After Sales Follow Up", key: "afterSalesFollowUp" },
-  { label: "Glass Sales Consultation", key: "glassSalesConsultation" },
+  { label: "Sales Consultation", key: "glassSalesConsultation" },
   { label: "Successful Sales", key: "successfulSales" },
 ];
 
 const salesInformationItems = [
-  { label: "Single vision lens sold", key: "singleVisionLensSold" },
+  { label: "Single vision items sold", key: "singleVisionLensSold" },
   { label: "Transition sold", key: "transitionSold" },
   { label: "Bluecut sold", key: "bluecutSold" },
-  { label: "Progressive lens sold", key: "progressiveLensSold" },
-  { label: "Bifocal lens sold", key: "bifocalLensSold" },
-  { label: "Frames sold", key: "framesSold" },
-  { label: "Special order lens", key: "specialOrderLens" },
-  { label: "Contact lens", key: "contactLens" },
+  { label: "Progressive items sold", key: "progressiveLensSold" },
+  { label: "Bifocal items sold", key: "bifocalLensSold" },
+  { label: "Accessories sold", key: "framesSold" },
+  { label: "Special order items", key: "specialOrderLens" },
+  { label: "Contact items", key: "contactLens" },
 ];
 
 const getDefaultFormData = () => ({
@@ -465,7 +465,7 @@ const SalesMonthlyReport = () => {
           </TableHead>
           <TableBody>
             <TableRow>
-              <TableCell>Average glass daily sales</TableCell>
+              <TableCell>Average daily sales</TableCell>
               <TableCell>
                 <TextField
                   fullWidth
@@ -484,7 +484,7 @@ const SalesMonthlyReport = () => {
               </TableCell>
             </TableRow>
             <TableRow>
-              <TableCell>Glass customer conversion ratio</TableCell>
+              <TableCell>Customer conversion ratio</TableCell>
               <TableCell>
                 <TextField
                   fullWidth

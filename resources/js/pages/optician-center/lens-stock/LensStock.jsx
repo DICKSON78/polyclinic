@@ -62,7 +62,7 @@ const LensStock = () => {
   );
 
   useEffect(() => {
-    document.title = `Lens Stock - ${window.APP_NAME}`;
+    document.title = `Item Stock - ${window.APP_NAME}`;
   }, []);
 
   useEffect(() => {
@@ -93,7 +93,7 @@ const LensStock = () => {
 
   // Build lens type options dynamically from database
   const lensTypeOptions = [
-    { label: "All Lens Types", value: "" },
+    { label: "All Item Types", value: "" },
     ...safeLensTypes.map((lt) => ({
       label: lt.name,
       value: lt.name,
@@ -108,14 +108,14 @@ const LensStock = () => {
     <Page
       breadcrumbs={[
         { title: "Home" },
-        { title: "Optician Center" },
-        { title: "Lens Stock" },
+        { title: "Outpatient Dispensing" },
+        { title: "Item Stock" },
       ]}
     >
       <Card>
         <PageHeader
-          title="Lens Stock"
-          subtitle={`${data.total || 0} lenses available`}
+          title="Item Stock"
+          subtitle={`${data.total || 0} items available`}
           trailing={
             <Tooltip title="Refresh List">
               <IconButton onClick={handleFetch} disabled={loading}>
@@ -131,7 +131,7 @@ const LensStock = () => {
             <Grid size={{ xs: 12, md: 3 }}>
               <Select
                 fullWidth
-                label="Lens Type"
+                label="Item Type"
                 value={params.lens_type || ""}
                 onChange={(value) =>
                   setParams({ ...params, lens_type: value || undefined, page: 1 })
@@ -178,7 +178,7 @@ const LensStock = () => {
                 onChange={(e) =>
                   setParams({ ...params, q: e.target.value || undefined })
                 }
-                placeholder="Search lens name, code, or specifications"
+                placeholder="Search item name, code, or specifications"
                 InputProps={{
                   endAdornment: (
                     <IconButton onClick={handleSearch} size="small">
@@ -232,7 +232,7 @@ const LensStock = () => {
                 },
                 {
                   field: "name",
-                  headerName: "Lens Name",
+                  headerName: "Item Name",
                 },
                 {
                   field: "code",
@@ -240,7 +240,7 @@ const LensStock = () => {
                 },
                 {
                   field: "lens_type",
-                  headerName: "Lens Type",
+                  headerName: "Item Type",
                   valueGetter: (item) => item.lens_type?.name || "N/A",
                   renderCell: (item) => {
                     const lensTypeName = item.lens_type?.name || "N/A";

@@ -175,6 +175,9 @@ const PatientFileView = ({ consultationId, patient, ...rest }) => {
       with_refraction: "Yes",
       with_fundoscopy: "Yes",
       with_referral: "Yes",
+      with_lab_results: "Yes",
+      with_radiology_results: "Yes",
+      with_vital_signs: "Yes",
     },
     false,
     null,
@@ -254,7 +257,7 @@ const PatientFileView = ({ consultationId, patient, ...rest }) => {
     const va = consultation.visual_acuity;
     return (
       <Box sx={{ mb: 3 }}>
-        <Subheader title="Visual Acuity (VA)" style={{ mb: 2 }} />
+        <Subheader title="Clinical Assessment (VA)" style={{ mb: 2 }} />
         <TableContainer 
           component={Card}
           sx={{
@@ -438,7 +441,7 @@ const PatientFileView = ({ consultationId, patient, ...rest }) => {
     const ref = consultation.refraction;
     return (
       <Box sx={{ mb: 3 }}>
-        <Subheader title="Refraction Details (Subjective)" style={{ mb: 2 }} />
+        <Subheader title="Examination Details (Subjective)" style={{ mb: 2 }} />
         <TableContainer 
           component={Card}
           sx={{
@@ -538,6 +541,181 @@ const PatientFileView = ({ consultationId, patient, ...rest }) => {
     );
   };
 
+  const renderVitals = () => {
+    if (!consultation?.vital_signs || consultation.vital_signs.length === 0) return null;
+
+    return (
+      <Box sx={{ mb: 3 }}>
+        <Subheader title="Vital Signs" style={{ mb: 2 }} />
+        <TableContainer
+          component={Card}
+          sx={{
+            overflowX: 'auto',
+            '& .MuiTable-root': {
+              minWidth: 700,
+            }
+          }}
+        >
+          <Table size="small">
+            <TableHead>
+              <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
+                <TableCell sx={{ fontWeight: "bold" }}>Date</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Temp (°C)</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>BP (mmHg)</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>HR</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>RR</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>SpO2 (%)</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Weight (kg)</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>BMI</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Category</TableCell>
+                <TableCell sx={{ fontWeight: "bold" }}>Triage Nurse</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {consultation.vital_signs.map((vs, index) => (
+                <TableRow key={index}>
+                  <TableCell sx={{ whiteSpace: 'nowrap' }}>{vs.created_at}</TableCell>
+                  <TableCell>{vs.temperature}</TableCell>
+                  <TableCell sx={{ whiteSpace: 'nowrap' }}>{vs.systolic_bp ? `${vs.systolic_bp}/${vs.diastolic_bp}` : ""}</TableCell>
+                  <TableCell>{vs.heart_rate}</TableCell>
+                  <TableCell>{vs.respiratory_rate}</TableCell>
+                  <TableCell>{vs.oxygen_saturation}</TableCell>
+                  <TableCell>{vs.weight_kg}</TableCell>
+                  <TableCell>{vs.bmi_calculated}</TableCell>
+                  <TableCell>{vs.triage_category}</TableCell>
+                  <TableCell sx={{ wordBreak: 'break-word' }}>{vs.triaged_by?.full_name || vs.triagedBy?.full_name}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
+    );
+  };
+
+  const renderLabResults = () => {
+    if (!consultation?.lab_results || consultation.lab_results.length === 0) return null;
+
+    return (
+      <Box sx={{ mb: 3 }}>
+        <Subheader title="Laboratory Results" style={{ mb: 2 }} />
+        {consultation.lab_results.map((request, index) => (
+          <Card key={index} sx={{ mb: 2 }}>
+            <CardContent sx={{ p: { xs: 2, sm: 3 } }}>
+              <Typography variant="subtitle1" color="primary" gutterBottom sx={{ fontWeight: 'bold' }}>
+                {request.request_no} - {request.status}
+              </Typography>
+              <Typography variant="body2" sx={{ mb: 1, wordBreak: 'break-word' }}>
+                <strong>Requested:</strong> {request.created_at}
+                {request.completed_at ? <span> | <strong>Completed:</strong> {request.completed_at}</span> : null}
+                {request.completed_by?.full_name ? <span> | <strong>By:</strong> {request.completed_by.full_name}</span> : null}
+              </Typography>
+              <TableContainer
+                sx={{
+                  overflowX: 'auto',
+                  '& .MuiTable-root': {
+                    minWidth: 500,
+                  }
+                }}
+              >
+                <Table size="small">
+                  <TableHead>
+                    <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
+                      <TableCell sx={{ fontWeight: "bold" }}>Test</TableCell>
+                      <TableCell sx={{ fontWeight: "bold" }}>Result</TableCell>
+                      <TableCell sx={{ fontWeight: "bold" }}>Unit</TableCell>
+                      <TableCell sx={{ fontWeight: "bold" }}>Reference Range</TableCell>
+                      <TableCell sx={{ fontWeight: "bold" }}>Status</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {(request.tests || []).map((test, i) => (
+                      <TableRow key={i}>
+                        <TableCell sx={{ wordBreak: 'break-word' }}>{test.lab_test?.name || test.labTest?.name}</TableCell>
+                        <TableCell sx={{ wordBreak: 'break-word' }}>
+                          {test.result}
+                          {test.is_abnormal && <Chip size="small" label="Abnormal" color="error" sx={{ ml: 1 }} />}
+                        </TableCell>
+                        <TableCell>{test.unit}</TableCell>
+                        <TableCell sx={{ wordBreak: 'break-word' }}>{test.reference_range}</TableCell>
+                        <TableCell>{test.status}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              {request.clinical_notes && (
+                <Typography variant="body2" sx={{ mt: 1, wordBreak: 'break-word' }}>
+                  <strong>Notes:</strong> {request.clinical_notes}
+                </Typography>
+              )}
+            </CardContent>
+          </Card>
+        ))}
+      </Box>
+    );
+  };
+
+  const renderRadiologyResults = () => {
+    if (!consultation?.radiology_results || consultation.radiology_results.length === 0) return null;
+
+    return (
+      <Box sx={{ mb: 3 }}>
+        <Subheader title="Radiology Results" style={{ mb: 2 }} />
+        {consultation.radiology_results.map((request, index) => (
+          <Card key={index} sx={{ mb: 2 }}>
+            <CardContent sx={{ p: { xs: 2, sm: 3 } }}>
+              <Typography variant="subtitle1" color="primary" gutterBottom sx={{ fontWeight: 'bold' }}>
+                {request.request_no} - {request.status}
+              </Typography>
+              <Typography variant="body2" sx={{ mb: 1, wordBreak: 'break-word' }}>
+                <strong>Requested:</strong> {request.created_at}
+                {request.completed_at ? <span> | <strong>Completed:</strong> {request.completed_at}</span> : null}
+                {request.completed_by?.full_name ? <span> | <strong>By:</strong> {request.completed_by.full_name}</span> : null}
+              </Typography>
+              <TableContainer
+                sx={{
+                  overflowX: 'auto',
+                  '& .MuiTable-root': {
+                    minWidth: 500,
+                  }
+                }}
+              >
+                <Table size="small">
+                  <TableHead>
+                    <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
+                      <TableCell sx={{ fontWeight: "bold" }}>Exam</TableCell>
+                      <TableCell sx={{ fontWeight: "bold" }}>Findings</TableCell>
+                      <TableCell sx={{ fontWeight: "bold" }}>Impression</TableCell>
+                      <TableCell sx={{ fontWeight: "bold" }}>Conclusion</TableCell>
+                      <TableCell sx={{ fontWeight: "bold" }}>Status</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {(request.exams || []).map((exam, i) => (
+                      <TableRow key={i}>
+                        <TableCell sx={{ wordBreak: 'break-word' }}>{exam.radiology_exam?.name || exam.radiologyExam?.name}</TableCell>
+                        <TableCell sx={{ wordBreak: 'break-word' }}>{exam.findings}</TableCell>
+                        <TableCell sx={{ wordBreak: 'break-word' }}>{exam.impression}</TableCell>
+                        <TableCell sx={{ wordBreak: 'break-word' }}>{exam.conclusion}</TableCell>
+                        <TableCell>{exam.status}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              {request.clinical_notes && (
+                <Typography variant="body2" sx={{ mt: 1, wordBreak: 'break-word' }}>
+                  <strong>Notes:</strong> {request.clinical_notes}
+                </Typography>
+              )}
+            </CardContent>
+          </Card>
+        ))}
+      </Box>
+    );
+  };
+
   const renderDiagnosisAndManagement = () => {
     if (!consultation) return null;
 
@@ -577,7 +755,7 @@ const PatientFileView = ({ consultationId, patient, ...rest }) => {
           </Grid>
           <Grid item xs={12} md={6}>
             <ConsultationItemsCard
-              title="Glass"
+              title="Dispensing"
               consultationType="Glass"
               items={consultation.items}
             />
@@ -759,7 +937,7 @@ const PatientFileView = ({ consultationId, patient, ...rest }) => {
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
               <Typography variant="body2">
-                <strong>Require Spectacle:</strong> {consultation.require_glass}
+                <strong>Require Item:</strong> {consultation.require_glass}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
@@ -778,6 +956,9 @@ const PatientFileView = ({ consultationId, patient, ...rest }) => {
 
       {/* Consultation Details */}
       {renderHistoryTaking()}
+      {renderVitals()}
+      {renderLabResults()}
+      {renderRadiologyResults()}
       {renderVisualAcuity()}
       {renderExternalExamination()}
       {renderFunctionalTests()}

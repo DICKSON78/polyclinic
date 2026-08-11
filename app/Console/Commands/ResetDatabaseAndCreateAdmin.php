@@ -136,7 +136,7 @@ class ResetDatabaseAndCreateAdmin extends Command
                     'name' => 'Default Clinic',
                     'address' => 'Default Address',
                     'phone' => '1234567890',
-                    'email' => 'clinic@eyechake.com',
+                    'email' => 'clinic@polyclinic-hms.com',
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]
@@ -178,7 +178,7 @@ class ResetDatabaseAndCreateAdmin extends Command
                 'gender' => 'Male',
                 'national_id' => '123456789',
                 'phone' => '1234567890',
-                'email' => 'tech@eyechake.com',
+                'email' => 'tech@polyclinic-hms.com',
                 'username' => 'tech',
                 'password' => Hash::make('tech'),
                 'role' => 'Admin',
@@ -248,7 +248,7 @@ class ResetDatabaseAndCreateAdmin extends Command
                     ['Password', 'tech'],
                     ['Role', 'Admin'],
                     ['Status', 'Active'],
-                    ['Email', 'tech@eyechake.com'],
+                    ['Email', 'tech@polyclinic-hms.com'],
                     ['Privileges', count($allPrivileges) . ' privileges assigned'],
                 ]
             );

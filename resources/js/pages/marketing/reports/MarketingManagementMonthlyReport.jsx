@@ -383,7 +383,7 @@ const MarketingManagementMonthlyReport = () => {
                   fontFamily: "serif",
                 }}
               >
-                SIKAF EYE CARE
+                Polyclinic HMS
               </Typography>
               <Typography
                 variant="h4"

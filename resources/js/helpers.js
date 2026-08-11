@@ -472,13 +472,13 @@ export const getPrivileges = (preferences) => {
       label: "Consultation Room", 
       value: "consultation_room",
       children: [
-        { label: "Optometrist Monthly Report", value: "optometrist_monthly_report" },
-        { label: "Optometry Performance Report Card", value: "optometry_report_card" },
-        { label: "Optometry KPI Report Card", value: "optometry_kpi_report_card" },
+        { label: "Clinician Monthly Report", value: "optometrist_monthly_report" },
+        { label: "Examination Performance Report Card", value: "optometry_report_card" },
+        { label: "Examination KPI Report Card", value: "optometry_kpi_report_card" },
         { label: "CRM KPI Report Card", value: "crm_kpi_report_card" }
       ]
     },
-    { label: "Optician Center", value: "optician_center" },
+    { label: "Outpatient Dispensing", value: "optician_center" },
     { label: "Medicine Center", value: "medicine_center" },
     { label: "Dispensing", value: "dispensing" },
     { label: "Other Dispensing", value: "other_dispensing" },
@@ -503,10 +503,10 @@ export const getPrivileges = (preferences) => {
       ]
     },
     { 
-      label: "Optometry Reports", 
+      label: "Examination Reports", 
       value: "optometry_reports",
       children: [
-        { label: "Optometry Report Card", value: "optometry_report_card" }
+        { label: "Examination Report Card", value: "optometry_report_card" }
       ]
     },
     { 

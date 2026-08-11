@@ -117,7 +117,7 @@ const PDFReportPage = ({ cataractSurgeryRecord, patient }) => {
       orientation="portrait"
     >
       <Header
-        title="Cataract Surgery Record"
+        title="Surgical Record"
         subtitle={patient.full_name}
       />
 
@@ -194,7 +194,7 @@ const PDFReportPage = ({ cataractSurgeryRecord, patient }) => {
                     { width: 80 },
                   ]}
                 >
-                  Visual Acuity
+                  Clinical Assessment
                 </Text>
                 <View
                   style={[
@@ -250,7 +250,7 @@ const PDFReportPage = ({ cataractSurgeryRecord, patient }) => {
                     { width: 80 },
                   ]}
                 >
-                  Lens Examination
+                  Examination
                 </Text>
                 <View
                   style={[
@@ -357,7 +357,7 @@ const PDFReportPage = ({ cataractSurgeryRecord, patient }) => {
                 },
               ]}
             >
-              Category of Visual Acuity (Snellen 6 m)
+              Category of Clinical Assessment (Snellen 6 m)
             </Text>
             <Grid
               columns={2}
@@ -464,7 +464,7 @@ const PDFReportPage = ({ cataractSurgeryRecord, patient }) => {
                       },
                     ]}
                   >
-                    Refraction:
+                    Examination:
                   </Text>
                   <Descriptions
                     columns={3}
@@ -885,7 +885,7 @@ const PDFReportPage = ({ cataractSurgeryRecord, patient }) => {
               { fontWeight: "bold", width: 334 },
             ]}
           >
-            Visual acuity of operated eye postoperation
+            Clinical assessment of operated eye postoperation
           </Text>
           <Text
             style={[styles.text, tableStyles.tableCell, { fontWeight: "bold" }]}
@@ -1115,7 +1115,7 @@ const PDFReportPage = ({ cataractSurgeryRecord, patient }) => {
                   },
                 ]}
               >
-                Postop. Refraction:
+                Postop. Examination:
               </Text>
               <Descriptions
                 columns={3}
@@ -1152,7 +1152,7 @@ const PDFReportPage = ({ cataractSurgeryRecord, patient }) => {
 const PDFReportDocument = ({ cataractSurgeryRecord, patient }) => {
   return (
     <Document
-      title="Cataract Surgery Record"
+      title="Surgical Record"
       creator={window.APP_NAME}
       producer={window.APP_NAME}
     >

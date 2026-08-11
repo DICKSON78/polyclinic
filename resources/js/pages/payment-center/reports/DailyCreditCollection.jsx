@@ -84,42 +84,6 @@ const DailyCashCollection = ({ module }) => {
                 >
                   <Grid
                     item
-                    md={3}
-                    sm={6}
-                    xs={12}
-                  >
-                    <DatePicker
-                      fullWidth
-                      label="Start Date"
-                      value={params.start_date || null}
-                      onChange={(value) =>
-                        setParams({
-                          ...params,
-                          start_date: !isNaN(value) ? value : null,
-                        })
-                      }
-                    />
-                  </Grid>
-                  <Grid
-                    item
-                    md={3}
-                    sm={6}
-                    xs={12}
-                  >
-                    <DatePicker
-                      fullWidth
-                      label="End Date"
-                      value={params.end_date || null}
-                      onChange={(value) =>
-                        setParams({
-                          ...params,
-                          end_date: !isNaN(value) ? value : null,
-                        })
-                      }
-                    />
-                  </Grid>
-                  <Grid
-                    item
                     md
                     sm={6}
                     xs={12}
@@ -253,9 +217,9 @@ const DailyCashCollection = ({ module }) => {
         ]}
         summationFooterColumns={[
           { value: "TOTAL", span: 3, index: 1 },
-          { reducer: (acc, item) => acc + (parseFloat(item.amount) || 0), index: 4 },
-          { reducer: (acc, item) => acc + (parseFloat(item.discount) || 0), index: 5 },
-          { reducer: (acc, item) => acc + Math.max(0, (parseFloat(item.amount) || 0) - (parseFloat(item.discount) || 0)), index: 6 },
+          { reducer: (acc, item) => acc + (parseFloat(item.amount) || 0), index: 5 },
+          { reducer: (acc, item) => acc + (parseFloat(item.discount) || 0), index:6 },
+          { reducer: (acc, item) => acc + Math.max(0, (parseFloat(item.amount) || 0) - (parseFloat(item.discount) || 0)), index: 7 },
         ]}
       />
     </Page>

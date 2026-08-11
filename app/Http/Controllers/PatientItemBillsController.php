@@ -206,126 +206,23 @@ class PatientItemBillsController extends Controller
     private function determineNextDepartment($waitingTime, $paymentCache, $clearedBy = null)
     {
         
-        // Check if patient has consultation that requires glasses FIRST
+        // Check if patient has a consultation record
         // Load consultation with its payment_cache_item and consultation_type relationships
         $consultation = $paymentCache->consultation;
         if ($consultation) {
             $consultation->load(['payment_cache_item.consultation_type']);
         }
         
-        // Also check if patient has glass items that require optician attention
-        $hasGlassItems = $paymentCache->items()
+        // Also check if patient has outpatient items (non-Pharmacy, non-Procedure) that require dispensing
+        $hasOutpatientItems = $paymentCache->items()
             ->whereHas('consultation_type', function($query) {
-                $query->where('name', 'Glass');
+                $query->whereNotIn('name', ['Pharmacy', 'Procedure']);
             })
             ->count() > 0;
         
-        // Priority 1: If patient needs glasses, send to optician (consultation department) FIRST
-        if (($consultation && $consultation->require_glass === 'Yes') || $hasGlassItems) {
-            // Patient needs glasses, send to optician (consultation department)
-            $waitingTime->sendToConsultation();
-            
-            // Trigger notification refresh for optician/workshop
-            try {
-                event(new \App\Events\NotificationUpdate());
-                \Log::info('Notification refresh triggered after sending patient to optician', [
-                    'patient_id' => $waitingTime->patient_id,
-                    'patient_name' => $waitingTime->patient->full_name ?? 'Unknown',
-                    'department' => 'consultation (optician)'
-                ]);
-            } catch (\Exception $e) {
-                \Log::error('Failed to trigger notification after sending to optician', [
-                    'patient_id' => $waitingTime->patient_id,
-                    'error' => $e->getMessage()
-                ]);
-            }
-            
-            // Check if existing consultation's payment_cache_item is a glass item
-            $consultationHasGlassItem = false;
-            if ($consultation && $consultation->payment_cache_item) {
-                $consultationHasGlassItem = $consultation->payment_cache_item->consultation_type 
-                    && $consultation->payment_cache_item->consultation_type->name === 'Glass';
-            }
-            
-            // If consultation exists and its payment_cache_item is a glass item, update it
-            if ($consultation && $consultationHasGlassItem) {
-                $updateData = [
-                    'require_glass' => 'Yes', // Ensure require_glass is set
-                    'patient_direction' => 'Sent to Optician', // Mark as sent from cashier
-                ];
-                
-                // Set sent_to_optician_at if not already set
-                if (!$consultation->sent_to_optician_at) {
-                    $updateData['sent_to_optician_at'] = now();
-                }
-                
-                // Set sent_to_optician_by to the cashier who cleared the bill
-                if ($clearedBy) {
-                    $updateData['sent_to_optician_by'] = $clearedBy;
-                } elseif (!$consultation->sent_to_optician_by) {
-                    // Fallback to consultation creator if no cleared_by available
-                    $updateData['sent_to_optician_by'] = $consultation->creator_id ?? null;
-                }
-                
-                $consultation->update($updateData);
-            } elseif ($hasGlassItems) {
-                // If consultation doesn't exist OR exists but from non-glass item, create/update from glass item
-                // Find the first glass item to create or update consultation
-                $glassItem = $paymentCache->items()
-                    ->whereHas('consultation_type', function($query) {
-                        $query->where('name', 'Glass');
-                    })
-                    ->first();
-                
-                if ($glassItem) {
-                    if ($consultation) {
-                        // Update existing consultation to use glass item
-                        $consultation->update([
-                            'payment_cache_item_id' => $glassItem->id,
-                            'require_glass' => 'Yes',
-                            'patient_direction' => 'Sent to Optician',
-                            'sent_to_optician_at' => now(),
-                            'sent_to_optician_by' => $clearedBy ?? $consultation->creator_id ?? null,
-                        ]);
-                    } else {
-                        // Create new consultation from glass item
-                        $consultation = Consultation::create([
-                            'payment_cache_item_id' => $glassItem->id,
-                            'patient_direction' => 'Sent to Optician', // Mark as sent from cashier
-                            'created_by' => $glassItem->creator_id ?? 1, // Default to system user if no creator
-                            'require_glass' => 'Yes',
-                            'sent_to_optician_at' => now(),
-                            'sent_to_optician_by' => $clearedBy ?? $glassItem->creator_id ?? 1,
-                        ]);
-                        
-                        $paymentCache->consultation_id = $consultation->id;
-                        $paymentCache->save();
-                    }
-                }
-            }
-            
-            \Log::info('Patient moved to consultation (optician) after bill cleared', [
-                'patient_id' => $waitingTime->patient_id,
-                'patient_name' => $waitingTime->patient->full_name ?? 'Unknown',
-                'require_glass' => $consultation ? $consultation->require_glass : 'Yes (auto-created)',
-                'sent_to_optician_at' => $consultation ? $consultation->sent_to_optician_at : 'now',
-                'patient_direction' => $consultation ? $consultation->patient_direction : 'Sent to Optician (auto-created)',
-                'has_glass_items' => $hasGlassItems,
-                'cleared_by' => $clearedBy
-            ]);
-            return;
-        }
-        
-        // Priority 2: Check for pending non-glass items that need dispensing
-        $pendingNonGlassItems = $paymentCache->items()
-            ->where('status', '!=', 'Served')
-            ->whereDoesntHave('consultation_type', function($query) {
-                $query->where('name', 'Glass');
-            })
-            ->count();
-        
-        if ($pendingNonGlassItems > 0) {
-            // Patient has items that need dispensing (non-glass items)
+        // Priority 1: If patient has outpatient items, send to dispensing (workshop) FIRST
+        if ($hasOutpatientItems) {
+            // Patient has outpatient items, send to dispensing department
             $waitingTime->sendToDispensing();
             
             // Trigger notification refresh for dispensing/workshop
@@ -343,10 +240,107 @@ class PatientItemBillsController extends Controller
                 ]);
             }
             
-            \Log::info('Patient moved to dispensing after bill cleared (non-glass items)', [
+            // Check if existing consultation's payment_cache_item is an outpatient item
+            $consultationHasOutpatientItem = false;
+            if ($consultation && $consultation->payment_cache_item) {
+                $consultationHasOutpatientItem = $consultation->payment_cache_item->consultation_type 
+                    && !in_array($consultation->payment_cache_item->consultation_type->name, ['Pharmacy', 'Procedure']);
+            }
+            
+            // If consultation exists and its payment_cache_item is an outpatient item, update it
+            if ($consultation && $consultationHasOutpatientItem) {
+                $updateData = [
+                    'patient_direction' => 'Sent to Dispensing', // Mark as sent from cashier
+                ];
+                
+                // Set sent_to_optician_at if not already set
+                if (!$consultation->sent_to_optician_at) {
+                    $updateData['sent_to_optician_at'] = now();
+                }
+                
+                // Set sent_to_optician_by to the cashier who cleared the bill
+                if ($clearedBy) {
+                    $updateData['sent_to_optician_by'] = $clearedBy;
+                } elseif (!$consultation->sent_to_optician_by) {
+                    // Fallback to consultation creator if no cleared_by available
+                    $updateData['sent_to_optician_by'] = $consultation->creator_id ?? null;
+                }
+                
+                $consultation->update($updateData);
+            } elseif ($hasOutpatientItems) {
+                // If consultation doesn't exist OR exists but from non-outpatient item, create/update from outpatient item
+                // Find the first outpatient item to create or update consultation
+                $outpatientItem = $paymentCache->items()
+                    ->whereHas('consultation_type', function($query) {
+                        $query->whereNotIn('name', ['Pharmacy', 'Procedure']);
+                    })
+                    ->first();
+                
+                if ($outpatientItem) {
+                    if ($consultation) {
+                        // Update existing consultation to use outpatient item
+                        $consultation->update([
+                            'payment_cache_item_id' => $outpatientItem->id,
+                            'patient_direction' => 'Sent to Dispensing',
+                            'sent_to_optician_at' => now(),
+                            'sent_to_optician_by' => $clearedBy ?? $consultation->creator_id ?? null,
+                        ]);
+                    } else {
+                        // Create new consultation from outpatient item
+                        $consultation = Consultation::create([
+                            'payment_cache_item_id' => $outpatientItem->id,
+                            'patient_direction' => 'Sent to Dispensing', // Mark as sent from cashier
+                            'created_by' => $outpatientItem->creator_id ?? 1, // Default to system user if no creator
+                            'sent_to_optician_at' => now(),
+                            'sent_to_optician_by' => $clearedBy ?? $outpatientItem->creator_id ?? 1,
+                        ]);
+                        
+                        $paymentCache->consultation_id = $consultation->id;
+                        $paymentCache->save();
+                    }
+                }
+            }
+            
+            \Log::info('Patient moved to dispensing after bill cleared (outpatient items)', [
                 'patient_id' => $waitingTime->patient_id,
                 'patient_name' => $waitingTime->patient->full_name ?? 'Unknown',
-                'pending_items' => $pendingNonGlassItems
+                'has_outpatient_items' => $hasOutpatientItems,
+                'cleared_by' => $clearedBy
+            ]);
+            return;
+        }
+        
+        // Priority 2: Check for pending pharmacy items that need dispensing
+        $pendingPharmacyItems = $paymentCache->items()
+            ->where('status', '!=', 'Served')
+            ->whereHas('consultation_type', function($query) {
+                $query->where('name', 'Pharmacy');
+            })
+            ->count();
+        
+        if ($pendingPharmacyItems > 0) {
+            // Patient has items that need dispensing (pharmacy items)
+            $waitingTime->sendToDispensing();
+            
+            // Trigger notification refresh for dispensing/workshop
+            try {
+                event(new \App\Events\NotificationUpdate());
+                \Log::info('Notification refresh triggered after sending patient to dispensing', [
+                    'patient_id' => $waitingTime->patient_id,
+                    'patient_name' => $waitingTime->patient->full_name ?? 'Unknown',
+                    'department' => 'dispensing'
+                ]);
+            } catch (\Exception $e) {
+                \Log::error('Failed to trigger notification after sending to dispensing', [
+                    'patient_id' => $waitingTime->patient_id,
+                    'error' => $e->getMessage()
+                ]);
+            }
+            
+            \Log::info('Patient moved to dispensing after bill cleared (pharmacy items)', [
+                'patient_id' => $waitingTime->patient_id,
+                'patient_name' => $waitingTime->patient->full_name ?? 'Unknown',
+                'pending_items' => $pendingPharmacyItems
             ]);
             return;
         }

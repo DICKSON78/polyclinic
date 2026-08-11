@@ -197,7 +197,7 @@ const Prescriptions = () => {
                 fontSize: { xs: '0.75rem', sm: '0.875rem' },
               }}
             >
-              This list shows clients who have been prescribed glasses/lenses but have not yet made a purchase. Salespersons can follow up with these clients to convert prescriptions into sales.
+              This list shows clients who have been prescribed items but have not yet made a purchase. Salespersons can follow up with these clients to convert prescriptions into sales.
             </Alert>
           }
         />

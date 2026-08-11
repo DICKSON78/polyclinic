@@ -13,6 +13,12 @@ const InfoCard = ({ title, count, icon, color, onClick, badge, ...rest }) => {
     }
   };
 
+  // Convert MUI color object to string if needed
+  const colorValue = typeof color === 'object' ? (color.main || color[500] || '#1976d2') : (color || '#1976d2');
+
+  // Ensure colorValue is a valid color string
+  const safeColorValue = colorValue && typeof colorValue === 'string' ? colorValue : '#1976d2';
+
   return (
     <Card
         {...(theme.palette.mode === "light" && {
@@ -27,11 +33,11 @@ const InfoCard = ({ title, count, icon, color, onClick, badge, ...rest }) => {
           transition: 'all 0.2s ease-in-out',
           '&:hover': onClick ? {
             transform: 'translateY(-2px)',
-            boxShadow: `0 8px 25px ${alpha(color, 0.25)}`,
+            boxShadow: `0 8px 25px ${alpha(safeColorValue, 0.25)}`,
           } : {},
           background:
             theme.palette.mode === "light"
-              ? `linear-gradient(to bottom right, ${alpha(color, 0.8)}, ${alpha(color, 0.18)})`
+              ? `linear-gradient(to bottom right, ${alpha(safeColorValue, 0.8)}, ${alpha(safeColorValue, 0.18)})`
               : theme.palette.background.paper,
         }}
       >
@@ -59,8 +65,8 @@ const InfoCard = ({ title, count, icon, color, onClick, badge, ...rest }) => {
           >
             <Avatar
               sx={{
-                bgcolor: color,
-                boxShadow: `0 7px 30px ${alpha(color, 0.15)}`,
+                bgcolor: safeColorValue,
+                boxShadow: `0 7px 30px ${alpha(safeColorValue, 0.15)}`,
                 width: 40,
                 height: 40,
                 position: "relative",

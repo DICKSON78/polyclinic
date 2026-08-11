@@ -635,26 +635,26 @@ const SalesManagerMonthlyReport = () => {
   };
 
   const itemCategories = [
-    { label: "Frames", key: "frames" },
-    { label: "Transition Lenses", key: "transitionLenses" },
-    { label: "Blue-cut Lenses", key: "bluecutLenses" },
+    { label: "Accessories", key: "frames" },
+    { label: "Transition Items", key: "transitionLenses" },
+    { label: "Blue-cut Items", key: "bluecutLenses" },
     { label: "Progressive transition", key: "progressiveTransition" },
     { label: "Progressive bluecut", key: "progressiveBluecut" },
     { label: "Bifocal transition", key: "bifocalTransition" },
     { label: "Bifocal bluecut", key: "bifocalBluecut" },
     { label: "Special orders (China)", key: "specialOrdersChina" },
-    { label: "Contact Lenses", key: "contactLenses" },
+    { label: "Contact Items", key: "contactLenses" },
   ];
 
   const salesInformationItems = [
-    { label: "Single vision lens sold", key: "singleVisionLensSold" },
+    { label: "Single vision items sold", key: "singleVisionLensSold" },
     { label: "Transition sold", key: "transitionSold" },
     { label: "Bluecut sold", key: "bluecutSold" },
-    { label: "Progressive lens sold", key: "progressiveLensSold" },
-    { label: "Bifocal lens sold", key: "bifocalLensSold" },
-    { label: "Frames sold", key: "framesSold" },
-    { label: "Special order lens", key: "specialOrderLens" },
-    { label: "Contact lens", key: "contactLens" },
+    { label: "Progressive items sold", key: "progressiveLensSold" },
+    { label: "Bifocal items sold", key: "bifocalLensSold" },
+    { label: "Accessories sold", key: "framesSold" },
+    { label: "Special order items", key: "specialOrderLens" },
+    { label: "Contact items", key: "contactLens" },
   ];
 
   return (
@@ -899,7 +899,7 @@ const SalesManagerMonthlyReport = () => {
               </TableHead>
               <TableBody>
                 <TableRow>
-                  <TableCell>Average glass daily sales</TableCell>
+                  <TableCell>Average daily sales</TableCell>
                   <TableCell>{formData.salesTargets.averageDailySales.target}</TableCell>
                   <TableCell sx={{ border: "1px solid #ccc", "& span": { borderBottom: "none" } }}>
                     <span style={{ minWidth: "100%", display: "block", padding: "4px 0" }}>
@@ -908,7 +908,7 @@ const SalesManagerMonthlyReport = () => {
                   </TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell>Glass customer convertion ratio</TableCell>
+                  <TableCell>Customer conversion ratio</TableCell>
                   <TableCell>{formData.salesTargets.bluecutVsOtherRatio.target}</TableCell>
                   <TableCell sx={{ border: "1px solid #ccc", "& span": { borderBottom: "none" } }}>
                     <span style={{ minWidth: "100%", display: "block", padding: "4px 0" }}>
@@ -1128,7 +1128,7 @@ const SalesManagerMonthlyReport = () => {
                   fullWidth
                   multiline
                   rows={2}
-                  label="Bluecut vs Other Lens Ratio (Result)"
+                  label="Bluecut vs Other Item Ratio (Result)"
                   value={formData.salesTargets.bluecutVsOtherRatio.result}
                   onChange={(value) =>
                     handleNestedInputChange(
@@ -1145,7 +1145,7 @@ const SalesManagerMonthlyReport = () => {
                   fullWidth
                   multiline
                   rows={2}
-                  label="Average Bifocal Lens Monthly (Result)"
+                  label="Average Bifocal Items Monthly (Result)"
                   value={formData.salesTargets.averageBifocalLensMonthly.result}
                   onChange={(value) =>
                     handleNestedInputChange(
@@ -1162,7 +1162,7 @@ const SalesManagerMonthlyReport = () => {
                   fullWidth
                   multiline
                   rows={2}
-                  label="Average Progressive Lens Monthly (Result)"
+                  label="Average Progressive Items Monthly (Result)"
                   value={formData.salesTargets.averageProgressiveLensMonthly.result}
                   onChange={(value) =>
                     handleNestedInputChange(

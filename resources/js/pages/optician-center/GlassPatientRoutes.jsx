@@ -46,8 +46,8 @@ const GlassPatientRoutes = () => {
     <Page
       breadcrumbs={[
         { title: "Home" },
-        { title: "Optician Center" },
-        { title: "Patients Sent to Optician" },
+        { title: "Outpatient Dispensing" },
+        { title: "Patients Sent for Dispensing" },
         { title: patientId },
       ]}
     >

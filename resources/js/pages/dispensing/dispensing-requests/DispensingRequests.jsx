@@ -103,7 +103,7 @@ const DispensingRequests = ({ consultationType, stockItem }) => {
             consultationType === "Others"
               ? "Other Dispensing"
               : consultationType === "Glass"
-                ? "Optician Center"
+                ? "Outpatient Dispensing"
                 : "Medicine Center",
         },
         { title: "Dispensing Requests" },

@@ -1,1 +1,0 @@
-<?php require "vendor/autoload.php"; $app = require_once "bootstrap/app.php"; $pending = \App\Models\PatientItemBill::where("status", "Pending")->whereDate("created_at", "2026-03-27")->sum("amount"); echo "Pending bills for today: " . $pending; ?>

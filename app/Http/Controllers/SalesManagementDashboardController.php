@@ -25,9 +25,34 @@ class SalesManagementDashboardController extends Controller
 
             $user = $request->user();
             
-            // Check access permissions
+            // Check access permissions - allow Sales Manager and Sales roles
             $privArray = is_object($user->privileges ?? null) ? (array) $user->privileges : (is_array($user->privileges ?? null) ? $user->privileges : []);
-            if (!$user || (!$user->is_admin && !in_array($user->role, ['Admin', 'Director', 'Sales Manager', 'Sales']) && empty($privArray['sales_management']) && empty($privArray['sales_center']))) {
+            
+            // Debug logging for user permissions
+            \Log::info('Sales Dashboard Access Attempt', [
+                'user_id' => $user->id ?? null,
+                'user_name' => ($user->first_name ?? '') . ' ' . ($user->last_name ?? ''),
+                'user_role' => $user->role ?? null,
+                'user_is_admin' => $user->is_admin ?? false,
+                'user_privileges' => $user->privileges ?? null,
+                'priv_array' => $privArray ?? [],
+                'has_sales_center' => !empty($privArray['sales_center']),
+                'has_sales_management' => !empty($privArray['sales_management']),
+                'in_allowed_roles' => in_array($user->role, ['Admin', 'Director', 'Sales Manager', 'Sales']),
+            ]);
+            
+            // Allow access if: Admin OR (allowed role AND has sales_center OR sales_management privilege)
+            $hasRequiredPrivilege = !empty($privArray['sales_management']) || !empty($privArray['sales_center']);
+            $hasAllowedRole = in_array($user->role, ['Admin', 'Director', 'Sales Manager', 'Sales']);
+            
+            if (!$user || (!$user->is_admin && (!$hasAllowedRole || !$hasRequiredPrivilege))) {
+                \Log::warning('Sales Dashboard Access Denied', [
+                    'user_id' => $user->id ?? null,
+                    'user_role' => $user->role ?? null,
+                    'has_allowed_role' => $hasAllowedRole,
+                    'has_required_privilege' => $hasRequiredPrivilege,
+                    'reason' => 'Not in allowed roles or missing sales privileges'
+                ]);
                 return $this->sendResponse(null, Response::HTTP_FORBIDDEN, 'Access denied');
             }
             
@@ -71,8 +96,11 @@ class SalesManagementDashboardController extends Controller
                     ->where('amount', '>', 0);
                 
                 if ($clinic_id) {
-                    $totalSalesQuery->whereHas('creator', function ($q) use ($clinic_id) {
-                        $q->where('clinic_id', $clinic_id);
+                    $totalSalesQuery->whereExists(function ($query) use ($clinic_id) {
+                        $query->select(DB::raw(1))
+                            ->from('users')
+                            ->whereColumn('users.id', 'patient_item_bills.created_by')
+                            ->where('users.clinic_id', $clinic_id);
                     });
                 }
                 
@@ -92,8 +120,11 @@ class SalesManagementDashboardController extends Controller
                     ->where('amount', '>', 0);
                 
                 if ($clinic_id) {
-                    $salesTodayQuery->whereHas('creator', function ($q) use ($clinic_id) {
-                        $q->where('clinic_id', $clinic_id);
+                    $salesTodayQuery->whereExists(function ($query) use ($clinic_id) {
+                        $query->select(DB::raw(1))
+                            ->from('users')
+                            ->whereColumn('users.id', 'patient_item_bills.created_by')
+                            ->where('users.clinic_id', $clinic_id);
                     });
                 }
                 
@@ -116,8 +147,11 @@ class SalesManagementDashboardController extends Controller
                     ->where('amount', '>', 0);
                 
                 if ($clinic_id) {
-                    $transactionsQuery->whereHas('creator', function ($q) use ($clinic_id) {
-                        $q->where('clinic_id', $clinic_id);
+                    $transactionsQuery->whereExists(function ($query) use ($clinic_id) {
+                        $query->select(DB::raw(1))
+                            ->from('users')
+                            ->whereColumn('users.id', 'patient_item_bills.created_by')
+                            ->where('users.clinic_id', $clinic_id);
                     });
                 }
                 
@@ -159,8 +193,11 @@ class SalesManagementDashboardController extends Controller
                     ->where('amount', '>', 0);
                 
                 if ($clinic_id) {
-                    $itemsSoldQuery->whereHas('creator', function ($q) use ($clinic_id) {
-                        $q->where('clinic_id', $clinic_id);
+                    $itemsSoldQuery->whereExists(function ($query) use ($clinic_id) {
+                        $query->select(DB::raw(1))
+                            ->from('users')
+                            ->whereColumn('users.id', 'patient_item_bills.created_by')
+                            ->where('users.clinic_id', $clinic_id);
                     });
                 }
                 
@@ -179,8 +216,11 @@ class SalesManagementDashboardController extends Controller
                     ->where('discount', '>', 0);
                 
                 if ($clinic_id) {
-                    $discountsQuery->whereHas('creator', function ($q) use ($clinic_id) {
-                        $q->where('clinic_id', $clinic_id);
+                    $discountsQuery->whereExists(function ($query) use ($clinic_id) {
+                        $query->select(DB::raw(1))
+                            ->from('users')
+                            ->whereColumn('users.id', 'patient_item_bills.created_by')
+                            ->where('users.clinic_id', $clinic_id);
                     });
                 }
                 

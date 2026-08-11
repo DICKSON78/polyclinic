@@ -10,7 +10,7 @@ const ReportsRoutes = () => {
         path="/items-dispensed"
         element={
           <PatientItems
-            module="Optician Center"
+            module="Outpatient Dispensing"
             title="Items Dispensed Report"
             consultationType="Glass"
             status="Served"
@@ -21,7 +21,7 @@ const ReportsRoutes = () => {
         path="/items-not-dispensed"
         element={
           <PatientItems
-            module="Optician Center"
+            module="Outpatient Dispensing"
             title="Items Not Dispensed Report"
             consultationType="Glass"
             status="Pending,Paid,Billed"
@@ -32,7 +32,7 @@ const ReportsRoutes = () => {
         path="/item-balance"
         element={
           <ItemBalance
-            module="Optician Center"
+            module="Outpatient Dispensing"
             consultationType="Glass"
           />
         }

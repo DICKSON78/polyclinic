@@ -53,7 +53,7 @@ const RefractionDetails = ({ consultation: { id, refraction } }, ref) => {
     <Table>
       <TableHead>
         <TableRow>
-          <TableCell colSpan={8}>Subjective Refraction</TableCell>
+          <TableCell colSpan={8}>Subjective Examination</TableCell>
         </TableRow>
         <TableRow>
           <TableCell colSpan={4}>RE</TableCell>

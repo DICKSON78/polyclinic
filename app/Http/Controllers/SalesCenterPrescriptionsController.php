@@ -39,26 +39,28 @@ class SalesCenterPrescriptionsController extends Controller
                 $clinic_id = $user->clinic_id;
             }
 
-            // Get consultations with prescriptions (require_glass = 'Yes') that haven't been purchased
-            // A prescription is considered "not purchased" if:
-            // 1. Consultation has require_glass = 'Yes'
+            // Get consultations with outpatient prescriptions that haven't been dispensed
+            // A prescription is considered "not dispensed" if:
+            // 1. Consultation has an outpatient prescription item (non-Pharmacy, non-Procedure)
             // 2. Status is 'Consulted' (consultation completed)
-            // 3. The patient has no PatientPaymentCacheItem with status 'Paid' or 'Served' for Glass items
+            // 3. The patient has no PatientPaymentCacheItem with status 'Paid' or 'Served' for outpatient items
 
             $query = Consultation::query()
                 ->with([
                     'payment_cache_item.payment_cache.check_in.patient',
                     'creator',
                 ])
-                ->where('require_glass', 'Yes')
                 ->where('status', 'Consulted')
+                ->whereHas('payment_cache_item.consultation_type', function ($q) {
+                    $q->whereNotIn('name', ['Pharmacy', 'Procedure']);
+                })
                 ->whereHas('payment_cache_item', function ($q) {
                     // Ensure payment_cache_item exists
                     $q->whereNotNull('id');
                 });
 
-            // Check if patient has any paid/served glass items
-            // Exclude consultations where the patient already has paid/served glass items
+            // Check if patient has any paid/served outpatient items
+            // Exclude consultations where the patient already has paid/served outpatient items
             $query->whereRaw('NOT EXISTS (
                 SELECT 1 
                 FROM patient_payment_cache_items ppci
@@ -73,7 +75,7 @@ class SalesCenterPrescriptionsController extends Controller
                     WHERE ppci2.id = consultations.payment_cache_item_id
                     LIMIT 1
                 )
-                AND ct.name = "Glass"
+                AND ct.name NOT IN ("Pharmacy", "Procedure")
                 AND ppci.status IN ("Paid", "Served")
             )');
 
@@ -174,8 +176,10 @@ class SalesCenterPrescriptionsController extends Controller
         }
 
         $query = Consultation::query()
-            ->where('require_glass', 'Yes')
             ->where('status', 'Consulted')
+            ->whereHas('payment_cache_item.consultation_type', function ($q) {
+                $q->whereNotIn('name', ['Pharmacy', 'Procedure']);
+            })
             ->whereHas('payment_cache_item', function ($q) {
                 // Ensure payment_cache_item exists
                 $q->whereNotNull('id');
@@ -194,7 +198,7 @@ class SalesCenterPrescriptionsController extends Controller
                     WHERE ppci2.id = consultations.payment_cache_item_id
                     LIMIT 1
                 )
-                AND ct.name = "Glass"
+                AND ct.name NOT IN ("Pharmacy", "Procedure")
                 AND ppci.status IN ("Paid", "Served")
             )')
             ->when($clinic_id, function ($query) use ($clinic_id) {

@@ -66,7 +66,7 @@ class ComprehensiveSystemDataSeeder extends Seeder
                 'last_name' => "Sample",
                 'middle_name' => chr(65 + ($i % 26)),
                 'phone' => "255" . str_pad(rand(100000000, 999999999), 9, '0', STR_PAD_LEFT),
-                'email' => "patient{$i}@eyechake.com",
+                'email' => "patient{$i}@polyclinic-hms.com",
                 'gender' => $i % 2 === 0 ? 'Male' : 'Female',
                 'date_of_birth' => Carbon::now()->subYears(rand(18, 70))->subDays(rand(1, 365)),
                 'national_id' => str_pad($i, 10, '0', STR_PAD_LEFT),

@@ -163,29 +163,69 @@ class BulkSmsController extends Controller
         $campaign->status = 'sending';
         $campaign->save();
 
-        $smsService = new \App\Http\Services\SmsService();
+        $mackSmsService = new \App\Http\Services\MackSmsService();
         $sentCount = 0;
         $failedCount = 0;
 
+        // Prepare recipients for bulk SMS
+        $recipients = [];
         foreach ($campaign->recipients as $recipient) {
-            try {
-                $result = $smsService->sendToPhone(
-                    $recipient->phone_number,
-                    $campaign->message
-                );
+            $recipients[] = [
+                'phone' => $recipient->phone_number,
+                'message' => $campaign->message
+            ];
+        }
 
-                if ($result) {
-                    $recipient->status = 'sent';
-                    $recipient->sent_at = now();
-                    $recipient->save();
-                    $sentCount++;
+        // Send SMS using MACKSMS API
+        try {
+            $result = $mackSmsService->sendMultipleSms($recipients);
+            
+            if ($result && isset($result['success']) && $result['success'] === true) {
+                // Process successful response
+                if (isset($result['sms_data']) && is_array($result['sms_data'])) {
+                    foreach ($result['sms_data'] as $index => $smsData) {
+                        if (isset($campaign->recipients[$index])) {
+                            $recipient = $campaign->recipients[$index];
+                            
+                            if (isset($smsData['action_status']) && $smsData['action_status'] === true) {
+                                $recipient->status = 'sent';
+                                $recipient->sent_at = now();
+                                $recipient->message_id = $smsData['messageID'] ?? null;
+                                $recipient->api_response = json_encode($smsData);
+                                $recipient->save();
+                                $sentCount++;
+                            } else {
+                                $recipient->status = 'failed';
+                                $recipient->error_message = $smsData['description'] ?? 'MACKSMS API error';
+                                $recipient->api_response = json_encode($smsData);
+                                $recipient->save();
+                                $failedCount++;
+                            }
+                        }
+                    }
                 } else {
+                    // If no sms_data array, mark all as failed
+                    foreach ($campaign->recipients as $recipient) {
+                        $recipient->status = 'failed';
+                        $recipient->error_message = 'Invalid response format from MACKSMS API';
+                        $recipient->api_response = json_encode($result);
+                        $recipient->save();
+                        $failedCount++;
+                    }
+                }
+            } else {
+                // Update all recipients as failed
+                foreach ($campaign->recipients as $recipient) {
                     $recipient->status = 'failed';
-                    $recipient->error_message = 'SMS service returned empty response';
+                    $recipient->error_message = $result['description'] ?? 'MACKSMS API error';
+                    $recipient->api_response = json_encode($result);
                     $recipient->save();
                     $failedCount++;
                 }
-            } catch (\Exception $e) {
+            }
+        } catch (\Exception $e) {
+            // Update all recipients as failed
+            foreach ($campaign->recipients as $recipient) {
                 $recipient->status = 'failed';
                 $recipient->error_message = $e->getMessage();
                 $recipient->save();
@@ -199,6 +239,26 @@ class BulkSmsController extends Controller
         $campaign->save();
 
         return $this->sendResponse($campaign->fresh()->load('recipients'), Response::HTTP_OK, "SMS campaign sent. {$sentCount} sent, {$failedCount} failed.");
+    }
+
+    /**
+     * Get SMS balance
+     */
+    public function getBalance(Request $request)
+    {
+        $mackSmsService = new \App\Http\Services\MackSmsService();
+        
+        try {
+            $result = $mackSmsService->getBalance();
+
+            if ($result && isset($result['success']) && $result['success'] === true) {
+                return $this->sendResponse($result, Response::HTTP_OK, 'SMS balance retrieved successfully.');
+            } else {
+                return $this->sendResponse(null, Response::HTTP_BAD_REQUEST, 'Failed to retrieve SMS balance.');
+            }
+        } catch (\Exception $e) {
+            return $this->sendResponse(null, Response::HTTP_INTERNAL_SERVER_ERROR, 'Error: ' . $e->getMessage());
+        }
     }
 
     private function generateRecipients($filters, $user)

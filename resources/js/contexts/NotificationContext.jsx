@@ -188,10 +188,18 @@ export const NotificationProvider = ({ children }) => {
 
     return () => {
       console.log('NotificationContext: Cleaning up WebSocket');
-      if (channel && typeof channel.leave === 'function') {
-        channel.leave();
-      } else if (channel && typeof channel.stop === 'function') {
-        channel.stop();
+      if (channel) {
+        try {
+          if (typeof channel.leave === 'function') {
+            channel.leave();
+          } else if (typeof channel.stop === 'function') {
+            channel.stop();
+          } else if (typeof channel.unsubscribe === 'function') {
+            channel.unsubscribe();
+          }
+        } catch (error) {
+          console.warn('Error cleaning up WebSocket channel:', error);
+        }
       }
     };
   }, [fetchNotifications]);

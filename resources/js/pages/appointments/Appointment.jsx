@@ -41,7 +41,7 @@ const Appointment = () => {
   const { data, loading, error, handlePost } = usePost("api/appointments", formData);
 
   useEffect(() => {
-    document.title = `Book Appointment - SIKAF Eye Care`;
+    document.title = `Book Appointment - Polyclinic HMS`;
   }, []);
 
   useEffect(() => {

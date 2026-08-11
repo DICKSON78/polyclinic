@@ -97,7 +97,7 @@ const CataractSurgeryRecord = ({ patient, paymentCacheitem }) => {
   });
 
   useEffect(() => {
-    document.title = `Cataract Surgery Record - ${window.APP_NAME}`;
+    document.title = `Surgical Record - ${window.APP_NAME}`;
     handleFetch();
   }, []);
 
@@ -190,7 +190,7 @@ const CataractSurgeryRecord = ({ patient, paymentCacheitem }) => {
     <React.Fragment>
       <Card>
         <PageHeader
-          title="Cataract Surgery Record"
+          title="Surgical Record"
           trailing={
             formData ? (
               <CataractSurgeryRecordPDF
@@ -248,7 +248,7 @@ const CataractSurgeryRecord = ({ patient, paymentCacheitem }) => {
                             component="th"
                             rowSpan={2}
                           >
-                            Visual Acuity
+                            Clinical Assessment
                           </TableCell>
                           <TableCell component="th">Presenting VA</TableCell>
                           <TableCell>
@@ -327,7 +327,7 @@ const CataractSurgeryRecord = ({ patient, paymentCacheitem }) => {
                                 .length + 1
                             }
                           >
-                            Lens Examination
+                            Examination
                           </TableCell>
                           <TableCell component="th" />
                           <TableCell component="th">RE</TableCell>
@@ -455,7 +455,7 @@ const CataractSurgeryRecord = ({ patient, paymentCacheitem }) => {
                       <TableBody>
                         <TableRow>
                           <TableCell component="th">
-                            Category of Visual Acuity (Snellen 6 m)
+                            Category of Clinical Assessment (Snellen 6 m)
                           </TableCell>
                         </TableRow>
                         <TableRow>
@@ -585,7 +585,7 @@ const CataractSurgeryRecord = ({ patient, paymentCacheitem }) => {
                             />
 
                             <FormLabelControl
-                              label="Refraction:"
+                              label="Examination:"
                               horizontal
                               containerProps={{ alignItems: "center", mb: 2 }}
                               control={
@@ -1283,7 +1283,7 @@ const CataractSurgeryRecord = ({ patient, paymentCacheitem }) => {
                   <TableHead>
                     <TableRow>
                       <TableCell colSpan={3}>
-                        Visual acuity of operated eye postoperation
+                        Clinical assessment of operated eye postoperation
                       </TableCell>
                       <TableCell colSpan={4}>
                         {
@@ -1604,7 +1604,7 @@ const CataractSurgeryRecord = ({ patient, paymentCacheitem }) => {
                     <TableRow>
                       <TableCell>
                         <FormLabelControl
-                          label="Postop. Refraction:"
+                          label="Postop. Examination:"
                           horizontal
                           containerProps={{ alignItems: "center", mb: 2 }}
                           control={

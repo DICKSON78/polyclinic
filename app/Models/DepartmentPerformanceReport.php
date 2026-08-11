@@ -66,7 +66,12 @@ class DepartmentPerformanceReport extends Model
             ->join('patient_payment_cache_items as ppci', 'pip.id', '=', 'ppci.item_payment_id')
             ->join('items as i', 'ppci.item_id', '=', 'i.id')
             ->join('users as u', 'pip.created_by', '=', 'u.id')
-            ->where('i.category', 'Medicine')
+            ->where(function($query) {
+                $query->where('i.category', 'Medicine')
+                    ->orWhere('i.name', 'like', '%PROBETA N%')
+                    ->orWhere('i.name', 'like', '%Betamethasone%')
+                    ->orWhere('i.name', 'like', '%Neomycin%');
+            })
             ->where('pip.amount', '>', 0)
             ->whereDate('pip.created_at', $reportDate)
             ->when($clinicId, function ($query) use ($clinicId) {
@@ -101,12 +106,31 @@ class DepartmentPerformanceReport extends Model
             ? round(($returningPatients / $totalPatients) * 100, 2) 
             : 0;
 
+        // Softdrop Sales - confirmed softdrop payments
+        $softdropSales = DB::table('patient_item_payments as pip')
+            ->join('patient_payment_cache_items as ppci', 'pip.id', '=', 'ppci.item_payment_id')
+            ->join('items as i', 'ppci.item_id', '=', 'i.id')
+            ->join('users as u', 'pip.created_by', '=', 'u.id')
+            ->where('i.category', 'Softdrop')
+            ->where('pip.amount', '>', 0)
+            ->whereDate('pip.created_at', $reportDate)
+            ->when($clinicId, function ($query) use ($clinicId) {
+                $query->where('u.clinic_id', $clinicId);
+            })
+            ->sum('pip.amount');
+
         return [
             'medicine_sales' => [
                 'name' => 'Medicine Sales',
                 'value' => (float) $medicineSales,
                 'unit' => 'currency',
                 'target' => DepartmentKpiTarget::getTarget('Optometry', 'Medicine Sales', $clinicId),
+            ],
+            'softdrop_sales' => [
+                'name' => 'Softdrop Sales',
+                'value' => (float) $softdropSales,
+                'unit' => 'currency',
+                'target' => DepartmentKpiTarget::getTarget('Optometry', 'Softdrop Sales', $clinicId),
             ],
             'return_patient_percentage' => [
                 'name' => 'Return Patient % (Monthly)',
@@ -124,13 +148,13 @@ class DepartmentPerformanceReport extends Model
     {
         $reportDate = $reportDate ?? now()->toDateString();
 
-        // Average Glass Daily Sales - approved lens payments
+        // Average Glass Daily Sales - approved outpatient payments (non-Pharmacy, non-Procedure)
         $glassSales = DB::table('patient_item_payments as pip')
             ->join('patient_payment_cache_items as ppci', 'pip.id', '=', 'ppci.item_payment_id')
             ->join('items as i', 'ppci.item_id', '=', 'i.id')
             ->join('consultation_types as ct', 'ppci.consultation_type_id', '=', 'ct.id')
             ->join('users as u', 'pip.created_by', '=', 'u.id')
-            ->where('ct.name', 'Glass')
+            ->whereNotIn('ct.name', ['Pharmacy', 'Procedure'])
             ->where('pip.amount', '>', 0)
             ->whereDate('pip.created_at', $reportDate)
             ->when($clinicId, function ($query) use ($clinicId) {
@@ -152,7 +176,7 @@ class DepartmentPerformanceReport extends Model
             ->join('patient_payment_cache_items as ppci', 'pip.id', '=', 'ppci.item_payment_id')
             ->join('consultation_types as ct', 'ppci.consultation_type_id', '=', 'ct.id')
             ->join('users as u', 'pip.created_by', '=', 'u.id')
-            ->where('ct.name', 'Glass')
+            ->whereNotIn('ct.name', ['Pharmacy', 'Procedure'])
             ->where('pip.amount', '>', 0)
             ->whereDate('pip.created_at', $reportDate)
             ->when($clinicId, function ($query) use ($clinicId) {

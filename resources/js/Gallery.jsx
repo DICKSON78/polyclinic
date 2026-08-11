@@ -52,7 +52,7 @@ const colors = {
 
 // WhatsApp Contact Information
 const WHATSAPP_NUMBER = "+255712345678"; // Replace with actual number
-const WHATSAPP_MESSAGE = "Hello! I'm interested in eyewear from SIKAF Eye Care.";
+const WHATSAPP_MESSAGE = "Hello! I'm interested in eyewear from Polyclinic HMS.";
 
 const Eyeware = () => {
   const heroRef = useRef(null);
@@ -466,9 +466,9 @@ const Eyeware = () => {
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: colors.white, pt: { xs: '56px', sm: '64px' } }}>
       <SEO
-        title="Eyeware Collection - SIKAF Eye Care | Premium Frames & Eyewear"
-        description="Explore our premium eyeware collection featuring children frames, medium budget frames, and executive collections. Find the perfect frames for your style and budget at SIKAF Eye Care."
-        keywords="eyeware, eyeglasses frames, optical frames, children eyewear, executive frames, SIKAF eyeware collection"
+        title="Eyeware Collection - Polyclinic HMS | Premium Frames & Eyewear"
+        description="Explore our premium eyeware collection featuring children frames, medium budget frames, and executive collections. Find the perfect frames for your style and budget at Polyclinic HMS."
+        keywords="eyeware, eyeglasses frames, optical frames, children eyewear, executive frames, Polyclinic HMS eyewear collection"
       />
       <Navbar />
 

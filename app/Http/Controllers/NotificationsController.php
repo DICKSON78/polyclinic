@@ -250,25 +250,17 @@ class NotificationsController extends Controller
     private function getPatientsSentToOpticianCount($clinic_id)
     {
         try {
-            // Count consultations sent to optician
+            // Count consultations awaiting outpatient dispensing (any item type except Pharmacy/Procedure that isn't served)
             $query = Consultation::query()
                 ->when($clinic_id, function ($q) use ($clinic_id) {
                     $q->whereHas('creator', function ($query) use ($clinic_id) {
                         $query->where('clinic_id', $clinic_id);
                     });
                 })
-                    ->where('require_glass', 'Yes')
-                    ->where(function ($q) {
-                        $q->whereNotNull('sent_to_optician_at')
-                          ->orWhere('patient_direction', 'Sent to Optician')
-                          ->orWhere('patient_direction', 'Direct to Optician');
-                    })
-                ->whereNull('optician_completed_at')
-                // Exclude dispensed patients by ensuring they have at least one unserved glass item
                 ->whereHas('payment_cache', function ($query) {
                     $query->whereHas('items', function ($itemsQuery) {
                         $itemsQuery->whereHas('item.consultation_type', function ($typeQuery) {
-                            $typeQuery->where('name', 'Glass');
+                            $typeQuery->whereNotIn('name', ['Pharmacy', 'Procedure']);
                         })
                         ->where('status', '!=', 'Served');
                     });
@@ -287,7 +279,7 @@ class NotificationsController extends Controller
     private function getGlassPatientsCount($clinic_id)
     {
         try {
-            // Count patients with Glass consultation type
+            // Count patients with items awaiting outpatient dispensing (non-Pharmacy/Procedure)
             $query = PatientPaymentCache::query()
                 ->when($clinic_id, function ($q) use ($clinic_id) {
                     $q->whereHas('creator', function ($query) use ($clinic_id) {
@@ -296,8 +288,9 @@ class NotificationsController extends Controller
                 })
                 ->whereHas('items', function ($query) {
                     $query->whereHas('consultation_type', function ($q) {
-                        $q->where('name', 'Glass');
-                    });
+                        $q->whereNotIn('name', ['Pharmacy', 'Procedure']);
+                    })
+                    ->where('status', '!=', 'Served');
                 })
                 ->whereNotNull('created_at')
                 ->where('created_at', '>=', Carbon::today()->format('Y-m-d') . ' 00:00:00')
@@ -363,7 +356,7 @@ class NotificationsController extends Controller
     private function getOtherDispensingRequestsCount($clinic_id)
     {
         try {
-            // Count other dispensing requests (non-pharmacy, non-procedure items)
+            // Count outpatient dispensing requests (non-pharmacy, non-procedure items)
             // Exclude items that have already been dispensed (have item_payment_id)
             $query = PatientPaymentCacheItem::query()
                 ->join('patient_payment_cache', 'patient_payment_cache_items.payment_cache_id', '=', 'patient_payment_cache.id')
@@ -372,7 +365,7 @@ class NotificationsController extends Controller
                 ->when($clinic_id, function ($q) use ($clinic_id) {
                     $q->where('users.clinic_id', $clinic_id);
                 })
-                ->whereNotIn('consultation_types.name', ['Pharmacy', 'Procedure', 'Glass'])
+                ->whereNotIn('consultation_types.name', ['Pharmacy', 'Procedure'])
                 ->whereIn('patient_payment_cache_items.status', ['Paid', 'Billed'])
                 ->whereNotNull('patient_payment_cache.created_at')
                 ->where('patient_payment_cache.created_at', '>=', Carbon::today()->format('Y-m-d') . ' 00:00:00')
@@ -410,7 +403,7 @@ class NotificationsController extends Controller
     private function getGlassDispensingRequestsCount($clinic_id)
     {
         try {
-            // Count glass items ready for dispensing
+            // Count items ready for outpatient dispensing (non-pharmacy, non-procedure)
             // Exclude items that have already been dispensed (have item_payment_id)
             $query = PatientPaymentCacheItem::query()
                 ->join('patient_payment_cache', 'patient_payment_cache_items.payment_cache_id', '=', 'patient_payment_cache.id')
@@ -419,7 +412,7 @@ class NotificationsController extends Controller
                 ->when($clinic_id, function ($q) use ($clinic_id) {
                     $q->where('users.clinic_id', $clinic_id);
                 })
-                ->where('consultation_types.name', 'Glass')
+                ->whereNotIn('consultation_types.name', ['Pharmacy', 'Procedure'])
                 ->whereIn('patient_payment_cache_items.status', ['Paid', 'Billed'])
                 ->whereNotNull('patient_payment_cache.created_at')
                 ->where('patient_payment_cache.created_at', '>=', Carbon::today()->format('Y-m-d') . ' 00:00:00')
@@ -465,7 +458,7 @@ class NotificationsController extends Controller
     private function getSpectaclePatientsCount($clinic_id)
     {
         try {
-            // Count patients with Glass consultation type today
+            // Count patients with items awaiting outpatient dispensing today
             $query = PatientPaymentCache::query()
                 ->when($clinic_id, function ($q) use ($clinic_id) {
                     $q->whereHas('creator', function ($query) use ($clinic_id) {
@@ -474,8 +467,9 @@ class NotificationsController extends Controller
                 })
                 ->whereHas('items', function ($query) {
                     $query->whereHas('consultation_type', function ($q) {
-                        $q->where('name', 'Glass');
-                    });
+                        $q->whereNotIn('name', ['Pharmacy', 'Procedure']);
+                    })
+                    ->where('status', '!=', 'Served');
                 })
                 ->whereNotNull('created_at')
                 ->where('created_at', '>=', Carbon::today()->format('Y-m-d') . ' 00:00:00')

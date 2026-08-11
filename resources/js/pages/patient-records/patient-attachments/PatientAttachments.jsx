@@ -312,7 +312,7 @@ const PatientAttachments = ({ patient, readOnly }) => {
               )}
               {item.consultation?.require_glass === 'Yes' && (
                 <div>
-                  <strong>Requires Glasses:</strong> Yes
+                  <strong>Requires Item:</strong> Yes
                 </div>
               )}
             </Stack>

@@ -1,12 +1,27 @@
 <?php
 use App\Http\Controllers\Reports\FinancialManagementReportsController;
-use App\Http\Controllers\Admin\DeleteTestUsersController;
 use App\Http\Controllers\DispensingDashboardController;
 use App\Http\Controllers\Reports\InventoryManagementReportsController;
 use App\Http\Controllers\PaymentCenterDashboardController;
 use App\Http\Controllers\Reports\PaymentCenterReportsController;
 use App\Http\Controllers\ReceptionDashboardController;
 use App\Http\Controllers\DirectorDashboardController;
+use App\Http\Controllers\TriageController;
+use App\Http\Controllers\EmergencyController;
+use App\Http\Controllers\LaboratoryController;
+use App\Http\Controllers\RadiologyController;
+use App\Http\Controllers\EPrescriptionsController;
+use App\Http\Controllers\InsuranceClaimsController;
+use App\Http\Controllers\InsuranceCompaniesController;
+use App\Http\Controllers\PatientInsurancesController;
+use App\Http\Controllers\InpatientController;
+use App\Http\Controllers\OperatingTheatreController;
+use App\Http\Controllers\AnesthesiaController;
+use App\Http\Controllers\BloodBankController;
+use App\Http\Controllers\AmbulanceController;
+use App\Http\Controllers\MortuaryController;
+use App\Http\Controllers\InpatientBillingController;
+use App\Http\Controllers\WardRecordsController;
 use App\Http\Controllers\AppointmentsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CataractSurgeryRecordsController;
@@ -144,20 +159,250 @@ Route::get('/health', function () {
 Route::get('/notifications', [NotificationsController::class, '__invoke'])->middleware('auth:api');
 Route::get('/notifications/dynamic', [NotificationsController::class, 'getDynamicNotifications'])->middleware('auth:api');
 
-// Test authentication endpoint
-Route::get('/test-auth', function (\Illuminate\Http\Request $request) {
-    return response()->json([
-        'authenticated' => auth()->check(),
-        'user' => auth()->user() ? auth()->user()->id : null,
-        'headers' => $request->headers->all()
-    ]);
-})->middleware('auth:api');
-
 // Shared patient read routes - accessible by multiple roles
 Route::group(['middleware' => ['auth:api']], function ($router) {
     $router->controller(PatientsController::class)->prefix('patients')->group(function ($router) {
         $router->get('/', 'index');
         $router->get('/{id}', 'show');
+    });
+});
+
+// Triage routes - require triage privilege
+Route::group(['middleware' => ['auth:api', 'privilege:triage']], function ($router) {
+    $router->controller(TriageController::class)->prefix('triage')->group(function ($router) {
+        $router->get('/dashboard', 'dashboard');
+        $router->get('/queue', 'queue');
+        $router->post('/vital-signs', 'store');
+        $router->get('/vital-signs/{id}', 'show');
+        $router->match(['put', 'patch'], '/vital-signs/{id}', 'update');
+        $router->delete('/vital-signs/{id}', 'destroy');
+        $router->get('/patients/{patientId}/vital-signs', 'patientHistory');
+    });
+});
+
+// Emergency / ER routes - require triage privilege
+Route::group(['middleware' => ['auth:api', 'privilege:triage']], function ($router) {
+    $router->controller(EmergencyController::class)->prefix('emergency')->group(function ($router) {
+        $router->get('/dashboard', 'dashboard');
+        $router->get('/visits', 'index');
+        $router->post('/visits', 'store');
+        $router->get('/visits/{id}', 'show');
+        $router->match(['put', 'patch'], '/visits/{id}', 'update');
+        $router->post('/visits/{id}/start-treatment', 'startTreatment');
+        $router->post('/visits/{id}/admit', 'admit');
+        $router->post('/visits/{id}/discharge', 'discharge');
+        $router->get('/patients/{patientId}/history', 'patientHistory');
+        $router->get('/staff', 'staff');
+    });
+
+    // Ambulance / patient transport routes
+    $router->controller(AmbulanceController::class)->prefix('ambulance')->group(function ($router) {
+        $router->get('/dashboard', 'dashboard');
+        $router->get('/vehicles', 'vehicles');
+        $router->post('/vehicles', 'storeVehicle');
+        $router->match(['put', 'patch'], '/vehicles/{id}', 'updateVehicle');
+        $router->get('/requests', 'requests');
+        $router->post('/requests', 'storeRequest');
+        $router->get('/requests/{id}', 'showRequest');
+        $router->post('/requests/{id}/assign', 'assign');
+        $router->get('/trips', 'trips');
+        $router->post('/trips/{id}/advance', 'advanceTrip');
+        $router->get('/staff', 'staff');
+    });
+});
+
+// Laboratory routes - require laboratory privilege
+Route::group(['middleware' => ['auth:api', 'privilege:laboratory']], function ($router) {
+    $router->controller(LaboratoryController::class)->prefix('laboratory')->group(function ($router) {
+        $router->get('/dashboard', 'dashboard');
+        $router->get('/tests', 'tests');
+        $router->post('/tests', 'storeTest');
+        $router->match(['put', 'patch'], '/tests/{id}', 'updateTest');
+        $router->delete('/tests/{id}', 'destroyTest');
+        $router->get('/requests', 'requests');
+        $router->post('/requests', 'storeRequest');
+        $router->get('/requests/{id}', 'showRequest');
+        $router->post('/requests/{id}/collect-sample', 'collectSample');
+        $router->post('/requests/{id}/results', 'enterResults');
+        $router->post('/requests/{id}/cancel', 'cancelRequest');
+        $router->get('/patients/{patientId}/history', 'patientHistory');
+    });
+});
+
+// Radiology routes - require radiology privilege
+Route::group(['middleware' => ['auth:api', 'privilege:radiology']], function ($router) {
+    $router->controller(RadiologyController::class)->prefix('radiology')->group(function ($router) {
+        $router->get('/dashboard', 'dashboard');
+        $router->get('/exams', 'exams');
+        $router->post('/exams', 'storeExam');
+        $router->match(['put', 'patch'], '/exams/{id}', 'updateExam');
+        $router->delete('/exams/{id}', 'destroyExam');
+        $router->get('/requests', 'requests');
+        $router->post('/requests', 'storeRequest');
+        $router->get('/requests/{id}', 'showRequest');
+        $router->post('/requests/{id}/performed', 'markPerformed');
+        $router->post('/requests/{id}/results', 'enterResults');
+        $router->post('/requests/{id}/cancel', 'cancelRequest');
+        $router->get('/patients/{patientId}/history', 'patientHistory');
+    });
+});
+
+// E-Prescription routes - require e_prescription privilege
+Route::group(['middleware' => ['auth:api', 'privilege:e_prescription']], function ($router) {
+    $router->controller(EPrescriptionsController::class)->prefix('e-prescription')->group(function ($router) {
+        $router->get('/dashboard', 'dashboard');
+        $router->get('/medicines', 'medicines');
+        $router->get('/', 'index');
+        $router->post('/', 'store');
+        $router->get('/{id}', 'show');
+        $router->post('/{id}/dispense', 'dispense');
+        $router->post('/{id}/send-to-pharmacy', 'sendToPharmacy');
+        $router->post('/{id}/cancel', 'cancel');
+        $router->get('/patients/{patientId}/history', 'patientHistory');
+    });
+});
+
+// Inpatient routes - require wards privilege
+Route::group(['middleware' => ['auth:api', 'privilege:wards']], function ($router) {
+    $router->controller(InpatientController::class)->prefix('inpatient')->group(function ($router) {
+        $router->get('/dashboard', 'dashboard');
+        $router->get('/wards', 'wards');
+        $router->post('/wards', 'storeWard');
+        $router->match(['put', 'patch'], '/wards/{id}', 'updateWard');
+        $router->delete('/wards/{id}', 'destroyWard');
+        $router->get('/beds', 'beds');
+        $router->post('/beds', 'storeBed');
+        $router->match(['put', 'patch'], '/beds/{id}', 'updateBed');
+        $router->delete('/beds/{id}', 'destroyBed');
+        $router->get('/admissions', 'admissions');
+        $router->post('/admissions', 'admit');
+        $router->get('/admissions/{id}', 'showAdmission');
+        $router->post('/admissions/{id}/discharge', 'discharge');
+        $router->post('/admissions/{id}/transfer', 'transfer');
+        $router->get('/notes', 'notes');
+        $router->post('/notes', 'storeNote');
+        $router->delete('/notes/{id}', 'destroyNote');
+        $router->get('/patients/{patientId}/history', 'patientHistory');
+    });
+});
+
+// Inpatient Billing routes - require wards privilege
+Route::group(['middleware' => ['auth:api', 'privilege:wards']], function ($router) {
+    $router->controller(InpatientBillingController::class)->prefix('inpatient-billing')->group(function ($router) {
+        $router->get('/dashboard', 'dashboard');
+        $router->get('/charges', 'accruals');
+        $router->post('/charges/accrue', 'runAccrual');
+        $router->post('/charges', 'manualCharge');
+        $router->post('/charges/{id}/void', 'voidCharge');
+        $router->get('/bills', 'bills');
+        $router->get('/bills/{id}', 'showBill');
+        $router->post('/bills', 'createBill');
+        $router->post('/bills/{id}/payments', 'addPayment');
+        $router->get('/payment-modes', 'paymentModes');
+    });
+});
+
+// Ward clinical records routes (discharge summaries, nursing charts, fluid balance, MAR) - require wards privilege
+Route::group(['middleware' => ['auth:api', 'privilege:wards']], function ($router) {
+    $router->controller(WardRecordsController::class)->prefix('ward-records')->group(function ($router) {
+        $router->get('/dashboard', 'dashboard');
+        $router->get('/discharge-summaries', 'dischargeSummaries');
+        $router->post('/discharge-summaries', 'storeDischargeSummary');
+        $router->get('/discharge-summaries/{id}', 'showDischargeSummary');
+        $router->post('/discharge-summaries/{id}/finalize', 'finalizeDischargeSummary');
+        $router->get('/nursing-charts', 'nursingCharts');
+        $router->post('/nursing-charts', 'storeNursingChart');
+        $router->delete('/nursing-charts/{id}', 'destroyNursingChart');
+        $router->get('/fluid-balances', 'fluidBalances');
+        $router->post('/fluid-balances', 'storeFluidBalance');
+        $router->delete('/fluid-balances/{id}', 'destroyFluidBalance');
+        $router->get('/mar', 'mar');
+        $router->post('/mar', 'storeMar');
+        $router->post('/mar/{id}/status', 'updateMarStatus');
+        $router->delete('/mar/{id}', 'destroyMar');
+        $router->get('/staff', 'staff');
+    });
+});
+
+// Operating Theatre routes - require wards privilege
+Route::group(['middleware' => ['auth:api', 'privilege:wards']], function ($router) {
+    $router->controller(OperatingTheatreController::class)->prefix('operating-theatre')->group(function ($router) {
+        $router->get('/dashboard', 'dashboard');
+        $router->get('/theatres', 'theatres');
+        $router->post('/theatres', 'storeTheatre');
+        $router->match(['put', 'patch'], '/theatres/{id}', 'updateTheatre');
+        $router->delete('/theatres/{id}', 'destroyTheatre');
+        $router->get('/surgeries', 'surgeries');
+        $router->post('/surgeries', 'store');
+        $router->get('/surgeries/{id}', 'show');
+        $router->match(['put', 'patch'], '/surgeries/{id}', 'update');
+        $router->post('/surgeries/{id}/ready', 'markReady');
+        $router->post('/surgeries/{id}/start', 'startSurgery');
+        $router->post('/surgeries/{id}/complete', 'completeSurgery');
+        $router->post('/surgeries/{id}/cancel', 'cancelSurgery');
+        $router->post('/surgeries/{id}/notes', 'storeNote');
+        $router->delete('/notes/{id}', 'destroyNote');
+        $router->get('/patients/{patientId}/history', 'patientHistory');
+        $router->get('/staff', 'staff');
+        $router->get('/admissions', 'admissions');
+    });
+});
+
+// Anesthesia routes - require wards privilege
+Route::group(['middleware' => ['auth:api', 'privilege:wards']], function ($router) {
+    $router->controller(AnesthesiaController::class)->prefix('anesthesia')->group(function ($router) {
+        $router->get('/dashboard', 'dashboard');
+        $router->get('/records', 'index');
+        $router->post('/records', 'store');
+        $router->get('/records/{id}', 'show');
+        $router->match(['put', 'patch'], '/records/{id}', 'update');
+        $router->post('/records/{id}/start', 'start');
+        $router->post('/records/{id}/complete', 'complete');
+        $router->post('/records/{id}/cancel', 'cancel');
+        $router->post('/records/{id}/vitals', 'storeVital');
+        $router->delete('/vitals/{id}', 'destroyVital');
+        $router->get('/patients/{patientId}/history', 'patientHistory');
+        $router->get('/staff', 'staff');
+    });
+});
+
+// Blood Bank routes - require laboratory privilege
+Route::group(['middleware' => ['auth:api', 'privilege:laboratory']], function ($router) {
+    $router->controller(BloodBankController::class)->prefix('blood-bank')->group(function ($router) {
+        $router->get('/dashboard', 'dashboard');
+        $router->get('/units', 'units');
+        $router->post('/units', 'storeUnit');
+        $router->match(['put', 'patch'], '/units/{id}', 'updateUnit');
+        $router->get('/donors', 'donors');
+        $router->post('/donors', 'storeDonor');
+        $router->match(['put', 'patch'], '/donors/{id}', 'updateDonor');
+        $router->get('/transfusions', 'transfusions');
+        $router->get('/transfusions/{id}', 'showTransfusion');
+        $router->post('/transfusions', 'storeTransfusion');
+        $router->post('/transfusions/{id}/cross-match', 'crossMatch');
+        $router->post('/transfusions/{id}/start', 'start');
+        $router->post('/transfusions/{id}/complete', 'complete');
+        $router->post('/transfusions/{id}/cancel', 'cancel');
+        $router->get('/patients/{patientId}/history', 'patientHistory');
+        $router->get('/staff', 'staff');
+    });
+});
+
+// Mortuary routes - require wards privilege
+Route::group(['middleware' => ['auth:api', 'privilege:wards']], function ($router) {
+    $router->controller(MortuaryController::class)->prefix('mortuary')->group(function ($router) {
+        $router->get('/dashboard', 'dashboard');
+        $router->get('/bodies', 'bodies');
+        $router->post('/bodies', 'storeBody');
+        $router->get('/bodies/{id}', 'showBody');
+        $router->match(['put', 'patch'], '/bodies/{id}', 'updateBody');
+        $router->post('/bodies/{id}/release', 'releaseBody');
+        $router->get('/certificates', 'certificates');
+        $router->get('/certificates/{id}', 'showCertificate');
+        $router->post('/certificates', 'storeCertificate');
+        $router->post('/certificates/{id}/issue', 'issueCertificate');
+        $router->post('/certificates/{id}/void', 'voidCertificate');
+        $router->get('/staff', 'staff');
     });
 });
 
@@ -221,26 +466,6 @@ Route::group(['middleware' => ['auth:api', 'privilege:consultation_room']], func
     });
 });
 
-// Sales routes - require sales_center privilege
-Route::group(['middleware' => ['auth:api', 'privilege:sales_center']], function ($router) {
-    // Routes will be added when controllers are created
-});
-
-// Pharmacy routes - require medicine_center privilege
-Route::group(['middleware' => ['auth:api', 'privilege:medicine_center']], function ($router) {
-    // Routes will be added when controllers are created
-});
-
-// Workshop routes - require optician_center privilege
-Route::group(['middleware' => ['auth:api', 'privilege:optician_center']], function ($router) {
-    // Routes will be added when controllers are created
-});
-
-// Financial management routes - require financial_management privilege
-Route::group(['middleware' => ['auth:api', 'privilege:financial_management']], function ($router) {
-    // Routes will be added when controllers are created
-});
-
 // Marketing routes - require marketing privilege
 Route::group(['middleware' => ['auth:api', 'privilege:marketing']], function ($router) {
     $router->controller(MarketingDashboardController::class)->prefix('marketing')->group(function ($router) {
@@ -273,21 +498,6 @@ Route::group(['middleware' => ['auth:api', 'privilege:employee_management']], fu
     $router->apiResource('/job-titles', JobTitlesController::class);
     $router->apiResource('/departments', DepartmentsController::class);
     $router->apiResource('/clinics', ClinicsController::class);
-});
-
-// Settings routes - require settings privilege (Admin and Director only)
-Route::group(['middleware' => ['auth:api', 'privilege:settings']], function ($router) {
-    // Routes will be added when controllers are created
-});
-
-// Director routes - require director privilege
-Route::group(['middleware' => ['auth:api', 'privilege:director']], function ($router) {
-    // Routes will be added when controllers are created
-});
-
-// Admin only routes - require admin role
-Route::group(['middleware' => ['auth:api', 'role:Admin']], function ($router) {
-    // Routes will be added when controllers are created
 });
 
 // Main authenticated routes group
@@ -387,6 +597,36 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
             $router->get('/reports/revenue-collection', 'getRevenueCollectionReport');
             $router->get('/reports/expenses', 'getExpenseReport');
         });
+
+        // Insurance / NHIF companies
+        $router->controller(InsuranceCompaniesController::class)->prefix('insurance-company')->group(function ($router) {
+            $router->get('/', 'index');
+            $router->post('/', 'store');
+            $router->get('/{id}', 'show');
+            $router->match(['put', 'patch'], '/{id}', 'update');
+            $router->delete('/{id}', 'destroy');
+        });
+
+        // Patient insurance memberships
+        $router->controller(PatientInsurancesController::class)->prefix('patient-insurance')->group(function ($router) {
+            $router->get('/patients/{patientId}', 'index');
+            $router->post('/', 'store');
+            $router->match(['put', 'patch'], '/{id}', 'update');
+            $router->delete('/{id}', 'destroy');
+        });
+
+        // Insurance / NHIF claims
+        $router->controller(InsuranceClaimsController::class)->prefix('insurance-claim')->group(function ($router) {
+            $router->get('/dashboard', 'dashboard');
+            $router->get('/', 'index');
+            $router->post('/', 'store');
+            $router->get('/patients/{patientId}/history', 'patientHistory');
+            $router->get('/{id}', 'show');
+            $router->post('/{id}/submit', 'submit');
+            $router->post('/{id}/approve', 'approve');
+            $router->post('/{id}/reject', 'reject');
+            $router->post('/{id}/pay', 'pay');
+        });
     });
     
     // Employee Reports
@@ -423,12 +663,13 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
     $router->get('/employee-sales-performance', [EmployeeSalesPerformanceController::class, 'getAllEmployeesSalesPerformance']);
     $router->get('/employee-sales-performance/{employeeId}', [EmployeeSalesPerformanceController::class, 'getEmployeeSalesPerformance']);
     $router->get('/lens-stock', [LensStockController::class, 'index']);
-    $router->get('/lens-stock', [LensStockController::class, 'index']);
 
-    $router->get('/patients/test', [PatientsController::class, 'test']);
     $router->apiResource('/patients', PatientsController::class);
     $router->apiResource('/patient-check-ins', PatientCheckInsController::class);
     $router->apiResource('/patient-attachments', PatientAttachmentsController::class);
+
+    // Patient referrals route
+    $router->get('/patients/{patient_id}/referrals', [ReferralsController::class, 'getPatientReferrals']);
 
     $router->apiResource('/patient-payment-cache', PatientPaymentCacheController::class);
     $router->apiResource('/patient-payment-cache-items', PatientPaymentCacheItemsController::class);
@@ -506,6 +747,7 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
         // Bulk SMS
         $router->apiResource('/bulk-sms', BulkSmsController::class);
         $router->post('/bulk-sms/{id}/send', [BulkSmsController::class, 'send']);
+        $router->get('/bulk-sms/balance', [BulkSmsController::class, 'getBalance']);
         
         // WhatsApp Export
         $router->get('/whatsapp-export', [WhatsAppExportController::class, 'export']);
@@ -519,16 +761,11 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
         // Prestige Clients
         $router->get('/prestige-clients', [PrestigeClientsController::class, 'index']);
         
-        // Bulk SMS
-        $router->apiResource('/bulk-sms', BulkSmsController::class);
-        $router->post('/bulk-sms/{id}/send', [BulkSmsController::class, 'send']);
-        
         // Client Calling Status
         $router->get('/client-calling-status', [ClientCallingStatusController::class, 'index']);
         Route::group(["middleware" => ["auth:api"]], function ($router) {
             $router->get('/crm-report-card-data', [CrmReportCardController::class, 'getCrmReportCardData']);
         });
-        $router->post('/bulk-update-calling-status', [ClientCallingStatusController::class, 'bulkUpdate']);
         $router->post('/client-calling-status/bulk-update', [ClientCallingStatusController::class, 'bulkUpdate']);
         
         // Campaign Performance
@@ -614,13 +851,6 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
         });
     });
 
-    $router->prefix('admin')->group(function ($router) {
-        $router->controller(\App\Http\Controllers\Admin\DeleteTestUsersController::class)->group(function ($router) {
-            $router->get('/test-users', 'index');
-            $router->delete('/test-users', 'destroy');
-        });
-    });
-
     $router->prefix('reports')->group(function ($router) {
         $router->controller(PaymentCenterReportsController::class)->prefix('payment-center')->group(function ($router) {
             $router->get('/cash-collection', 'getCashCollectionReport');
@@ -653,30 +883,4 @@ Route::group(['middleware' => 'auth:api'], function ($router) {
         $router->get('/{department}/audit-logs', [\App\Http\Controllers\DepartmentPerformanceController::class, 'getAuditLogs']);
         $router->post('/initialize', [\App\Http\Controllers\DepartmentPerformanceController::class, 'initialize']);
     });
-});
-
-// Test endpoint for debugging medicines
-Route::get('/test-medicines', function () {
-    $medicines = \Illuminate\Support\Facades\DB::table('items as i')
-        ->where('i.category', 'Medicine')
-        ->distinct()
-        ->pluck('i.name')
-        ->toArray();
-    
-    return response()->json([
-        'medicines_count' => count($medicines),
-        'medicines_list' => array_slice($medicines, 0, 10)
-    ]);
-});
-
-Route::get('/restore', function (\Illuminate\Http\Request $request) {
-    $items = \Illuminate\Support\Facades\DB::select('select message, phone, patient_id from messages group by patient_id');
-
-    foreach ($items as &$item) {
-        $pattern = '/Habari\s+(.+?)\./';
-        if (preg_match($pattern, $item->message, $matches)) {
-            $first_name = trim($matches[1]);
-            \App\Models\Patient::where('id', $item->patient_id)->where('first_name', '')->update(['first_name' => $first_name, 'phone' => $item->phone]);
-        }
-    }
 });

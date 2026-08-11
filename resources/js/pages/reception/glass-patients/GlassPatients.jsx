@@ -72,7 +72,7 @@ const GlassPatients = () => {
   );
 
   useEffect(() => {
-    document.title = `Spectacle Patients - ${window.APP_NAME}`;
+    document.title = `Dispensing Patients - ${window.APP_NAME}`;
   }, []);
 
   useEffect(() => {
@@ -86,12 +86,12 @@ const GlassPatients = () => {
       breadcrumbs={[
         { title: "Home" },
         { title: "Sales Table" },
-        { title: "Spectacle Patients" },
+        { title: "Dispensing Patients" },
       ]}
     >
       <Card>
         <PageHeader 
-          title="Spectacle Patients"
+          title="Dispensing Patients"
           trailing={
             <Tooltip title="Refresh List">
               <IconButton
@@ -156,7 +156,7 @@ const GlassPatients = () => {
               },
               {
                 field: "require_glass",
-                headerName: "Spectacle Required",
+                headerName: "Item Required",
                 renderCell: (item) => {
                   const requireGlass = item.require_glass;
                   if (requireGlass === 'Yes') {

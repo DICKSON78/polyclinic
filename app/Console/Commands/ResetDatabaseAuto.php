@@ -158,7 +158,7 @@ class ResetDatabaseAuto extends Command
                 'gender' => 'Male',
                 'national_id' => null,
                 'phone' => '0000000000',
-                'email' => 'admin@eyechake.com',
+                'email' => 'admin@polyclinic-hms.com',
                 'username' => 'admin',
                 'password' => Hash::make('admin'),
                 'remember_token' => null,

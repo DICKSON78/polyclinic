@@ -51,7 +51,7 @@ const LensTracking = () => {
   );
 
   useEffect(() => {
-    document.title = `Lens Tracking - ${window.APP_NAME}`;
+    document.title = `Item Tracking - ${window.APP_NAME}`;
   }, []);
 
   useEffect(() => {
@@ -139,15 +139,15 @@ const LensTracking = () => {
 
   return (
     <Page
-      title="Lens Tracking"
+      title="Item Tracking"
       breadcrumbs={[
         { title: "Home" },
         { title: "Stock Management" },
-        { title: "Lens Tracking" },
+        { title: "Item Tracking" },
       ]}
     >
       <CardHeader
-        title="Lens Tracking"
+        title="Item Tracking"
         titleTypographyProps={{
           variant: "h4",
           fontWeight: 700,
@@ -166,7 +166,7 @@ const LensTracking = () => {
       >
         <Grid size={{ xs: 12, sm: 6, md: 4 }}>
           <InfoCard
-            title="Fast-Moving Lenses"
+            title="Fast-Moving Items"
             count={numberFormat(fastMovingLenses.length)}
             icon={<FastMovingIcon />}
             color={blue[400]}
@@ -175,7 +175,7 @@ const LensTracking = () => {
 
         <Grid size={{ xs: 12, sm: 6, md: 4 }}>
           <InfoCard
-            title="In Stock Lenses"
+            title="In Stock Items"
             count={numberFormat(inStockLenses.length)}
             icon={<InStockIcon />}
             color={green[400]}
@@ -201,7 +201,7 @@ const LensTracking = () => {
       >
         <Grid size={{ xs: 12 }}>
           <Card>
-            <CardHeader title="Lens Sales Trends (Last 7 Days)" />
+            <CardHeader title="Item Sales Trends (Last 7 Days)" />
             <Divider />
             <CardContent>
               <ChartWrapper
@@ -228,15 +228,15 @@ const LensTracking = () => {
       >
         <Grid size={{ xs: 12 }}>
           <Card>
-            <CardHeader title="Lens Tracking Details" />
+            <CardHeader title="Item Tracking Details" />
             <Divider />
             <Tabs
               value={activeTab}
               onChange={(e, newValue) => setActiveTab(newValue)}
               sx={{ borderBottom: 1, borderColor: "divider", px: 2 }}
             >
-              <Tab label="Fast-Moving Lenses" icon={<FastMovingIcon />} iconPosition="start" />
-              <Tab label="In Stock Lenses" icon={<InStockIcon />} iconPosition="start" />
+              <Tab label="Fast-Moving Items" icon={<FastMovingIcon />} iconPosition="start" />
+              <Tab label="In Stock Items" icon={<InStockIcon />} iconPosition="start" />
               <Tab label="Low Stock Alerts" icon={<LowStockIcon />} iconPosition="start" />
             </Tabs>
 
@@ -244,8 +244,8 @@ const LensTracking = () => {
               {activeTab === 0 && (
                 <Box>
                   <Alert severity="info" sx={{ mb: 2 }}>
-                    These are the top-selling lenses based on sales volume in the last 30 days. 
-                    Fast-moving lenses indicate high customer demand.
+                    These are the top-selling items based on sales volume in the last 30 days. 
+                    Fast-moving items indicate high customer demand.
                   </Alert>
                   <Table
                     loading={loading}
@@ -257,7 +257,7 @@ const LensTracking = () => {
                       },
                       {
                         field: "name",
-                        headerName: "Lens Name",
+                        headerName: "Item Name",
                       },
                       {
                         field: "code",
@@ -265,7 +265,7 @@ const LensTracking = () => {
                       },
                       {
                         field: "lens_type",
-                        headerName: "Lens Type",
+                        headerName: "Item Type",
                         valueGetter: (item) => item.lens_type || "Unspecified",
                       },
                       {
@@ -303,7 +303,7 @@ const LensTracking = () => {
               {activeTab === 1 && (
                 <Box>
                   <Alert severity="success" sx={{ mb: 2 }}>
-                    All lenses currently available in stock with their quantities.
+                    All items currently available in stock with their quantities.
                   </Alert>
                   <Table
                     loading={loading}
@@ -315,7 +315,7 @@ const LensTracking = () => {
                       },
                       {
                         field: "name",
-                        headerName: "Lens Name",
+                        headerName: "Item Name",
                       },
                       {
                         field: "code",
@@ -323,7 +323,7 @@ const LensTracking = () => {
                       },
                       {
                         field: "lens_type",
-                        headerName: "Lens Type",
+                        headerName: "Item Type",
                         valueGetter: (item) => item.lens_type || "Unspecified",
                       },
                       {
@@ -361,7 +361,7 @@ const LensTracking = () => {
               {activeTab === 2 && (
                 <Box>
                   <Alert severity="warning" sx={{ mb: 2 }}>
-                    These lenses are running low on stock and need to be restocked soon.
+                    These items are running low on stock and need to be restocked soon.
                   </Alert>
                   <Table
                     loading={loading}
@@ -373,7 +373,7 @@ const LensTracking = () => {
                       },
                       {
                         field: "name",
-                        headerName: "Lens Name",
+                        headerName: "Item Name",
                       },
                       {
                         field: "code",
@@ -381,7 +381,7 @@ const LensTracking = () => {
                       },
                       {
                         field: "lens_type",
-                        headerName: "Lens Type",
+                        headerName: "Item Type",
                         valueGetter: (item) => item.lens_type || "Unspecified",
                       },
                       {

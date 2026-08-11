@@ -286,7 +286,7 @@ class DashboardController extends Controller
                     ->join('patient_item_payments as pmt', 'ppci.item_payment_id', '=', 'pmt.id')
                     ->join('consultation_types as ct', 'ppci.consultation_type_id', '=', 'ct.id')
                     ->join(DB::raw('(SELECT item_payment_id, SUM(unit_price * quantity) as gross_total FROM patient_payment_cache_items WHERE item_payment_id IS NOT NULL GROUP BY item_payment_id) as totals'), 'ppci.item_payment_id', '=', 'totals.item_payment_id')
-                    ->where('ct.name', 'Glass')
+                    ->whereNotIn('ct.name', ['Pharmacy', 'Procedure'])
                     ->where('pmt.created_at', '>=', $start_date . ' 00:00:00')
                     ->where('pmt.created_at', '<=', $end_date . ' 23:59:59')
                     ->when($clinic_id, function ($query) use ($clinic_id) {
@@ -302,7 +302,7 @@ class DashboardController extends Controller
                     ->join('patient_item_bill_payments as pmt', 'ppci.bill_id', '=', 'pmt.bill_id')
                     ->join('consultation_types as ct', 'ppci.consultation_type_id', '=', 'ct.id')
                     ->join(DB::raw('(SELECT bill_id, SUM(unit_price * quantity) as gross_total FROM patient_payment_cache_items WHERE bill_id IS NOT NULL GROUP BY bill_id) as totals'), 'ppci.bill_id', '=', 'totals.bill_id')
-                    ->where('ct.name', 'Glass')
+                    ->whereNotIn('ct.name', ['Pharmacy', 'Procedure'])
                     ->where('pmt.created_at', '>=', $start_date . ' 00:00:00')
                     ->where('pmt.created_at', '<=', $end_date . ' 23:59:59')
                     ->when($clinic_id, function ($query) use ($clinic_id) {
@@ -480,6 +480,179 @@ class DashboardController extends Controller
             }
 
             $data['summary']['sms_balance'] = ($user && $user->clinic) ? $user->clinic->sms_balance : 0;
+
+            // Laboratory statistics
+            $data['summary']['lab_requests'] = $this->safeQuery(function() use ($clinic_id, $start_date, $end_date) {
+                $query = \App\Models\LabRequest::query()
+                    ->whereDate('created_at', '>=', $start_date)
+                    ->whereDate('created_at', '<=', $end_date);
+                if ($clinic_id) {
+                    $query->whereHas('creator', function ($query) use ($clinic_id) {
+                        $query->where('clinic_id', $clinic_id);
+                    });
+                }
+                return $query->count();
+            }, 0);
+
+            $data['summary']['lab_results'] = $this->safeQuery(function() use ($clinic_id, $start_date, $end_date) {
+                $query = \App\Models\LabRequest::query()
+                    ->where('status', 'Completed')
+                    ->whereDate('updated_at', '>=', $start_date)
+                    ->whereDate('updated_at', '<=', $end_date);
+                if ($clinic_id) {
+                    $query->whereHas('creator', function ($query) use ($clinic_id) {
+                        $query->where('clinic_id', $clinic_id);
+                    });
+                }
+                return $query->count();
+            }, 0);
+
+            // Radiology statistics
+            $data['summary']['radiology_requests'] = $this->safeQuery(function() use ($clinic_id, $start_date, $end_date) {
+                $query = \App\Models\RadiologyRequest::query()
+                    ->whereDate('created_at', '>=', $start_date)
+                    ->whereDate('created_at', '<=', $end_date);
+                if ($clinic_id) {
+                    $query->whereHas('creator', function ($query) use ($clinic_id) {
+                        $query->where('clinic_id', $clinic_id);
+                    });
+                }
+                return $query->count();
+            }, 0);
+
+            // Blood Bank statistics
+            $data['summary']['blood_donations'] = $this->safeQuery(function() use ($clinic_id, $start_date, $end_date) {
+                $query = \App\Models\BloodDonor::query()
+                    ->whereDate('created_at', '>=', $start_date)
+                    ->whereDate('created_at', '<=', $end_date);
+                if ($clinic_id) {
+                    $query->whereHas('creator', function ($query) use ($clinic_id) {
+                        $query->where('clinic_id', $clinic_id);
+                    });
+                }
+                return $query->count();
+            }, 0);
+
+            $data['summary']['blood_units'] = $this->safeQuery(function() use ($clinic_id) {
+                $query = \App\Models\BloodBankUnit::query()->where('status', 'Available');
+                if ($clinic_id) {
+                    $query->whereHas('creator', function ($query) use ($clinic_id) {
+                        $query->where('clinic_id', $clinic_id);
+                    });
+                }
+                return $query->count();
+            }, 0);
+
+            // E-Prescription statistics
+            $data['summary']['prescriptions'] = $this->safeQuery(function() use ($clinic_id, $start_date, $end_date) {
+                $query = \App\Models\Prescription::query()
+                    ->whereDate('created_at', '>=', $start_date)
+                    ->whereDate('created_at', '<=', $end_date);
+                if ($clinic_id) {
+                    $query->whereHas('creator', function ($query) use ($clinic_id) {
+                        $query->where('clinic_id', $clinic_id);
+                    });
+                }
+                return $query->count();
+            }, 0);
+
+            // Wards/Inpatient statistics
+            $data['summary']['admissions'] = $this->safeQuery(function() use ($clinic_id, $start_date, $end_date) {
+                $query = \App\Models\Admission::query()
+                    ->whereDate('created_at', '>=', $start_date)
+                    ->whereDate('created_at', '<=', $end_date);
+                if ($clinic_id) {
+                    $query->whereHas('creator', function ($query) use ($clinic_id) {
+                        $query->where('clinic_id', $clinic_id);
+                    });
+                }
+                return $query->count();
+            }, 0);
+
+            $data['summary']['active_admissions'] = $this->safeQuery(function() use ($clinic_id) {
+                $query = \App\Models\Admission::query()->where('status', 'Admitted');
+                if ($clinic_id) {
+                    $query->whereHas('creator', function ($query) use ($clinic_id) {
+                        $query->where('clinic_id', $clinic_id);
+                    });
+                }
+                return $query->count();
+            }, 0);
+
+            // Operating Theatre statistics
+            $data['summary']['surgeries'] = $this->safeQuery(function() use ($clinic_id, $start_date, $end_date) {
+                $query = \App\Models\Surgery::query()
+                    ->whereDate('created_at', '>=', $start_date)
+                    ->whereDate('created_at', '<=', $end_date);
+                if ($clinic_id) {
+                    $query->whereHas('creator', function ($query) use ($clinic_id) {
+                        $query->where('clinic_id', $clinic_id);
+                    });
+                }
+                return $query->count();
+            }, 0);
+
+            // Mortuary statistics
+            $data['summary']['mortuary_bodies'] = $this->safeQuery(function() use ($clinic_id) {
+                $query = \App\Models\MortuaryBody::query()->where('status', 'In Mortuary');
+                if ($clinic_id) {
+                    $query->whereHas('creator', function ($query) use ($clinic_id) {
+                        $query->where('clinic_id', $clinic_id);
+                    });
+                }
+                return $query->count();
+            }, 0);
+
+            // Inpatient Billing statistics
+            $data['summary']['inpatient_bills'] = $this->safeQuery(function() use ($clinic_id, $start_date, $end_date) {
+                $query = \App\Models\InpatientBill::query()
+                    ->whereDate('created_at', '>=', $start_date)
+                    ->whereDate('created_at', '<=', $end_date);
+                if ($clinic_id) {
+                    $query->whereHas('creator', function ($query) use ($clinic_id) {
+                        $query->where('clinic_id', $clinic_id);
+                    });
+                }
+                return $query->count();
+            }, 0);
+
+            // Emergency statistics
+            $data['summary']['er_visits'] = $this->safeQuery(function() use ($clinic_id, $start_date, $end_date) {
+                $query = \App\Models\ErVisit::query()
+                    ->whereDate('created_at', '>=', $start_date)
+                    ->whereDate('created_at', '<=', $end_date);
+                if ($clinic_id) {
+                    $query->whereHas('creator', function ($query) use ($clinic_id) {
+                        $query->where('clinic_id', $clinic_id);
+                    });
+                }
+                return $query->count();
+            }, 0);
+
+            // Ambulance statistics
+            $data['summary']['ambulance_requests'] = $this->safeQuery(function() use ($clinic_id, $start_date, $end_date) {
+                $query = \App\Models\AmbulanceRequest::query()
+                    ->whereDate('created_at', '>=', $start_date)
+                    ->whereDate('created_at', '<=', $end_date);
+                if ($clinic_id) {
+                    $query->whereHas('creator', function ($query) use ($clinic_id) {
+                        $query->where('clinic_id', $clinic_id);
+                    });
+                }
+                return $query->count();
+            }, 0);
+
+            $data['summary']['ambulance_trips'] = $this->safeQuery(function() use ($clinic_id, $start_date, $end_date) {
+                $query = \App\Models\AmbulanceTrip::query()
+                    ->whereDate('created_at', '>=', $start_date)
+                    ->whereDate('created_at', '<=', $end_date);
+                if ($clinic_id) {
+                    $query->whereHas('creator', function ($query) use ($clinic_id) {
+                        $query->where('clinic_id', $clinic_id);
+                    });
+                }
+                return $query->count();
+            }, 0);
 
             // Load statistics data only when requested (lazy loading)
             $loadStatistics = $request->boolean('load_statistics', false);

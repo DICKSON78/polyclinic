@@ -21,6 +21,10 @@ const PRIVILEGE_ALIASES = {
   sales: ["sales_center"],
   user_management: ["employee_management"],
   employee_management: ["user_management"],
+  laboratory: ["lab"],
+  lab: ["laboratory"],
+  wards: ["inpatient"],
+  inpatient: ["wards"],
 };
 
 const ROLE_FALLBACK_PRIVILEGES = {
@@ -54,6 +58,12 @@ const ROLE_FALLBACK_PRIVILEGES = {
     "optometry_report_card",
     "sales_report_card",
     "crm_report_card",
+    "triage",
+    "laboratory",
+    "radiology",
+    "wards",
+    "e_prescription",
+    "appointments",
   ],
   Director: [
     "dashboard",
@@ -84,13 +94,22 @@ const ROLE_FALLBACK_PRIVILEGES = {
     "optometry_report_card",
     "sales_report_card",
     "crm_report_card",
+    "triage",
+    "laboratory",
+    "radiology",
+    "wards",
+    "e_prescription",
+    "appointments",
   ],
-  Receptionist: ["dashboard", "reception", "patient_registration", "reception_reports", "website_appointments"],
+  Receptionist: ["dashboard", "reception", "patient_registration", "reception_reports", "website_appointments", "triage"],
   Cashier: ["dashboard", "payment_center", "credit_patients_approval", "patient_bills", "invoices", "expenses", "payment_center_reports"],
-  Doctor: ["dashboard", "consultation_room", "consultation_reports", "optometry_report_card"],
+  Doctor: ["dashboard", "consultation_room", "consultation_reports", "optometry_report_card", "laboratory", "radiology", "wards", "e_prescription"],
   Optometrist: ["dashboard", "consultation_room", "consultation_reports", "optometry_report_card"],
   Optician: ["dashboard", "optician_center", "workshop_reports"],
   Pharmacist: ["dashboard", "medicine_center", "pharmacy_reports", "dispensing_reports"],
+  Nurse: ["dashboard", "triage"],
+  LabTechnician: ["dashboard", "laboratory", "laboratory_reports"],
+  Radiologist: ["dashboard", "radiology", "radiology_reports"],
   SalesManager: ["sales_center", "sales", "sales_manager_monthly_report", "sales_report_card"],
   Sales: ["sales_center", "sales", "sales_report_card"],
   Storekeeper: ["dashboard", "inventory_management", "inventory_reports"],
@@ -243,6 +262,12 @@ export const getDefaultRoute = (user) => {
       return "/consultation-room/dashboard";
     case "Optician":
       return "/optician-center/dashboard";
+    case "Nurse":
+      return "/triage/dashboard";
+    case "Lab Technician":
+      return "/laboratory/dashboard";
+    case "Radiologist":
+      return "/radiology/dashboard";
     case "Pharmacist":
       return "/medicine-center/dashboard";
     case "Sales Manager":
@@ -271,9 +296,12 @@ export const getDefaultRoute = (user) => {
   const routeCandidates = [
     { privilege: 'dashboard', route: '/dashboard' },
     { privilege: 'reception', route: '/reception/dashboard' },
+    { privilege: 'triage', route: '/triage/dashboard' },
     { privilege: 'payment_center', route: '/payment-center/dashboard' },
     { privilege: 'consultation_room', route: '/consultation-room/dashboard' },
     { privilege: 'optician_center', route: '/optician-center/dashboard' },
+    { privilege: 'laboratory', route: '/laboratory/dashboard' },
+    { privilege: 'radiology', route: '/radiology/dashboard' },
     { privilege: 'medicine_center', route: '/medicine-center/dashboard' },
     { privilege: 'procedure_room', route: '/procedure-room/dashboard' },
     { privilege: 'inventory_management', route: '/inventory-management/dashboard' },

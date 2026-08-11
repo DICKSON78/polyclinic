@@ -18,7 +18,7 @@ class SimpleSystemSeeder extends Seeder
      */
     public function run()
     {
-        echo "Creating sample data for EyeChake system...\n";
+        echo "Creating sample data for Polyclinic HMS system...\n";
 
         // Create sample departments
         $departments = [
@@ -47,17 +47,17 @@ class SimpleSystemSeeder extends Seeder
 
         // Create sample users
         $roles = [
-            ['name' => 'Admin', 'email' => 'admin@eyechake.com', 'password' => bcrypt('password123')],
-            ['name' => 'Client', 'email' => 'director@eyechake.com', 'password' => bcrypt('password123')],
-            ['name' => 'Client', 'email' => 'reception@eyechake.com', 'password' => bcrypt('password123')],
-            ['name' => 'Client', 'email' => 'cashier@eyechake.com', 'password' => bcrypt('password123')],
-            ['name' => 'Client', 'email' => 'doctor@eyechake.com', 'password' => bcrypt('password123')],
-            ['name' => 'Client', 'email' => 'pharmacist@eyechake.com', 'password' => bcrypt('password123')],
-            ['name' => 'Client', 'email' => 'optician@eyechake.com', 'password' => bcrypt('password123')],
-            ['name' => 'Client', 'email' => 'sales@eyechake.com', 'password' => bcrypt('password123')],
-            ['name' => 'Client', 'email' => 'marketing@eyechake.com', 'password' => bcrypt('password123')],
-            ['name' => 'Client', 'email' => 'hr@eyechake.com', 'password' => bcrypt('password123')],
-            ['name' => 'Client', 'email' => 'it@eyechake.com', 'password' => bcrypt('password123')],
+            ['name' => 'Admin', 'email' => 'admin@polyclinic-hms.com', 'password' => bcrypt('password123')],
+            ['name' => 'Client', 'email' => 'director@polyclinic-hms.com', 'password' => bcrypt('password123')],
+            ['name' => 'Client', 'email' => 'reception@polyclinic-hms.com', 'password' => bcrypt('password123')],
+            ['name' => 'Client', 'email' => 'cashier@polyclinic-hms.com', 'password' => bcrypt('password123')],
+            ['name' => 'Client', 'email' => 'doctor@polyclinic-hms.com', 'password' => bcrypt('password123')],
+            ['name' => 'Client', 'email' => 'pharmacist@polyclinic-hms.com', 'password' => bcrypt('password123')],
+            ['name' => 'Client', 'email' => 'optician@polyclinic-hms.com', 'password' => bcrypt('password123')],
+            ['name' => 'Client', 'email' => 'sales@polyclinic-hms.com', 'password' => bcrypt('password123')],
+            ['name' => 'Client', 'email' => 'marketing@polyclinic-hms.com', 'password' => bcrypt('password123')],
+            ['name' => 'Client', 'email' => 'hr@polyclinic-hms.com', 'password' => bcrypt('password123')],
+            ['name' => 'Client', 'email' => 'it@polyclinic-hms.com', 'password' => bcrypt('password123')],
         ];
 
         foreach ($roles as $index => $role) {
@@ -154,6 +154,6 @@ class SimpleSystemSeeder extends Seeder
         $this->command->info('  - Consultations: ' . count($consultations) . ' consultations');
         $this->command->info('  - Payments: ' . count($payments) . ' payments');
         $this->command->info('  - Expenses: ' . count($expenses) . ' expenses');
-        $this->command->info('Database: eyechake (XAMPP ready)');
+        $this->command->info('Database: polyclinic (XAMPP ready)');
     }
 }

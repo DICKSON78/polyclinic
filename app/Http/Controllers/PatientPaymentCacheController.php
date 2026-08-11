@@ -26,7 +26,6 @@ class PatientPaymentCacheController extends Controller
                 'page' => 'sometimes|integer|min:1',
                 'start_date' => 'sometimes|date_format:Y-m-d',
                 'end_date' => 'sometimes|date_format:Y-m-d',
-                'include_optician_glass' => 'sometimes|in:true,false,1,0',
                 'consultation_status' => 'sometimes|string'
             ]);
 
@@ -48,19 +47,6 @@ class PatientPaymentCacheController extends Controller
             $item_consultant_id = $request->item_consultant_id;
             $start_date = $request->start_date;
             $end_date = $request->end_date;
-            // Properly handle include_optician_glass boolean conversion
-            $include_optician_glass = false;
-            if ($request->has('include_optician_glass')) {
-                $value = $request->include_optician_glass;
-                if (is_bool($value)) {
-                    $include_optician_glass = $value;
-                } elseif (is_numeric($value)) {
-                    $include_optician_glass = (int)$value === 1;
-                } else {
-                    $value = strtolower((string)$value);
-                    $include_optician_glass = in_array($value, ['true', '1', 'yes', 'on'], true);
-                }
-            }
             $consultation_status = $request->consultation_status;
 
             $data = PatientPaymentCache::with(['check_in.patient', 'check_in.payment_mode', 'creator', 'consultation', 'items.consultation_type', 'items.item', 'items.payment_mode']);
@@ -123,105 +109,56 @@ class PatientPaymentCacheController extends Controller
                 });
             }
 
-            // Handle the main query logic
-            if ($include_optician_glass) {
-                // When including optician glass, we need to show both regular cash patients AND optician glass patients
-                $data->where(function ($query) use ($item_status, $item_payment_type) {
-                    // Regular cash patients (pharmacy items) - must have at least one item matching criteria
-                    $query->whereHas('items', function ($subQuery) use ($item_status, $item_payment_type) {
-                        // Don't exclude items that are already invoiced - allow all routed patients
-                        // $subQuery->whereNull('item_payment_id'); // Removed to allow all routed patients to appear
-                        
-                        if ($item_status) {
-                            $statuses = explode(',', $item_status);
-                            if (count($statuses) > 1) {
-                                $subQuery->whereIn('status', $statuses);
-                            } else {
-                                $subQuery->where('status', $statuses[0]);
-                            }
-                        }
-                        
-                        if ($item_payment_type) {
-                            $subQuery->whereHas('payment_mode', function ($query2) use ($item_payment_type) {
-                                $query2->whereRaw('LOWER(payment_type) = ?', [strtolower($item_payment_type)]);
-                            });
-                        }
-                    });
-                    
-                    // OR optician glass patients - must have glass items with cash payment mode
-                    $query->orWhere(function ($subQuery) use ($item_status) {
-                        $subQuery->whereHas('items', function ($itemQuery) use ($item_status) {
-                            if ($item_status) {
-                                $statuses = explode(',', $item_status);
-                                if (count($statuses) > 1) {
-                                    $itemQuery->whereIn('status', $statuses);
-                                } else {
-                                    $itemQuery->where('status', $statuses[0]);
-                                }
-                            }
-                            
-                            $itemQuery->whereHas('consultation_type', function ($typeQuery) {
-                                $typeQuery->where('name', 'Glass');
-                            });
-                            
-                            $itemQuery->whereHas('payment_mode', function ($modeQuery) {
-                                $modeQuery->whereRaw('LOWER(payment_type) = ?', ['cash']);
-                            });
-                        })
-                        ->whereHas('consultation', function ($consultationQuery) {
-                            $consultationQuery->whereNotNull('sent_to_optician_at')
-                                             ->where('require_glass', 'Yes');
-                        });
-                    });
-                });
-            } else {
-                // Regular filtering logic - ensure we only get payment caches that have at least one item matching ALL criteria
-                $data->whereHas('items', function ($query) use ($item_status, $item_consultation_type, $is_stock_item, $item_consultant_id, $item_payment_mode_id, $item_payment_type) {
-                    // Don't exclude items that are already invoiced - allow cashier to see all routed patients
-                    // $query->whereNull('item_payment_id'); // Removed to allow all routed patients to appear
-                    
-                    // Status filter
-                    if ($item_status) {
-                        $statuses = explode(',', $item_status);
-                        if (count($statuses) > 1) {
-                            $query->whereIn('status', $statuses);
-                        } else {
-                            $query->where('status', $statuses[0]);
-                        }
+            // Regular filtering logic - ensure we only get payment caches that have at least one item matching ALL criteria
+            $data->whereHas('items', function ($query) use ($item_status, $item_consultation_type, $is_stock_item, $item_consultant_id, $item_payment_mode_id, $item_payment_type) {
+                // Status filter
+                if ($item_status) {
+                    $statuses = explode(',', $item_status);
+                    if (count($statuses) > 1) {
+                        $query->whereIn('status', $statuses);
+                    } else {
+                        $query->where('status', $statuses[0]);
                     }
-                    
-                    // Consultation type filter
-                    if ($item_consultation_type) {
+                }
+                
+                // Consultation type filter
+                if ($item_consultation_type) {
+                    if ($item_consultation_type === 'Outpatient') {
+                        // Outpatient dispensing covers all item types except Pharmacy and Procedure
+                        $query->whereHas('consultation_type', function ($query2) {
+                            $query2->whereNotIn('name', ['Pharmacy', 'Procedure']);
+                        });
+                    } else {
                         $query->whereHas('consultation_type', function ($query2) use ($item_consultation_type) {
                             $query2->where('name', $item_consultation_type);
                         });
                     }
-                    
-                    // Stock item filter
-                    if ($is_stock_item) {
-                        $query->whereHas('item', function ($query2) use ($is_stock_item) {
-                            $query2->where('is_stock_item', $is_stock_item);
-                        });
-                    }
-                    
-                    // Consultant filter
-                    if ($item_consultant_id) {
-                        $query->where('consultant_id', $item_consultant_id);
-                    }
-                    
-                    // Payment mode filter
-                    if ($item_payment_mode_id) {
-                        $query->where('payment_mode_id', $item_payment_mode_id);
-                    }
-                    
-                    // Transaction type filter - this is critical for cash patients
-                    if ($item_payment_type) {
-                        $query->whereHas('payment_mode', function ($query2) use ($item_payment_type) {
-                            $query2->whereRaw('LOWER(payment_type) = ?', [strtolower($item_payment_type)]);
-                        });
-                    }
-                });
-            }
+                }
+                
+                // Stock item filter
+                if ($is_stock_item) {
+                    $query->whereHas('item', function ($query2) use ($is_stock_item) {
+                        $query2->where('is_stock_item', $is_stock_item);
+                    });
+                }
+                
+                // Consultant filter
+                if ($item_consultant_id) {
+                    $query->where('consultant_id', $item_consultant_id);
+                }
+                
+                // Payment mode filter
+                if ($item_payment_mode_id) {
+                    $query->where('payment_mode_id', $item_payment_mode_id);
+                }
+                
+                // Transaction type filter - this is critical for cash patients
+                if ($item_payment_type) {
+                    $query->whereHas('payment_mode', function ($query2) use ($item_payment_type) {
+                        $query2->whereRaw('LOWER(payment_type) = ?', [strtolower($item_payment_type)]);
+                    });
+                }
+            });
 
             // Filter by consultation status if provided
             if ($consultation_status) {
@@ -248,7 +185,7 @@ class PatientPaymentCacheController extends Controller
                 'item_payment_type' => $item_payment_type,
                 'start_date' => $start_date,
                 'end_date' => $end_date,
-                'include_optician_glass' => $include_optician_glass,
+                'item_consultation_type' => $item_consultation_type,
                 'clinic_id' => $user->is_admin ? $clinic_id : $user->clinic_id,
                 'user_id' => $user->id,
                 'user_is_admin' => $user->is_admin,
@@ -335,7 +272,18 @@ class PatientPaymentCacheController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'check_in_id' => 'sometimes|exists:patient_check_ins,id',
+            'consultation_id' => 'sometimes|exists:consultations,id',
+        ]);
+
+        $data = PatientPaymentCache::with(['check_in.patient', 'creator', 'consultation', 'items' => function ($q) {
+            $q->with(['item', 'payment_mode', 'consultation_type']);
+        }])->findOrFail($id);
+
+        $data->update($request->only('check_in_id', 'consultation_id'));
+
+        return $this->sendResponse($data, Response::HTTP_OK, 'Updated successfully.');
     }
 
     /**
@@ -346,6 +294,17 @@ class PatientPaymentCacheController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = PatientPaymentCache::with('items')->findOrFail($id);
+
+        $paidOrServed = $data->items()->whereIn('status', ['Paid', 'Served', 'Billed'])->count();
+        if ($paidOrServed > 0) {
+            return $this->sendError('Cannot delete a patient payment cache that contains paid, billed or served items.', Response::HTTP_CONFLICT);
+        }
+
+        // Remove linked items before deleting the cache to avoid orphaned records
+        $data->items()->delete();
+        $data->delete();
+
+        return $this->sendResponse(null, Response::HTTP_OK, 'Deleted successfully.');
     }
 }

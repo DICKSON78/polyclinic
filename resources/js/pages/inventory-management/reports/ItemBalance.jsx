@@ -98,9 +98,9 @@ const ItemBalance = ({ module, consultationType }) => {
           },
           {
             field: "lens_type_id",
-            headerName: "Lens Type",
+            headerName: "Dispensing Item Type",
             valueGetter: (item, index) => item.lens_type?.name,
-            show: !module || module === "Optician Center",
+            show: !module || module === "Outpatient Dispensing",
           },
           {
             field: "consultation_type_id",

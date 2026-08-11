@@ -123,7 +123,7 @@ const PatientBills = () => {
               },
               {
                 field: "require_glass",
-                headerName: "Spectacle Required",
+                headerName: "Item Required",
                 renderCell: (item) => {
                   const requireGlass = item.first_item.payment_cache.consultation?.require_glass;
                   if (requireGlass === 'Yes') {

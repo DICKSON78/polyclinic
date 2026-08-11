@@ -20,33 +20,17 @@ class CheckPrivilege
             return $next($request);
         }
 
-        // Check if user has privileges as array/object
-        $hasPrivilegesAttribute = array_key_exists('privileges', $user->attributes);
-        $privileges = $hasPrivilegesAttribute ? $user->privileges : [];
-        
-        // For backward compatibility, also check old string privilege format
-        $hasStringPrivilege = !empty($user->privilege);
-        
-        // Check if user has the required privilege (either as string or in array)
-        $hasRequiredPrivilege = $hasStringPrivilege ? $user->hasPrivilege($privilege) : in_array($privilege, $privileges);
-        
-        if (!$hasRequiredPrivilege) {
-            return response()->json([
-                'message' => 'Access denied. Insufficient privileges.',
-                'required_privilege' => $privilege,
-                'user_privileges' => $privileges,
-                'user_privilege' => $user->privilege,
-                'debug' => [
-                    'has_privileges_attribute' => $hasPrivilegesAttribute,
-                    'privileges_type' => gettype($privileges),
-                    'checking_privilege' => $privilege
-                ]
-            ], 403);
-        }
-        
         // Check role-based privileges first
         $rolePrivileges = $this->getRoleFallbackPrivileges($user->role);
         if (in_array($privilege, $rolePrivileges)) {
+            return $next($request);
+        }
+
+        // Check privileges set during login (array or object)
+        $hasPrivilegesAttribute = array_key_exists('privileges', $user->attributes);
+        $privileges = $hasPrivilegesAttribute ? $user->privileges : null;
+
+        if ($this->privilegeGranted($privilege, $privileges)) {
             return $next($request);
         }
 
@@ -56,7 +40,36 @@ class CheckPrivilege
             return $next($request);
         }
 
-        return response()->json(['message' => 'Unauthorized - Required privilege: ' . $privilege], 403);
+        return response()->json([
+            'message' => 'Access denied. Insufficient privileges.',
+            'required_privilege' => $privilege,
+            'user_privileges' => is_object($privileges) ? (array) $privileges : $privileges,
+            'debug' => [
+                'has_privileges_attribute' => $hasPrivilegesAttribute,
+                'privileges_type' => gettype($privileges),
+                'checking_privilege' => $privilege
+            ]
+        ], 403);
+    }
+
+    /**
+     * Check whether a privilege key exists in an array or object of granted privileges.
+     */
+    private function privilegeGranted($privilege, $privileges)
+    {
+        if ($privileges === null) {
+            return false;
+        }
+
+        if (is_object($privileges)) {
+            $privileges = (array) $privileges;
+        }
+
+        if (!is_array($privileges)) {
+            return false;
+        }
+
+        return in_array($privilege, $privileges, true) || array_key_exists($privilege, $privileges);
     }
 
     private function getRoleFallbackPrivileges($role)
@@ -70,6 +83,9 @@ class CheckPrivilege
             'Optometrist'      => ['dashboard', 'consultation_room', 'optometrist_monthly_report', 'optometry_report_card'],
             'Optician'         => ['dashboard', 'optician_center', 'dispensing'],
             'Pharmacist'       => ['dashboard', 'medicine_center', 'dispensing'],
+            'Nurse'            => ['dashboard', 'triage', 'wards', 'medicine_center', 'dispensing'],
+            'Lab Technician'   => ['dashboard', 'laboratory'],
+            'Radiologist'      => ['dashboard', 'radiology'],
             'Sales Manager'    => ['dashboard', 'sales_center', 'sales_management', 'sales', 'sales_manager_monthly_report', 'sales_report_card'],
             'Sales'            => ['dashboard', 'sales_center', 'sales_management', 'sales', 'sales_report_card'],
             'Storekeeper'      => ['dashboard', 'inventory_management'],

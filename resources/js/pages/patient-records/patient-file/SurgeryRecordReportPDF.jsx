@@ -105,7 +105,7 @@ const PDFReportPage = ({ surgeryRecordReport, patient }) => {
               { fontWeight: "bold", width: 144 },
             ]}
           >
-            Visual Acuity
+            Clinical Assessment
           </Text>
           <View style={[tableStyles.tableCell, styles.row]}>
             <Text style={[styles.text, { fontWeight: "bold" }]}>RE:</Text>

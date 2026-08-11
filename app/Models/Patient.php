@@ -72,6 +72,16 @@ class Patient extends Model
         return $this->hasMany(DoctorTask::class, 'patient_id');
     }
 
+    public function consultations()
+    {
+        return $this->hasMany(Consultation::class, 'id', 'id')
+            ->join('patient_payment_cache_items', 'consultations.payment_cache_item_id', '=', 'patient_payment_cache_items.id')
+            ->join('patient_payment_cache', 'patient_payment_cache_items.payment_cache_id', '=', 'patient_payment_cache.id')
+            ->join('patient_check_ins', 'patient_payment_cache.check_in_id', '=', 'patient_check_ins.id')
+            ->where('patient_check_ins.patient_id', $this->getKey())
+            ->select('consultations.*');
+    }
+
     public function current_waiting_time()
     {
         return $this->hasOne(PatientWaitingTime::class, 'patient_id')->whereIn('patient_waiting_times.status', ['waiting', 'in_treatment']);
@@ -80,6 +90,41 @@ class Patient extends Model
     public function check_ins()
     {
         return $this->hasMany(PatientCheckIn::class, 'patient_id');
+    }
+
+    public function vitalSigns()
+    {
+        return $this->hasMany(VitalSign::class, 'patient_id');
+    }
+
+    public function labRequests()
+    {
+        return $this->hasMany(LabRequest::class, 'patient_id');
+    }
+
+    public function labRequestTests()
+    {
+        return $this->hasManyThrough(LabRequestTest::class, LabRequest::class, 'patient_id', 'lab_request_id', 'id', 'id');
+    }
+
+    public function radiologyRequests()
+    {
+        return $this->hasMany(RadiologyRequest::class, 'patient_id');
+    }
+
+    public function prescriptions()
+    {
+        return $this->hasMany(Prescription::class, 'patient_id');
+    }
+
+    public function admissions()
+    {
+        return $this->hasMany(Admission::class, 'patient_id');
+    }
+
+    public function inpatientNotes()
+    {
+        return $this->hasMany(InpatientNote::class, 'patient_id');
     }
 
     public function calling_status()

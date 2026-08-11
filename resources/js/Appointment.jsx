@@ -48,7 +48,8 @@ const Appointment = () => {
   const benefitsRef = useRef(null);
 
   const [formData, setFormData] = useState({
-    name: '',
+    first_name: '',
+    last_name: '',
     phone: '',
     appointmentType: '',
     message: '',
@@ -62,11 +63,18 @@ const Appointment = () => {
     let error = '';
     
     switch (name) {
-      case 'name':
+      case 'first_name':
         if (!value.trim()) {
-          error = 'Name is required';
+          error = 'First name is required';
         } else if (value.trim().length < 2) {
-          error = 'Name must be at least 2 characters';
+          error = 'First name must be at least 2 characters';
+        }
+        break;
+      case 'last_name':
+        if (!value.trim()) {
+          error = 'Last name is required';
+        } else if (value.trim().length < 2) {
+          error = 'Last name must be at least 2 characters';
         }
         break;
       case 'phone':
@@ -135,7 +143,8 @@ const Appointment = () => {
 
     setErrors(newErrors);
     setTouched({
-      name: true,
+      first_name: true,
+      last_name: true,
       phone: true,
       appointmentType: true,
     });
@@ -153,18 +162,33 @@ const Appointment = () => {
     setIsSubmitting(true);
     
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Send appointment to backend API
+      const response = await fetch('/api/appointments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to submit appointment');
+      }
+
+      const result = await response.json();
       
-    console.log('Appointment submitted:', formData);
-    alert('Thank you! Your appointment request has been submitted. We will contact you soon to confirm.');
+      console.log('Appointment submitted:', result);
+      alert('Thank you! Your appointment request has been submitted. We will contact you soon to confirm.');
       
-    setFormData({
-      name: '',
-      phone: '',
-      appointmentType: '',
-      message: '',
-    });
+      setFormData({
+        first_name: '',
+        last_name: '',
+        phone: '',
+        appointmentType: '',
+        message: '',
+      });
       setErrors({});
       setTouched({});
     } catch (error) {
@@ -176,11 +200,11 @@ const Appointment = () => {
   };
 
   const appointmentTypes = [
-    'Comprehensive Eye Examination',
-    'Contact Lens Fitting',
+    'General Consultation',
+    'Laboratory Testing',
     'Follow-up Visit',
     'Emergency Consultation',
-    'Pediatric Eye Care',
+    'Specialist Consultation',
     'Other',
   ];
 
@@ -307,7 +331,7 @@ const Appointment = () => {
                 lineHeight: 1.7,
               }}
             >
-              Schedule your eye care appointment online 24/7. It's quick, easy, and secure. Our experienced team is ready to provide you with exceptional eye care services.
+              Schedule your healthcare appointment online 24/7. It's quick, easy, and secure. Our experienced team is ready to provide you with exceptional medical care.
             </Typography>
           </Box>
         </Container>
@@ -492,36 +516,72 @@ const Appointment = () => {
                     <Stack spacing={{ xs: 2.5, sm: 3 }}>
                       <TextField
                         fullWidth
-                        label="Full Name"
-                        name="name"
-                        value={formData.name}
+                        label="First Name"
+                        name="first_name"
+                        value={formData.first_name}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         required
                         variant="outlined"
-                        error={!!errors.name}
-                        helperText={errors.name || ''}
+                        error={!!errors.first_name}
+                        helperText={errors.first_name || ''}
                         InputProps={{
-                          startAdornment: <PersonIcon sx={{ mr: 1.5, color: errors.name ? '#d32f2f' : colors.primaryGold, fontSize: '1.2rem' }} />,
+                          startAdornment: <PersonIcon sx={{ mr: 1.5, color: errors.first_name ? '#d32f2f' : colors.primaryGold, fontSize: '1.2rem' }} />,
                         }}
                         sx={{
                           '& .MuiOutlinedInput-root': {
                             borderRadius: '12px',
                             bgcolor: 'white',
                             '& fieldset': {
-                              borderColor: errors.name ? '#d32f2f' : colors.borderLight,
-                              borderWidth: errors.name ? 2 : 1,
+                              borderColor: errors.first_name ? '#d32f2f' : colors.borderLight,
+                              borderWidth: errors.first_name ? 2 : 1,
                             },
                             '&:hover fieldset': {
-                              borderColor: errors.name ? '#d32f2f' : colors.primaryGold,
+                              borderColor: errors.first_name ? '#d32f2f' : colors.primaryGold,
                             },
                             '&.Mui-focused fieldset': {
-                              borderColor: errors.name ? '#d32f2f' : colors.primaryGold,
+                              borderColor: errors.first_name ? '#d32f2f' : colors.primaryGold,
                               borderWidth: 2,
                             },
                           },
                           '& .MuiInputLabel-root.Mui-focused': {
-                            color: errors.name ? '#d32f2f' : colors.primaryGold,
+                            color: errors.first_name ? '#d32f2f' : colors.primaryGold,
+                          },
+                        }}
+                      />
+
+                      <TextField
+                        fullWidth
+                        label="Last Name"
+                        name="last_name"
+                        value={formData.last_name}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        required
+                        variant="outlined"
+                        error={!!errors.last_name}
+                        helperText={errors.last_name || ''}
+                        InputProps={{
+                          startAdornment: <PersonIcon sx={{ mr: 1.5, color: errors.last_name ? '#d32f2f' : colors.primaryGold, fontSize: '1.2rem' }} />,
+                        }}
+                        sx={{
+                          '& .MuiOutlinedInput-root': {
+                            borderRadius: '12px',
+                            bgcolor: 'white',
+                            '& fieldset': {
+                              borderColor: errors.last_name ? '#d32f2f' : colors.borderLight,
+                              borderWidth: errors.last_name ? 2 : 1,
+                            },
+                            '&:hover fieldset': {
+                              borderColor: errors.last_name ? '#d32f2f' : colors.primaryGold,
+                            },
+                            '&.Mui-focused fieldset': {
+                              borderColor: errors.last_name ? '#d32f2f' : colors.primaryGold,
+                              borderWidth: 2,
+                            },
+                          },
+                          '& .MuiInputLabel-root.Mui-focused': {
+                            color: errors.last_name ? '#d32f2f' : colors.primaryGold,
                           },
                         }}
                       />
@@ -711,8 +771,8 @@ const Appointment = () => {
                   </Typography>
                   <Stack spacing={2}>
                     {[
-                      'Comprehensive eye examination',
-                      'Discussion of your vision needs',
+                      'Comprehensive health assessment',
+                      'Discussion of your medical needs',
                       'Personalized treatment plan',
                       'Expert recommendations',
                     ].map((item, index) => (
@@ -754,7 +814,7 @@ const Appointment = () => {
                   </Typography>
                   <Stack spacing={2}>
                     {[
-                      'Bring your current glasses or contacts',
+                      'Bring your medical records or test results',
                       'List of current medications',
                       'Insurance card if applicable',
                       'Arrive 10 minutes early',

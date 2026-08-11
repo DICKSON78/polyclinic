@@ -301,7 +301,7 @@ const SelectItems = ({
                     />
                     {itemType === "Lens" ? (
                       <Select
-                        placeholder="Lens Type"
+                        placeholder="Item Type"
                         fullWidth
                         clearable
                         options={lensTypes}

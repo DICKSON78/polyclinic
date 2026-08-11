@@ -97,23 +97,22 @@ const Footer = () => {
     { label: 'Home', path: '/' },
     { label: 'About Us', path: '/about' },
     { label: 'Services', path: '/services' },
-    { label: 'Eyeware', path: '/gallery' },
     { label: 'Testimonials', path: '/testimonials' },
     { label: 'Contact', path: '/contact' },
   ];
 
   const services = [
-    { label: 'Comprehensive Eye Examinations', path: '/services' },
-    { label: 'Diagnosis & Treatment of Eye Disorders', path: '/services' },
-    { label: 'Spectacles Dispensing', path: '/services' },
-    { label: 'Contact Lens Fitting & Dispensing', path: '/services' },
-    { label: 'Community Eye Outreach Programs', path: '/services' },
+    { label: 'Outpatient & Inpatient Care', path: '/services' },
+    { label: 'Diagnosis & Treatment', path: '/services' },
+    { label: 'Laboratory Services', path: '/services' },
+    { label: 'Pharmacy & Dispensing', path: '/services' },
+    { label: 'Maternal & Child Health', path: '/services' },
   ];
 
   const socialLinks = [
-    { icon: <FacebookIcon />, label: 'Facebook', url: 'https://www.facebook.com/sikafeyecare' },
-    { icon: <InstagramIcon />, label: 'Instagram', url: 'https://www.instagram.com/sikaf_eye_care?igsh=dGc1YWJhM2FwN3k2&utm_source=qr' },
-    { icon: <TikTokIcon />, label: 'TikTok', url: 'https://www.tiktok.com/@sikafeyecare' },
+    { icon: <FacebookIcon />, label: 'Facebook', url: 'https://www.facebook.com' },
+    { icon: <InstagramIcon />, label: 'Instagram', url: 'https://www.instagram.com' },
+    { icon: <TikTokIcon />, label: 'TikTok', url: 'https://www.tiktok.com' },
     { icon: <YouTubeIcon />, label: 'YouTube', url: 'https://youtube.com' },
     { icon: <WhatsAppIcon />, label: 'WhatsApp', url: 'https://wa.me/255676506323' },
   ];
@@ -195,7 +194,7 @@ const Footer = () => {
                 },
               }}
             >
-              SIKAF Eye Care
+              Polyclinic HMS
             </Typography>
             <Typography
               variant="body2"
@@ -206,7 +205,7 @@ const Footer = () => {
                 lineHeight: 1.5,
               }}
             >
-              Best Eye Care Clinic in Tanzania
+              Leading Healthcare Facility in Tanzania
             </Typography>
             
             {/* Contact Information */}
@@ -229,7 +228,7 @@ const Footer = () => {
               >
                 <LocationIcon sx={{ color: colors.primaryOrange, fontSize: '18px', mt: 0.5, flexShrink: 0 }} />
                 <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem' }}>
-                  Gerezani - Kamata traffic light near traffic post, Dar es Salaam, Tanzania
+                  Dar es Salaam, Tanzania
                 </Typography>
               </Box>
               <Box 
@@ -274,7 +273,7 @@ const Footer = () => {
               </Box>
               <Box 
                 component="a"
-                href="mailto:info@sikafeyecare.co.tz"
+                href="mailto:info@polyclinic-hms.com"
                 sx={{ 
                   display: 'flex', 
                   alignItems: 'center', 
@@ -288,7 +287,7 @@ const Footer = () => {
               >
                 <EmailIcon sx={{ color: colors.primaryOrange, fontSize: '18px', flexShrink: 0 }} />
                 <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem' }}>
-                  info@sikafeyecare.co.tz
+                  info@polyclinic-hms.com
                 </Typography>
               </Box>
             </Stack>
@@ -529,7 +528,7 @@ const Footer = () => {
               textAlign: { xs: 'center', sm: 'left' },
             }}
           >
-            © {new Date().getFullYear()} SIKAF Eye Care. All rights reserved.
+            © {new Date().getFullYear()} Polyclinic HMS. All rights reserved.
           </Typography>
 
           <Stack

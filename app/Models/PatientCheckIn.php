@@ -32,6 +32,30 @@ class PatientCheckIn extends Model
         return $this->hasOne(PatientPaymentCache::class, 'check_in_id');
     }
 
+    public function vitalSigns()
+    {
+        return $this->hasManyThrough(
+            VitalSign::class,
+            Patient::class,
+            'id',
+            'patient_id',
+            'patient_id',
+            'id'
+        );
+    }
+
+    public function consultations()
+    {
+        return $this->hasManyThrough(
+            Consultation::class,
+            Patient::class,
+            'id',
+            'patient_id',
+            'patient_id',
+            'id'
+        );
+    }
+
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i');

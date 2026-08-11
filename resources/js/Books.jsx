@@ -60,14 +60,14 @@ const Books = () => {
       title: 'Jicho la Kunguru',
       titleEnglish: "The Crow's Eye",
       author: 'Sibtwain Kassim Fadhil',
-      authorTitle: 'Optometrist & Founder of SIKAF Foundation',
+      authorTitle: 'Healthcare Educator & Founder of Polyclinic HMS Foundation',
       isbn: '978-9912-42-480-7',
-      description: 'An engaging and educational resource designed to help children learn about eye health in a fun and interactive way. This beautifully illustrated book teaches young readers about the importance of eye care through the story of a crow and its eye.',
+      description: 'An engaging and educational resource designed to help children learn about health in a fun and interactive way. This beautifully illustrated book teaches young readers about the importance of healthy habits and self-care through the story of a crow.',
       image: '/images/books/jicho.jpg',
       features: [
         'Educational content for children',
         'Beautiful illustrations',
-        'Interactive learning about eye health',
+        'Interactive learning about health',
         'Available in Swahili',
       ],
       targetAudience: 'Children and Parents',
@@ -78,13 +78,13 @@ const Books = () => {
       title: 'Jicho Lako',
       titleEnglish: 'Your Eye',
       author: 'Sibtwain Kassim Fadhil',
-      authorTitle: 'Optometrist & Founder of SIKAF Foundation',
+      authorTitle: 'Healthcare Educator & Founder of Polyclinic HMS Foundation',
       isbn: 'Coming Soon',
-      description: 'A comprehensive guide to understanding and maintaining eye health. This book provides valuable information about eye care, common eye conditions, and preventive measures for optimal vision health.',
+      description: 'A comprehensive guide to understanding and maintaining good health. This book provides valuable information about healthcare, common health conditions, and preventive measures for a healthy lifestyle.',
       image: '/images/books/jicho-lako-cover.jpg',
       features: [
-        'Comprehensive eye health guide',
-        'Information on common eye conditions',
+        'Comprehensive health guide',
+        'Information on common health conditions',
         'Preventive care strategies',
         'Professional insights',
       ],
@@ -96,9 +96,9 @@ const Books = () => {
   return (
     <Box sx={{ bgcolor: colors.white, minHeight: '100vh', pt: { xs: '56px', sm: '64px' } }}>
       <SEO 
-        title="Books & Journals - SIKAF Eye Care | Educational Resources"
-        description="Explore our collection of eye care books and journals. Order educational resources including 'Jicho la Kunguru' and other publications by SIKAF Foundation. Contact us via WhatsApp to place your order."
-        keywords="eye care books Tanzania, optometry books, eye health education, SIKAF books, Jicho la Kunguru, eye care journals, educational resources"
+        title="Books & Journals - Polyclinic HMS | Educational Resources"
+        description="Explore our collection of health education books and journals. Order educational resources including 'Jicho la Kunguru' and other publications by Polyclinic HMS Foundation. Contact us via WhatsApp to place your order."
+        keywords="health education books Tanzania, health books, health education, Polyclinic HMS books, Jicho la Kunguru, health journals, educational resources"
       />
       <Navbar />
 
@@ -144,7 +144,7 @@ const Books = () => {
                 mb: 3,
               }}
             >
-              Access our comprehensive collection of eye care books and journals. Stay updated with the latest research, treatment protocols, and clinical guidelines in ophthalmology and optometry.
+              Access our comprehensive collection of health education books and journals. Stay updated with the latest research, treatment protocols, and clinical guidelines in healthcare.
             </Typography>
           </Box>
         </Container>
@@ -457,7 +457,7 @@ const Books = () => {
                     mb: 2,
                   }}
                 >
-                  Sibtwain Kassim Fadhil is an experienced Optometrist and the founder of SIKAF Foundation, dedicated to promoting eye health education and awareness. With a passion for making eye care accessible and understandable, he has authored several educational books aimed at helping children and the general public understand the importance of eye health.
+                  Sibtwain Kassim Fadhil is the founder of Polyclinic HMS Foundation, dedicated to promoting health education and awareness. With a passion for making healthcare accessible and understandable, he has authored several educational books aimed at helping children and the general public understand the importance of good health.
                 </Typography>
                 <Typography
                   variant="body1"
@@ -468,7 +468,7 @@ const Books = () => {
                     mb: 2,
                   }}
                 >
-                  Through his books, including "Jicho la Kunguru" (The Crow's Eye), he combines engaging storytelling with educational content to teach young readers about eye care in a fun and interactive way. His work emphasizes the importance of early eye health education and preventive care.
+                  Through his books, including "Jicho la Kunguru" (The Crow's Eye), he combines engaging storytelling with educational content to teach young readers about health in a fun and interactive way. His work emphasizes the importance of early health education and preventive care.
                 </Typography>
                 <Box
                   sx={{
@@ -500,7 +500,7 @@ const Books = () => {
                       mt: 1,
                     }}
                   >
-                    We invite stakeholders to sponsor these books for children in need, helping to spread eye health education across our communities.
+                    We invite stakeholders to sponsor these books for children in need, helping to spread health education across our communities.
                   </Typography>
                 </Box>
               </Grid>
@@ -543,7 +543,7 @@ const Books = () => {
                 mb: 3,
               }}
             >
-              Contact us via WhatsApp to place your order or inquire about bulk orders for schools, clinics, or organizations. We're here to help spread eye health education.
+              Contact us via WhatsApp to place your order or inquire about bulk orders for schools, clinics, or organizations. We're here to help spread health education.
             </Typography>
             <Button
               variant="contained"

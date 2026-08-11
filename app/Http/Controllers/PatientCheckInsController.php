@@ -258,7 +258,16 @@ class PatientCheckInsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'patient_id' => 'sometimes|exists:patients,id',
+            'payment_mode_id' => 'sometimes|exists:payment_modes,id',
+            'mode' => 'sometimes|in:cash,bill,invoice',
+        ]);
+
+        $data = PatientCheckIn::with(['patient', 'payment_mode', 'creator'])->findOrFail($id);
+        $data->update($request->only('patient_id', 'payment_mode_id', 'mode'));
+
+        return $this->sendResponse($data, Response::HTTP_OK, 'Updated successfully.');
     }
 
     /**
@@ -269,7 +278,17 @@ class PatientCheckInsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = PatientCheckIn::findOrFail($id);
+
+        if ($data->payment_cache()->whereHas('items', function ($q) {
+            $q->whereIn('status', ['Paid', 'Served', 'Billed']);
+        })->exists()) {
+            return $this->sendError('Cannot delete a check-in that has paid, billed or served items.', Response::HTTP_CONFLICT);
+        }
+
+        $data->delete();
+
+        return $this->sendResponse(null, Response::HTTP_OK, 'Deleted successfully.');
     }
 
     /**

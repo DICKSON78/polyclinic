@@ -9,7 +9,7 @@ const PatientsSent = () => {
 
   const handleSendPatient = () => {
     if (role !== "cashier") {
-      alert("Only cashiers can send patients to the optician.");
+      alert("Only cashiers can send patients to the dispenser.");
       return;
     }
     navigate("/optician/patient-transfer");

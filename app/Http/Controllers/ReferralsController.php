@@ -73,6 +73,43 @@ class ReferralsController extends Controller
     }
 
     /**
+     * Get referrals for a specific patient
+     */
+    public function getPatientReferrals(Request $request, $patient_id)
+    {
+        $request->validate([
+            'per_page' => 'sometimes|integer|min:0',
+            'page' => 'sometimes|integer|min:1',
+            'status' => 'sometimes|in:Pending,Sent,Acknowledged,Completed',
+        ]);
+
+        $user = $request->user();
+        $per_page = $request->per_page ?? 25;
+        $status = $request->status;
+
+        $data = Referral::with([
+            'consultation.payment_cache_item.payment_cache.check_in.patient',
+            'patient',
+            'creator',
+        ])->where('patient_id', $patient_id);
+
+        // Filter by clinic if user is not admin
+        if (!$user->is_admin) {
+            $data->whereHas('creator', function ($query) use ($user) {
+                $query->where('clinic_id', $user->clinic_id);
+            });
+        }
+
+        if ($status) {
+            $data->where('status', $status);
+        }
+
+        $referrals = $data->orderBy('created_at', 'desc')->paginate($per_page);
+
+        return $this->sendResponse($referrals, 200, 'Patient referrals retrieved successfully');
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)

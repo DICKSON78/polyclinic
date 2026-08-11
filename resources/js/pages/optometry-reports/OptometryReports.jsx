@@ -37,7 +37,7 @@ const OptometryReports = () => {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh' }}>
       <Typography variant="h6" color="text.secondary">
-        Loading Optometry Report Card...
+        Loading Examination Report Card...
       </Typography>
     </Box>
   );

@@ -127,6 +127,21 @@ class Consultation extends Model
         );
     }
 
+    public function lab_requests()
+    {
+        return $this->hasMany(LabRequest::class, 'consultation_id');
+    }
+
+    public function radiology_requests()
+    {
+        return $this->hasMany(RadiologyRequest::class, 'consultation_id');
+    }
+
+    public function vital_signs()
+    {
+        return $this->hasMany(VitalSign::class, 'consultation_id');
+    }
+
 
 
     protected function serializeDate(DateTimeInterface $date)

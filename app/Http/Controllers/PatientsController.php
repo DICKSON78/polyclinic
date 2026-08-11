@@ -90,6 +90,13 @@ class PatientsController extends Controller
                 $query->where('info_source_id', $request->info_source_id);
             }
             
+            // Support for info_source_name filter
+            if ($request->filled('info_source_name')) {
+                $query->whereHas('information_source', function ($q) use ($request) {
+                    $q->where('name', 'like', '%' . $request->info_source_name . '%');
+                });
+            }
+            
             // Boolean filters (stored as boolean in database)
             if ($request->has('is_vip') && $request->is_vip !== null) {
                 $query->where('is_vip', filter_var($request->is_vip, FILTER_VALIDATE_BOOLEAN));

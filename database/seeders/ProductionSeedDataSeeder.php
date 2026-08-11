@@ -49,9 +49,9 @@ class ProductionSeedDataSeeder extends Seeder
         DB::table('clinics')->updateOrInsert(
             ['id' => 1],
             [
-                'name' => 'SIKAF EYE CARE',
+                'name' => 'Polyclinic HMS',
                 'phone' => '0676 506 323',
-                'email' => 'info@sikafeyecare.co.tz',
+                'email' => 'info@polyclinic-hms.com',
                 'address' => 'P. O. Box 95042 DSM',
                 'sms_balance' => 642,
                 'sms_key' => null,
@@ -108,7 +108,7 @@ class ProductionSeedDataSeeder extends Seeder
                 'gender' => null,
                 'national_id' => null,
                 'phone' => null,
-                'email' => 'tech@sikaf.com',
+                'email' => 'tech@polyclinic-hms.com',
                 'password' => Hash::make('password123'),
                 'role' => 'Admin',
                 'api_token' => null,
@@ -126,7 +126,7 @@ class ProductionSeedDataSeeder extends Seeder
                 'first_name' => 'Sales',
                 'last_name' => 'Manager',
                 'username' => 'sales_manager',
-                'email' => 'sales@sikaf.com',
+                'email' => 'sales@polyclinic-hms.com',
                 'role' => 'Client',
                 'department_id' => 6 // Marketing
             ],
@@ -135,7 +135,7 @@ class ProductionSeedDataSeeder extends Seeder
                 'first_name' => 'Optometry',
                 'last_name' => 'Specialist',
                 'username' => 'optometry_specialist',
-                'email' => 'optometry@sikaf.com',
+                'email' => 'optometry@polyclinic-hms.com',
                 'role' => 'Client',
                 'department_id' => 4 // Optometry
             ]

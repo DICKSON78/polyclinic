@@ -65,7 +65,7 @@ const RefractionDetails = (
       <Table sx={{ mb: 2, width: '100%' }}>
         <TableHead>
           <TableRow>
-            <TableCell colSpan={8}>Objective Refraction</TableCell>
+            <TableCell colSpan={8}>Objective Examination</TableCell>
           </TableRow>
           <TableRow>
             <TableCell colSpan={4}>RE</TableCell>
@@ -178,7 +178,7 @@ const RefractionDetails = (
       <Table sx={{ width: '100%' }}>
         <TableHead>
           <TableRow>
-            <TableCell colSpan={8}>Subjective Refraction</TableCell>
+            <TableCell colSpan={8}>Subjective Examination</TableCell>
           </TableRow>
           <TableRow>
             <TableCell colSpan={4}>RE</TableCell>

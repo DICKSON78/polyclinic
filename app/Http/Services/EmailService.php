@@ -70,7 +70,7 @@ class EmailService
 
             // Create message
             $message = new Swift_Message($subject);
-            $message->setFrom([$settings->from_email => $settings->from_name ?? 'SIKAF Eye Care']);
+            $message->setFrom([$settings->from_email => $settings->from_name ?? 'Polyclinic HMS']);
             $message->setTo($to);
             
             if ($isHtml) {

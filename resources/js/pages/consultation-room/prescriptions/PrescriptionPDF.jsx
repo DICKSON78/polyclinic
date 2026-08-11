@@ -260,7 +260,7 @@ const PDFReportDocument = ({ consultation, patient }) => {
         {consultation.visual_acuity ? (
           <React.Fragment>
             <Subheader
-              title="Visual Acuity (VA)"
+              title="Clinical Assessment (VA)"
               style={{ marginBottom: 8 }}
             />
 
@@ -429,7 +429,7 @@ const PDFReportDocument = ({ consultation, patient }) => {
         {consultation.refraction ? (
           <React.Fragment>
             <Subheader
-              title="Refraction Details"
+              title="Examination Details"
               style={{ marginBottom: 8 }}
             />
             <Descriptions
@@ -559,7 +559,7 @@ const PDFReportDocument = ({ consultation, patient }) => {
         {consultation.lens_types ? (
           <React.Fragment>
             <Subheader
-              title="Lens Selection"
+              title="Item Selection"
               style={{ marginBottom: 8 }}
             />
             <Text style={[styles.text, { fontSize: 9, marginBottom: 8 }]}>

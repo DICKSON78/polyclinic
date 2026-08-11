@@ -402,7 +402,7 @@ class DirectorDashboardController extends Controller
             $opticalCash = (float) DB::table('patient_item_payments as pmt')
                 ->join('patient_payment_cache_items as ppci', 'ppci.item_payment_id', '=', 'pmt.id')
                 ->join('consultation_types as ct', 'ppci.consultation_type_id', '=', 'ct.id')
-                ->whereRaw('LOWER(ct.name) = ?', ['glass'])
+                ->whereNotIn(DB::raw('LOWER(ct.name)'), ['pharmacy', 'procedure'])
                 ->where('pmt.created_at', '>=', $start_date . ' 00:00:00')
                 ->where('pmt.created_at', '<=', $end_date . ' 23:59:59')
                 ->when($clinic_id, function ($q) use ($clinic_id) {
@@ -415,7 +415,7 @@ class DirectorDashboardController extends Controller
             $opticalBill = (float) DB::table('patient_item_bill_payments as pmt')
                 ->join('patient_payment_cache_items as ppci', 'ppci.bill_id', '=', 'pmt.bill_id')
                 ->join('consultation_types as ct', 'ppci.consultation_type_id', '=', 'ct.id')
-                ->whereRaw('LOWER(ct.name) = ?', ['glass'])
+                ->whereNotIn(DB::raw('LOWER(ct.name)'), ['pharmacy', 'procedure'])
                 ->where('pmt.created_at', '>=', $start_date . ' 00:00:00')
                 ->where('pmt.created_at', '<=', $end_date . ' 23:59:59')
                 ->when($clinic_id, function ($q) use ($clinic_id) {
@@ -634,7 +634,7 @@ class DirectorDashboardController extends Controller
                 ->join('items as it', 'ppci.item_id', '=', 'it.id')
                 ->join('consultation_types as ct', 'ppci.consultation_type_id', '=', 'ct.id')
                 ->join(DB::raw('(SELECT item_payment_id, SUM(unit_price * quantity) as gross_total FROM patient_payment_cache_items WHERE item_payment_id IS NOT NULL GROUP BY item_payment_id) as totals'), 'ppci.item_payment_id', '=', 'totals.item_payment_id')
-                ->whereRaw('LOWER(ct.name) = ?', ['glass'])
+                ->whereNotIn(DB::raw('LOWER(ct.name)'), ['pharmacy', 'procedure'])
                 ->where('it.item_type_id', '!=', 4)
                 ->where('pmt.created_at', '>=', $start_date . ' 00:00:00')
                 ->where('pmt.created_at', '<=', $end_date . ' 23:59:59')
@@ -652,7 +652,7 @@ class DirectorDashboardController extends Controller
                 ->join('items as it', 'ppci.item_id', '=', 'it.id')
                 ->join('consultation_types as ct', 'ppci.consultation_type_id', '=', 'ct.id')
                 
-                ->whereRaw('LOWER(ct.name) = ?', ['glass'])
+                ->whereNotIn(DB::raw('LOWER(ct.name)'), ['pharmacy', 'procedure'])
                 ->where('it.item_type_id', '!=', 4)
                 ->where('pmt.created_at', '>=', $start_date . ' 00:00:00')
                 ->where('pmt.created_at', '<=', $end_date . ' 23:59:59')
@@ -675,7 +675,7 @@ class DirectorDashboardController extends Controller
                 ->whereIn('ppci.status', ['Paid', 'Billed', 'Served'])
                 ->whereDate(DB::raw('COALESCE(ppci.served_at, ppci.created_at)'), '>=', $start_date)
                 ->whereDate(DB::raw('COALESCE(ppci.served_at, ppci.created_at)'), '<=', $end_date)
-                ->whereRaw('LOWER(ct.name) = ?', ['glass'])
+                ->whereNotIn(DB::raw('LOWER(ct.name)'), ['pharmacy', 'procedure'])
                 ->where('it.item_type_id', '!=', 4);
             
             if ($clinic_id) {
@@ -1077,6 +1077,21 @@ class DirectorDashboardController extends Controller
         } catch (\Exception $e) {
             \Log::error('Error calculating top_selling_items', ['error' => $e->getMessage()]);
             $data['statistics']['top_selling_items'] = [];
+        }
+
+        // Get SMS balance from MACKSMS API
+        try {
+            $mackSmsService = new \App\Http\Services\MackSmsService();
+            $smsBalanceResult = $mackSmsService->getBalance();
+            
+            if ($smsBalanceResult && isset($smsBalanceResult['success']) && $smsBalanceResult['success'] === true) {
+                $data['summary']['sms_balance'] = $smsBalanceResult['sms_balance'] ?? 0;
+            } else {
+                $data['summary']['sms_balance'] = 0;
+            }
+        } catch (\Exception $e) {
+            \Log::error('Error getting SMS balance', ['error' => $e->getMessage()]);
+            $data['summary']['sms_balance'] = 0;
         }
 
         return $this->sendResponse($data, Response::HTTP_OK, 'Director Dashboard data retrieved successfully.');

@@ -1,6 +1,6 @@
-# EyeChake Eye Care Management System
+# Polyclinic HMS
 
-A comprehensive eye care clinic management system built with Laravel and React. This system manages all aspects of an eye care clinic including patient records, consultations, billing, inventory, and staff management.
+A comprehensive polyclinic/hospital management system built with Laravel and React. This system manages all aspects of a healthcare facility including patient records, triage & vitals, consultations, laboratory, pharmacy, radiology, inpatient wards, billing, inventory, and staff management.
 
 ## Features
 
@@ -25,8 +25,8 @@ A comprehensive eye care clinic management system built with Laravel and React. 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/GhostWire619/eyechake.git
-cd eyechake
+git clone https://github.com/DICKSON78/polyclinic.git
+cd polyclinic
 ```
 
 ### 2. Install Dependencies
@@ -57,7 +57,7 @@ php artisan key:generate
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=eyechake
+DB_DATABASE=polyclinic_db
 DB_USERNAME=your_username
 DB_PASSWORD=your_password
 ```
@@ -171,96 +171,18 @@ chown -R www-data:www-data storage/
 chown -R www-data:www-data bootstrap/cache/
 ```
 
-### Docker Deployment guide
-
-```bash
-# Clean build (removes cache and old containers)
-docker compose down --remove-orphans
-docker compose build --no-cache
-docker compose up -d
-
-# Quick rebuild with cache (faster, for minor changes)
-docker compose up -d --build
-
-# Build specific service without cache
-docker compose build --no-cache app
-docker compose up -d app
-
-# Build frontend without cache
-docker compose --profile build build --no-cache frontend
-docker compose --profile build up frontend
-
-# Full cleanup + fresh build (removes all unused Docker resources)
-docker compose down --remove-orphans
-docker system prune -af --volumes
-docker compose up -d --build
-
-# Remove only this project's containers and volumes
-docker compose down -v --remove-orphans
-docker compose up -d --build
-```
-
-**Recommended periodic cleanup commands:**
-
-```bash
-# Remove dangling images (saves disk space)
-docker image prune -f
-
-# Remove all stopped containers
-docker container prune -f
-
-# Remove unused volumes
-docker volume prune -f
-
-# Remove unused networks
-docker network prune -f
-
-# Complete cleanup (use with caution - removes all unused Docker resources)
-docker system prune -af --volumes
-
-# View Docker disk usage
-docker system df
-```
-
 ## Database Backup
-
-### Docker Environment
-
-**Backup database using .env credentials:**
-
-```bash
-# Load .env variables and backup database
-docker-compose exec -T mysql sh -c 'mysqldump -h${DB_HOST} -u${DB_USERNAME} -p${DB_PASSWORD} ${DB_DATABASE}' > sikaf.sql
-```
-
-**Or use a dedicated backup script:**
-
-```bash
-# Create backup with timestamp
-docker-compose exec -T mysql sh -c 'mysqldump -h${DB_HOST} -u${DB_USERNAME} -p${DB_PASSWORD} ${DB_DATABASE}' > backup_$(date +%Y%m%d_%H%M%S).sql
-```
-
-### Local Environment
 
 **Backup database using .env credentials:**
 
 ```bash
 # Linux/Mac
-source .env && mysqldump -h${DB_HOST} -P${DB_PORT} -u${DB_USERNAME} -p${DB_PASSWORD} ${DB_DATABASE} > sikaf.sql
-
-# Windows PowerShell
-Get-Content .env | ForEach-Object { if ($_ -match '^(DB_\w+)=(.+)$') { Set-Variable -Name $matches[1] -Value $matches[2] } }; mysqldump -h$DB_HOST -P$DB_PORT -u$DB_USERNAME -p$DB_PASSWORD $DB_DATABASE > sikaf.sql
+source .env && mysqldump -h${DB_HOST} -P${DB_PORT} -u${DB_USERNAME} -p${DB_PASSWORD} ${DB_DATABASE} > polyclinic.sql
 ```
 
 **Restore database from backup:**
 
 ```bash
-# Docker
-docker-compose exec -T mysql sh -c 'mysql -h${DB_HOST} -u${DB_USERNAME} -p${DB_PASSWORD} ${DB_DATABASE}' < sikaf.sql
-
-# Local (Linux/Mac)
-source .env && mysql -h${DB_HOST} -P${DB_PORT} -u${DB_USERNAME} -p${DB_PASSWORD} ${DB_DATABASE} < sikaf.sql
-
-# Local (Windows PowerShell)
-Get-Content .env | ForEach-Object { if ($_ -match '^(DB_\w+)=(.+)$') { Set-Variable -Name $matches[1] -Value $matches[2] } }; mysql -h$DB_HOST -P$DB_PORT -u$DB_USERNAME -p$DB_PASSWORD $DB_DATABASE < sikaf.sql
+# Linux/Mac
+source .env && mysql -h${DB_HOST} -P${DB_PORT} -u${DB_USERNAME} -p${DB_PASSWORD} ${DB_DATABASE} < polyclinic.sql
 ```

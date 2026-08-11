@@ -131,7 +131,7 @@ const Cookies = () => {
         {
           text: 'If you have any questions about our use of cookies or this Cookie Policy, please call us now:',
           details: [
-            'Email: privacy@sikafeyecare.com',
+            'Email: privacy@polyclinic-hms.com',
             'Phone: +1 (555) 123-4567',
             'Address: 123 Healthcare Street, Medical District, City 12345',
           ],

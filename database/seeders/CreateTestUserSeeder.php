@@ -27,7 +27,7 @@ class CreateTestUserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'role' => 'Admin',
                 'status' => 'Active',
-                'email' => 'admin@eyechake.com',
+                'email' => 'admin@polyclinic-hms.com',
                 'phone' => '1234567890',
                 'gender' => 'Male',
                 'created_at' => now(),

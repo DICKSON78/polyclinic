@@ -15,7 +15,6 @@ import {
   Visibility as EyeIcon,
   Healing as TreatmentIcon,
   ShoppingBag as SpectaclesIcon,
-  Contacts as ContactLensIcon,
   Groups as OutreachIcon,
   ArrowForward as ArrowForwardIcon,
   CheckCircle as CheckIcon,
@@ -63,109 +62,109 @@ const Services = () => {
 
   const services = [
     {
-      id: 'eye-examinations',
+      id: 'health-checkup',
       icon: EyeIcon,
-      title: 'Comprehensive Eye Examination',
-      description: 'Our comprehensive eye examination service utilizes state-of-the-art diagnostic equipment and advanced techniques to provide a thorough assessment of your vision health. Our experienced optometrists conduct detailed evaluations to detect early signs of eye diseases, assess visual acuity, test eye coordination, and evaluate overall eye health. Each examination is tailored to your individual needs, age, and medical history, ensuring personalized care recommendations that support optimal vision throughout your life.',
+      title: 'Comprehensive Health Checkup',
+      description: 'Our comprehensive health checkup service utilizes modern diagnostic equipment and evidence-based techniques to provide a thorough assessment of your overall health and wellbeing. Our experienced doctors conduct detailed evaluations to detect early signs of chronic conditions such as diabetes and hypertension, check your vital signs, and evaluate your general health. Each checkup is tailored to your individual needs, age, and medical history, ensuring personalized care recommendations that support optimal health throughout your life.',
       features: [
-        'Complete vision assessment and refraction',
-        'Advanced retinal examination with imaging',
-        'Comprehensive glaucoma screening and testing',
-        'Color vision and depth perception evaluation',
-        'Eye pressure measurement (tonometry)',
-        'Binocular vision and eye coordination testing',
-        'Peripheral vision field testing',
-        'Pupil response and eye movement assessment',
+        'Complete health assessment and vital signs check',
+        'Advanced diagnostic screening with laboratory testing',
+        'Comprehensive blood pressure and blood sugar screening',
+        'Blood and urine laboratory tests',
+        'Height, weight and body mass index evaluation',
+        'Chronic disease risk assessment',
+        'Referral for specialized care when needed',
+        'Personalized health advice and follow-up',
       ],
       image: '/images/services-vision-testing.jpeg',
       color: '#1E88E5',
     },
     {
-      id: 'binocular-vision',
+      id: 'general-consultation',
       icon: EyeIcon,
-      title: 'Binocular Vision Assessment',
-      description: 'Our binocular vision assessment service evaluates how well your eyes work together as a team. This comprehensive evaluation includes testing eye alignment, depth perception, eye coordination, and the ability to maintain comfortable vision during extended tasks. We assess conditions such as strabismus (eye misalignment), amblyopia (lazy eye), convergence insufficiency, and other binocular vision disorders. Our experienced optometrists use specialized techniques and equipment to identify vision problems that may affect reading, learning, and daily activities, providing personalized treatment plans to improve visual comfort and performance.',
+      title: 'General Medical Consultation',
+      description: 'Our general medical consultation service evaluates your overall health and addresses a wide range of everyday health concerns. This comprehensive evaluation includes checking your vital signs, reviewing your medical history, and diagnosing common conditions such as infections, fever, malaria, and typhoid. Our experienced doctors use modern techniques and equipment to identify health problems that may affect your daily life and wellbeing, providing personalized treatment plans to improve your comfort and performance.',
       features: [
-        'Eye alignment and coordination testing',
-        'Depth perception and stereopsis evaluation',
-        'Convergence and divergence assessment',
-        'Accommodation and focusing ability testing',
-        'Visual tracking and eye movement evaluation',
-        'Treatment for binocular vision disorders',
-        'Vision therapy programs when needed',
+        'Vital signs and general health assessment',
+        'Diagnosis and treatment of common conditions',
+        'Treatment of infections, fever, malaria and typhoid',
+        'Prescription medication and treatment plans',
+        'Health education and lifestyle guidance',
+        'Management of acute and chronic conditions',
+        'Referral to specialist physicians when needed',
         'Follow-up care and progress monitoring',
       ],
       image: '/images/services-vision-testing.jpeg',
       color: '#764ba2',
     },
     {
-      id: 'eye-disorders',
+      id: 'manage-treat-conditions',
       icon: TreatmentIcon,
-      title: 'Diagnose, Manage and Treat Disorders of the Eyes',
-      description: 'Our clinic specializes in the expert diagnosis and comprehensive management of various eye conditions and diseases. Our team of qualified optometrists uses cutting-edge diagnostic technology to identify conditions such as cataracts, diabetic retinopathy, macular degeneration, glaucoma, dry eye syndrome, and other ocular diseases. We develop personalized treatment plans that may include prescription medications, lifestyle modifications, specialized eye drops, and when necessary, timely referrals to specialist ophthalmologists for surgical intervention or advanced care.',
+      title: 'Diagnose, Manage and Treat Medical Conditions',
+      description: 'Our clinic specializes in the expert diagnosis and comprehensive management of various medical conditions and diseases. Our team of qualified doctors uses modern diagnostic technology to identify conditions such as diabetes, hypertension, infections, and other common illnesses. We develop personalized treatment plans that may include prescription medications, lifestyle modifications, and when necessary, timely referrals to specialist physicians for advanced care.',
       features: [
-        'Advanced diagnostic tools and imaging',
+        'Modern diagnostic tools and laboratory testing',
         'Personalized treatment protocol development',
         'Chronic disease management and monitoring',
         'Prescription medication management',
         'Specialist referral coordination',
         'Regular follow-up care and progress tracking',
-        'Emergency eye care services',
-        'Post-operative care and management',
+        'Emergency care services',
+        'Inpatient care and management',
       ],
       image: '/images/gallery-staff-at-work.jpeg',
       color: '#f093fb',
     },
     {
-      id: 'clinical-refraction',
+      id: 'laboratory-diagnostics',
       icon: EyeIcon,
-      title: 'Clinical Refraction',
-      description: 'Clinical refraction is a precise procedure performed by our experienced optometrists to determine your exact eyeglass or contact lens prescription. Using advanced phoropters and computerized equipment, we measure how light focuses on your retina to identify refractive errors such as nearsightedness (myopia), farsightedness (hyperopia), astigmatism, and presbyopia. Our thorough refraction process includes both objective and subjective testing methods, ensuring accurate prescription measurements that provide optimal visual clarity and comfort for all your daily activities.',
+      title: 'Laboratory Diagnostics',
+      description: 'Our on-site laboratory offers a wide range of diagnostic tests to support accurate diagnosis and treatment. Our qualified laboratory technologists use modern equipment to perform blood tests, urine analysis, infection screening, and routine health panels. Most results are available the same day, allowing your doctor to make timely, informed decisions about your care.',
       features: [
-        'Objective and subjective refraction testing',
-        'Accurate prescription measurement',
-        'Refractive error diagnosis and correction',
-        'Presbyopia assessment and management',
-        'Astigmatism evaluation and correction',
-        'Prescription verification and optimization',
-        'Specialized testing for complex cases',
-        'Regular prescription updates and adjustments',
+        'Complete blood count and blood chemistry',
+        'Urine analysis and pregnancy testing',
+        'Malaria, typhoid and infection screening',
+        'Blood sugar and cholesterol testing',
+        'Health panels and wellness screening',
+        'Same-day results and reporting',
+        'Direct results to your consulting doctor',
+        'Follow-up testing and monitoring',
       ],
       image: '/images/services-vision-testing.jpeg',
       color: '#4facfe',
     },
     {
-      id: 'prescribe-provide',
+      id: 'pharmacy-e-prescriptions',
       icon: SpectaclesIcon,
-      title: 'Prescribe and Provide Eye Glasses, Ophthalmic, Medication and Contact Lenses',
-      description: 'We provide comprehensive prescription and dispensing services for all your vision correction needs. Our services include prescribing and providing high-quality eyeglasses with a wide selection of designer frames and premium lenses, ophthalmic medications for various eye conditions, and professional contact lens fitting and supply. Our certified opticians ensure accurate prescription execution, proper frame fitting, and optimal lens selection. We also provide expert guidance on medication usage, contact lens care, and ongoing support to ensure the best possible vision outcomes and eye health.',
+      title: 'Pharmacy & E-Prescriptions',
+      description: 'Our pharmacy service works hand-in-hand with your doctor through electronic prescriptions. Once your consultation is complete, your prescription is sent directly to our on-site pharmacy for fast and convenient dispensing. Our pharmacists provide clear dosage guidance, medication counseling, and safety checks to ensure you use your medicines correctly and effectively.',
       features: [
-        'Eyeglass prescription and dispensing',
-        'Wide selection of designer frames and premium lenses',
-        'Ophthalmic medication prescription and supply',
-        'Contact lens prescription and fitting',
-        'Professional frame fitting and adjustment',
-        'Prescription lens options and upgrades',
-        'Medication guidance and usage instructions',
-        'Ongoing support and follow-up care',
+        'Electronic prescriptions from your doctor',
+        'Fast on-site medication dispensing',
+        'Wide range of common medications',
+        'Clear dosage and usage instructions',
+        'Medication counseling and advice',
+        'Drug safety and interaction checks',
+        'Chronic medication refills and support',
+        'Ongoing follow-up and monitoring',
       ],
       image: '/images/services-glasses-frames.jpeg',
       color: '#43e97b',
     },
     {
-      id: 'outreach',
+      id: 'wards-inpatient',
       icon: OutreachIcon,
-      title: 'Outreach Program',
-      description: 'We are deeply committed to improving eye health awareness and accessibility in our community through comprehensive outreach initiatives. Our programs include free eye screenings at community events, educational workshops on eye health and disease prevention, mobile clinic services for underserved areas, and partnerships with schools for vision screening programs. We also participate in community health fairs, provide services to senior care facilities, and offer corporate wellness eye care programs. Our goal is to make quality eye care accessible to everyone, regardless of their circumstances.',
+      title: 'Wards & Inpatient Care',
+      description: 'We are committed to providing quality inpatient care for patients who need admission and close monitoring. Our comfortable ward facilities are supported by a dedicated nursing team that provides round-the-clock care, medication administration, and continuous monitoring. We work closely with your doctor to plan your treatment and prepare for a smooth discharge and recovery at home.',
       features: [
-        'Free community eye screening programs',
-        'Educational workshops and health seminars',
-        'Mobile clinic services for remote areas',
-        'School vision screening programs',
-        'Community health fair participation',
-        'Senior care facility visitations',
-        'Corporate wellness eye care programs',
-        'Accessible care initiatives for underserved populations',
+        'Comfortable ward accommodation',
+        '24/7 nursing and medical care',
+        'Continuous patient monitoring',
+        'Medication administration and records',
+        'Daily review by your doctor',
+        'Inpatient laboratory and imaging support',
+        'Family updates and communication',
+        'Discharge planning and follow-up care',
       ],
       image: '/images/appointment-receptionist.jpeg',
       color: '#ff6b6b',
@@ -173,31 +172,31 @@ const Services = () => {
   ];
 
   const serviceCategories = [
-    'Comprehensive Eye Examination',
-    'Binocular Vision Assessment',
+    'General Medical Consultation',
+    'Comprehensive Health Checkup',
     'Diagnosis & Treatment',
-    'Clinical Refraction',
-    'Eyeglasses & Contact Lenses',
-    'Ophthalmic Medications',
+    'Laboratory Diagnostics',
+    'Pharmacy & E-Prescriptions',
+    'Wards & Inpatient Care',
     'Emergency Services',
-    'Outreach Programs',
+    'Community Health Outreach',
   ];
 
   const recentServices = [
-    { title: 'Advanced Retinal Imaging Technology', image: '/images/services-vision-testing.jpeg' },
-    { title: 'Custom Frame Fitting Consultation', image: '/images/services-glasses-frames.jpeg' },
-    { title: 'Professional Eye Care Team', image: '/images/gallery-staff-at-work.jpeg' },
+    { title: 'Advanced Laboratory Diagnostics', image: '/images/services-vision-testing.jpeg' },
+    { title: 'Modern Pharmacy & Medication Dispensing', image: '/images/services-glasses-frames.jpeg' },
+    { title: 'Professional Healthcare Team', image: '/images/gallery-staff-at-work.jpeg' },
   ];
 
   const popularTags = [
-    'Eye Examinations',
-    'Vision Care',
-    'Eye Health',
-    'Ophthalmology',
-    'Optometry',
-    'SIKAF',
+    'Outpatient Care',
+    'Laboratory Services',
+    'Pharmacy',
+    'Inpatient Care',
+    'Maternal Health',
+    'Polyclinic HMS',
     'Tanzania',
-    'Eye Care',
+    'Healthcare',
   ];
 
   useEffect(() => {
@@ -273,9 +272,9 @@ const Services = () => {
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: '#f8f9fa !important', pt: { xs: '56px', sm: '64px' } }}>
       <SEO 
-        title="Our Services - SIKAF Eye Care | Comprehensive Eye Care Solutions in Tanzania"
-        description="SIKAF Eye Care offers comprehensive eye care services including eye examinations, diagnosis & treatment of eye disorders, spectacles dispensing, contact lens fitting, and community eye outreach programs in Dar es Salaam, Tanzania."
-        keywords="eye care services Tanzania, eye examinations Dar es Salaam, eye disorder treatment, spectacles dispensing, contact lens fitting, eye clinic services, SIKAF Eye Care services"
+        title="Our Services - Polyclinic HMS | Comprehensive Healthcare Solutions in Tanzania"
+        description="Polyclinic HMS offers comprehensive healthcare services including outpatient consultations, health checkups, laboratory diagnostics, pharmacy & e-prescriptions, and wards & inpatient care in Dar es Salaam, Tanzania."
+        keywords="healthcare services Tanzania, medical clinic Dar es Salaam, outpatient consultation, laboratory tests, pharmacy services, inpatient care, health checkup, Polyclinic HMS services"
       />
       <Navbar />
       
@@ -319,7 +318,7 @@ const Services = () => {
                     opacity: 1,
                   }}
                 >
-                  Professional Eye Care
+                  Professional Healthcare
                 </Typography>
                 <Typography
                   className="hero-animate"
@@ -351,7 +350,7 @@ const Services = () => {
                     opacity: 1,
                   }}
                 >
-                  At SIKAF Eye Care, we provide comprehensive, patient-centered eye care services designed to preserve and enhance your vision. Our experienced team of optometrists utilizes state-of-the-art technology and evidence-based practices to deliver exceptional care tailored to your unique needs.
+                  At Polyclinic HMS, we provide comprehensive, patient-centered healthcare services designed to keep you and your family well. Our experienced team of doctors and nurses utilizes modern technology and evidence-based practices to deliver exceptional care tailored to your unique needs.
                 </Typography>
                 <Typography
                   className="hero-animate"
@@ -363,7 +362,7 @@ const Services = () => {
                     opacity: 1,
                   }}
                 >
-                  From routine eye examinations to specialized treatment of eye disorders, professional eyewear dispensing, contact lens fitting, and community health initiatives, we are committed to supporting optimal eye health for individuals and families throughout Tanzania.
+                  From general consultations and routine checkups to laboratory testing, medication dispensing, and inpatient care, we are committed to supporting the health and wellbeing of individuals and families throughout Tanzania.
                 </Typography>
               </Box>
             </Grid>
@@ -382,7 +381,7 @@ const Services = () => {
                     opacity: 1,
                   }}
                 >
-                  Our comprehensive range of services includes advanced diagnostic capabilities, personalized treatment plans, premium eyewear solutions, and accessible community programs, all delivered with professionalism, compassion, and the highest standards of clinical excellence.
+                  Our comprehensive range of services includes modern diagnostic capabilities, personalized treatment plans, convenient pharmacy services, and quality inpatient care, all delivered with professionalism, compassion, and the highest standards of clinical excellence.
                 </Typography>
                 <Box
                   className="hero-animate"
@@ -407,22 +406,22 @@ const Services = () => {
                     </Typography>
                     <Box component="ul" sx={{ m: 0, pl: 2.5, color: '#4A4A4A' }}>
                       <Typography component="li" variant="body2" sx={{ mb: 1, fontSize: { xs: '0.85rem', md: '0.95rem' }, lineHeight: 1.7 }}>
-                        Comprehensive eye examination
+                        General medical consultation
                       </Typography>
                       <Typography component="li" variant="body2" sx={{ mb: 1, fontSize: { xs: '0.85rem', md: '0.95rem' }, lineHeight: 1.7 }}>
-                        Binocular vision assessment
+                        Comprehensive health checkup
                       </Typography>
                       <Typography component="li" variant="body2" sx={{ mb: 1, fontSize: { xs: '0.85rem', md: '0.95rem' }, lineHeight: 1.7 }}>
-                        Diagnose, manage and treat disorders of the eyes
+                        Diagnose, manage and treat medical conditions
                       </Typography>
                       <Typography component="li" variant="body2" sx={{ mb: 1, fontSize: { xs: '0.85rem', md: '0.95rem' }, lineHeight: 1.7 }}>
-                        Clinical refraction
+                        Laboratory diagnostics
                       </Typography>
                       <Typography component="li" variant="body2" sx={{ mb: 1, fontSize: { xs: '0.85rem', md: '0.95rem' }, lineHeight: 1.7 }}>
-                        Prescribe and provide eye glasses, ophthalmic, medication and contact lenses
+                        Pharmacy & e-prescriptions
                       </Typography>
                       <Typography component="li" variant="body2" sx={{ fontSize: { xs: '0.85rem', md: '0.95rem' }, lineHeight: 1.7 }}>
-                        Outreach Program
+                        Wards & inpatient care
                       </Typography>
                     </Box>
                   </Stack>
@@ -462,7 +461,7 @@ const Services = () => {
                 color: `${colors.darkCharcoal} !important`,
               }}
             >
-              Comprehensive Eye Care Services
+              Comprehensive Healthcare Services
             </Typography>
             <Typography
               variant="body1"
@@ -473,7 +472,7 @@ const Services = () => {
                 mx: 'auto',
               }}
             >
-              Explore our range of professional services designed to support your vision health
+              Explore our range of professional services designed to support your health and wellbeing
             </Typography>
           </Box>
           <Grid container spacing={{ xs: 2, md: 3 }}>
@@ -898,7 +897,7 @@ const Services = () => {
                 opacity: 1,
               }}
             >
-              Experience world-class eye care with our expert team. Book your appointment today and take the first step towards better vision and optimal eye health.
+              Experience quality healthcare with our expert team. Book your appointment today and take the first step towards better health and wellbeing.
             </Typography>
             <Stack 
               className="cta-animate"

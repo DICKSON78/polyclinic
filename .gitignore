@@ -20,6 +20,8 @@ yarn-error.log
 /public/storage
 /public/build
 *.backup
+*.bak
 *.sh.backup
 *.sql
 *.sql.gz
+*.tar.gz

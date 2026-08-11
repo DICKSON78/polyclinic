@@ -207,7 +207,7 @@ class ConsultationRoomDashboardController extends Controller
             $data['summary']['prescriptions_written'] = 0;
         }
 
-        // Eye examinations (approximation based on glass items)
+        // Eye examinations (approximation based on outpatient items)
         try {
             $data['summary']['eye_examinations'] = PatientPaymentCacheItem::query()
                 ->when($clinic_id, function ($query) use ($clinic_id) {
@@ -216,7 +216,7 @@ class ConsultationRoomDashboardController extends Controller
                     });
                 })
                 ->whereHas('consultation_type', function ($query) {
-                    $query->where('name', 'Glass');
+                    $query->whereNotIn('name', ['Pharmacy', 'Procedure']);
                 })
                 ->whereDate('created_at', '>=', $start_date)
                 ->whereDate('created_at', '<=', $end_date)
@@ -327,7 +327,7 @@ class ConsultationRoomDashboardController extends Controller
             $data['statistics']['consultations_trend'] = [];
         }
 
-        // Total patients seen (consultations with status 'Consulted') in date range
+        // Total patients seen (using consultations_today for consistency with Today's Consultations)
         try {
             $totalPatientsSeenQuery = Consultation::query()
                 ->when($clinic_id, function ($query) use ($clinic_id) {
@@ -335,11 +335,8 @@ class ConsultationRoomDashboardController extends Controller
                         $q->where('clinic_id', $clinic_id);
                     });
                 })
-                ->where('status', 'Consulted')
-                ->whereDate('created_at', '>=', $start_date)
-                ->whereDate('created_at', '<=', $end_date)
-                ->distinct()
-                ->count('payment_cache_item_id');
+                ->whereDate('created_at', $today)
+                ->count();
             
             \Log::info('ConsultationRoomDashboard - Total Patients Seen Query', [
                 'start_date' => $start_date,

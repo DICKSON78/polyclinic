@@ -127,7 +127,7 @@ const Dashboard = () => {
             total_revenue: result?.summary?.total_revenue ?? 0,
             cash_payments: result?.summary?.cash_payments ?? 0,
             credit_payments: result?.summary?.credit_payments ?? 0,
-            cash_available: (result?.summary?.cash_payments ?? 0) - (result?.summary?.total_expenses ?? 0),
+            cash_available: result?.summary?.cash_available ?? 0,
             pending_bills: result?.summary?.pending_bills ?? 0,
             pending_payment_cache: result?.summary?.pending_payment_cache ?? 0,
             cleared_bills: result?.summary?.cleared_bills ?? 0,
@@ -286,7 +286,7 @@ const Dashboard = () => {
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <InfoCard
                 title="Cash Available"
-                count={numberFormat(data.summary.cash_available || 0)}
+                count={numberFormat(data.summary.cash_payments || 0)}
                 icon={<WalletIcon />}
                 color={green[500]}
                 onClick={() => navigate('/payment-center/reports/daily-cash-collection')}
@@ -314,7 +314,11 @@ const Dashboard = () => {
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <InfoCard
                 title="Cash Payments"
-                count={numberFormat(data.summary.cash_payments || 0)}
+                count={numberFormat(
+                  (data?.statistics?.revenue_by_payment_mode?.find(item => 
+                    item?.payment_mode?.toLowerCase().includes('cash-in-hand')
+                  )?.total_amount || 0)
+                )}
                 icon={<CashIcon />}
                 color={blue[500]}
                 onClick={() => navigate('/payment-center/pending-cash-patients')}

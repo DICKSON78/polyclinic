@@ -64,7 +64,7 @@ const ConsultationPatients = () => {
   );
 
   useEffect(() => {
-    document.title = `Patients Sent to Optician - ${window.APP_NAME}`;
+    document.title = `Patients Sent for Dispensing - ${window.APP_NAME}`;
   }, []);
 
   // Lock/unlock functionality removed - using stable useDynamicNotifications in Menu component
@@ -88,13 +88,13 @@ const ConsultationPatients = () => {
     <Page
       breadcrumbs={[
         { title: "Home" },
-        { title: "Optician Center" },
-        { title: "Patients Sent to Optician" },
+        { title: "Outpatient Dispensing" },
+        { title: "Patients Sent for Dispensing" },
       ]}
     >
       <Card>
         <PageHeader
-          title="Patients Sent to Optician"
+          title="Patients Sent for Dispensing"
           subtitle={`${(data && typeof data.total === 'number') ? data.total : 0} sent`}
           trailing={
             <React.Fragment>
@@ -178,7 +178,7 @@ const ConsultationPatients = () => {
               },
               {
                 field: "require_glass",
-                headerName: "Spectacle Required",
+                headerName: "Item Required",
                 renderCell: (item) => {
                   const requireGlass = item.require_glass;
                   if (requireGlass === 'Yes') {

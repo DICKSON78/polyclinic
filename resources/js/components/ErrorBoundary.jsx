@@ -45,7 +45,7 @@ class ErrorBoundary extends React.Component {
               <Box
                 component="img"
                 src="/logo.png"
-                alt="SIKAF Eye Care Logo"
+                alt="Polyclinic HMS Logo"
                 sx={{
                   height: 60,
                   width: 'auto',
@@ -57,7 +57,7 @@ class ErrorBoundary extends React.Component {
                   // Fallback: show text logo if image fails to load
                   e.target.style.display = 'none';
                   const textLogo = document.createElement('h3');
-                  textLogo.innerHTML = 'SIKAF Eye Care';
+                  textLogo.innerHTML = 'Polyclinic HMS';
                   textLogo.style.cssText = 'color: #1E88E5; text-align: center; margin-bottom: 24px; font-weight: bold;';
                   e.target.parentNode.insertBefore(textLogo, e.target.nextSibling);
                 }}

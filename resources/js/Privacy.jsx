@@ -21,7 +21,7 @@ const Privacy = () => {
         },
         {
           subtitle: '1.2 Medical Information',
-          text: 'As a healthcare service provider, we collect and maintain medical records, examination results, prescriptions, and other health-related information necessary for providing quality eye care services.',
+          text: 'As a healthcare service provider, we collect and maintain medical records, examination results, prescriptions, and other health-related information necessary for providing quality healthcare services.',
         },
         {
           subtitle: '1.3 Usage Information',
@@ -34,11 +34,11 @@ const Privacy = () => {
       content: [
         {
           subtitle: '2.1 Service Provision',
-          text: 'We use your information to provide, maintain, and improve our eye care services, schedule appointments, process payments, and communicate with you about your care.',
+          text: 'We use your information to provide, maintain, and improve our healthcare services, schedule appointments, process payments, and communicate with you about your care.',
         },
         {
           subtitle: '2.2 Medical Care',
-          text: 'Your medical information is used by our healthcare professionals to diagnose, treat, and manage your eye health conditions effectively.',
+          text: 'Your medical information is used by our healthcare professionals to diagnose, treat, and manage your health conditions effectively.',
         },
         {
           subtitle: '2.3 Communication',
@@ -135,7 +135,7 @@ const Privacy = () => {
           subtitle: '9.1 Privacy Inquiries',
           text: 'If you have questions, concerns, or requests regarding this Privacy Policy or our data practices, please call us now at:',
           details: [
-            'Email: privacy@sikafeyecare.com',
+            'Email: privacy@polyclinic-hms.com',
             'Phone: +1 (555) 123-4567',
             'Address: 123 Healthcare Street, Medical District, City 12345',
           ],
@@ -212,7 +212,7 @@ const Privacy = () => {
                   color: 'text.secondary',
                 }}
               >
-                At SIKAF eyecare, we are committed to protecting your privacy and ensuring the security of your personal and medical information. This Privacy Policy describes how we collect, use, disclose, and safeguard your information when you use our services.
+                At Polyclinic HMS, we are committed to protecting your privacy and ensuring the security of your personal and medical information. This Privacy Policy describes how we collect, use, disclose, and safeguard your information when you use our services.
               </Typography>
 
               {sections.map((section, sectionIndex) => (

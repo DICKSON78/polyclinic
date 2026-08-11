@@ -45,13 +45,13 @@ const About = () => {
     {
       icon: <VisionIcon sx={{ fontSize: 50 }} />,
       title: 'Our Vision',
-      description: 'To become the leading eye care provider in Dar es Salaam, revolutionizing eye care services through innovative technology and comprehensive solutions.',
+      description: 'To become the leading healthcare provider in Dar es Salaam, delivering accessible, high-quality medical services through innovative technology and comprehensive solutions.',
       color: '#1976d2',
     },
     {
       icon: <MissionIcon sx={{ fontSize: 50 }} />,
       title: 'Our Mission',
-      description: 'To empower the Dar es Salaam community with cutting-edge eye care technology and comprehensive services to enhance vision health and quality of life.',
+      description: 'To empower the Dar es Salaam community with quality healthcare services and comprehensive solutions that improve health outcomes and quality of life.',
       color: '#00BCD4',
     },
     {
@@ -71,8 +71,8 @@ const About = () => {
 
   const teamMembers = [
     { name: 'Dr. Sarah Johnson', role: 'Chief Medical Officer', image: '/images/optometrist-headshot.jpeg' },
-    { name: 'Dr. Michael Chen', role: 'Lead Ophthalmologist', image: '/images/gallery-staff-at-work.jpeg' },
-    { name: 'Dr. Amina Hassan', role: 'Pediatric Eye Specialist', image: '/images/appointment-receptionist.jpeg' },
+    { name: 'Dr. Michael Chen', role: 'Senior Consultant Physician', image: '/images/gallery-staff-at-work.jpeg' },
+    { name: 'Dr. Amina Hassan', role: 'Head of Laboratory Services', image: '/images/appointment-receptionist.jpeg' },
   ];
 
   const achievements = [
@@ -154,9 +154,9 @@ const About = () => {
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: '#f8f9fa', pt: { xs: '56px', sm: '64px' } }}>
       <SEO 
-        title="About Us - SIKAF Eye Care | Leading Eye Care Clinic in Tanzania"
-        description="Learn about SIKAF Eye Care, the leading eye care clinic in Dar es Salaam, Tanzania. Our mission is to provide comprehensive, accessible, and high-quality eye care services to our community. Trusted since 2018."
-        keywords="about SIKAF Eye Care, eye clinic Tanzania, optometrist Dar es Salaam, eye care mission, eye clinic history, SIKAF Eye Care team"
+        title="About Us - Polyclinic HMS | Leading Healthcare Clinic in Tanzania"
+        description="Learn about Polyclinic HMS, the leading healthcare clinic in Dar es Salaam, Tanzania. Our mission is to provide comprehensive, accessible, and high-quality healthcare services to our community. Trusted since 2018."
+        keywords="about Polyclinic HMS, healthcare clinic Tanzania, polyclinic Dar es Salaam, hospital mission, clinic history, Polyclinic HMS team"
       />
       <Navbar />
       
@@ -211,7 +211,7 @@ const About = () => {
                 WebkitTextFillColor: 'transparent',
               }}
             >
-              About SIKAF Eye Care
+              About Polyclinic HMS
             </Typography>
             <Typography
               variant="h6"
@@ -224,7 +224,7 @@ const About = () => {
                 lineHeight: 1.8,
               }}
             >
-              Empowering the Dar es Salaam community with innovative eye care technology and comprehensive solutions since 2018.
+              Empowering the Dar es Salaam community with innovative healthcare technology and comprehensive solutions since 2018.
             </Typography>
           </Box>
         </Container>
@@ -328,7 +328,7 @@ const About = () => {
                 <Box
                   component="img"
                   src="/images/clinic-exterior-building.jpeg"
-                  alt="SIKAF Eye Care Clinic"
+                  alt="Polyclinic HMS Clinic"
                   sx={{
                     width: '100%',
                     height: { xs: 300, sm: 400, md: 500, lg: 600 },
@@ -343,7 +343,7 @@ const About = () => {
                   <Stack direction="row" spacing={2} sx={{ mb: 2 }}>
                     <Chip
                       icon={<PersonIcon />}
-                      label="SIKAF Team"
+                      label="Polyclinic HMS Team"
                       size="small"
                       sx={{ bgcolor: '#667eea', color: 'white' }}
                     />
@@ -374,9 +374,9 @@ const About = () => {
                       color: '#4A4A4A !important',
                     }}
                   >
-                    SIKAF Eye Care was founded in 2018 in Dar es Salaam to revolutionize eye care services in Tanzania through innovative technology and compassionate care. 
-                    We recognized the critical need for comprehensive, accessible eye care services in Tanzania's commercial capital, delivering comprehensive eye examinations, 
-                    advanced diagnostics, quality eyewear, and personalized treatment in one welcoming, professional environment.
+                    Polyclinic HMS was founded in 2018 in Dar es Salaam to deliver quality healthcare services in Tanzania through modern technology and compassionate care. 
+                    We recognized the critical need for comprehensive, accessible healthcare services in Tanzania's commercial capital, offering general consultations, 
+                    laboratory diagnostics, radiology, e-prescriptions, and inpatient care in one welcoming, professional environment.
                   </Typography>
                   <Typography 
                     variant="body1" 
@@ -387,7 +387,7 @@ const About = () => {
                       color: '#4A4A4A !important',
                     }}
                   >
-                    Starting as a small clinic, we've grown to become one of Dar es Salaam's most trusted eye care providers, serving thousands of patients throughout the region. 
+                    Starting as a small clinic, we've grown to become one of Dar es Salaam's most trusted healthcare providers, serving thousands of patients throughout the region. 
                     Today, we continue to innovate and expand our services, keeping the needs of our community at the heart of everything we do.
                   </Typography>
                   <Button
@@ -456,7 +456,7 @@ const About = () => {
                       color: '#4A4A4A !important',
                     }}
                   >
-                    To empower the Dar es Salaam community with cutting-edge eye care technology, comprehensive services, and unwavering support to enhance vision health and quality of life.
+                    To empower the Dar es Salaam community with quality healthcare services, comprehensive care, and unwavering support to improve health outcomes and quality of life.
                   </Typography>
                 </CardContent>
               </Card>
@@ -504,7 +504,7 @@ const About = () => {
                       color: '#4A4A4A !important',
                     }}
                   >
-                    To become the leading eye care provider in Dar es Salaam and throughout Tanzania, revolutionizing how eye care services are delivered through innovative technology, expert care, and comprehensive solutions.
+                    To become the leading healthcare provider in Dar es Salaam and throughout Tanzania, delivering quality medical services through innovative technology, expert care, and comprehensive solutions.
                   </Typography>
                 </CardContent>
               </Card>
@@ -547,7 +547,7 @@ const About = () => {
                     lineHeight: 1.7,
                   }}
                 >
-                  Join thousands of satisfied patients in Dar es Salaam who trust SIKAF Eye Care for their vision health and eye care needs.
+                  Join thousands of satisfied patients in Dar es Salaam who trust Polyclinic HMS for their healthcare needs.
                 </Typography>
                 <Stack 
                   direction="column" 
@@ -624,9 +624,9 @@ const About = () => {
                   </Typography>
                   <Stack spacing={2}>
                     {[
-                      { title: 'Comprehensive Eye Care Services', image: '/images/services-vision-testing.jpeg' },
-                      { title: 'Advanced Vision Testing Equipment', image: '/images/services-glasses-frames.jpeg' },
-                      { title: 'Expert Team of Ophthalmologists', image: '/images/gallery-staff-at-work.jpeg' },
+                      { title: 'Comprehensive Healthcare Services', image: '/images/services-vision-testing.jpeg' },
+                      { title: 'Advanced Diagnostic Equipment', image: '/images/services-glasses-frames.jpeg' },
+                      { title: 'Expert Team of Medical Professionals', image: '/images/gallery-staff-at-work.jpeg' },
                     ].map((post, index) => (
                       <Box
                         key={index}
@@ -697,7 +697,7 @@ const About = () => {
                     Categories
                   </Typography>
                   <Stack spacing={1}>
-                    {['Eye Examinations', 'Vision Testing', 'Glasses & Frames', 'Contact Lenses', 'Surgical Procedures'].map((category, index) => (
+                    {['General Consultations', 'Laboratory Testing', 'Radiology & Imaging', 'Pharmacy Services', 'Inpatient Care'].map((category, index) => (
                       <Box
                         key={index}
                         sx={{
@@ -745,7 +745,7 @@ const About = () => {
                     Popular Tags
                   </Typography>
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                    {['Eye Care', 'Vision', 'Clinic', 'Ophthalmology', 'Optometry', 'SIKAF', 'Tanzania', 'Health'].map((tag, index) => (
+                    {['Healthcare', 'Clinic', 'Polyclinic', 'Medical', 'Laboratory', 'Polyclinic HMS', 'Tanzania', 'Health'].map((tag, index) => (
                       <Chip
                         key={index}
                         label={tag}

@@ -41,7 +41,7 @@ const LensList = () => {
   );
 
   useEffect(() => {
-    document.title = `Lens List - ${window.APP_NAME}`;
+    document.title = `Item List - ${window.APP_NAME}`;
   }, []);
 
   useEffect(() => {
@@ -69,15 +69,15 @@ const LensList = () => {
 
   return (
     <Page
-      title="Lens List"
+      title="Item List"
       breadcrumbs={[
         { title: "Home" },
         { title: "Stock Management" },
-        { title: "Lens List" },
+        { title: "Item List" },
       ]}
     >
       <Card>
-        <PageHeader title="Lens List" />
+        <PageHeader title="Item List" />
         <Divider />
         <CardContent>
           <Grid container spacing={2} sx={{ mb: 2 }}>
@@ -90,7 +90,7 @@ const LensList = () => {
             </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
               <Select
-                label="Filter by Lens Type"
+                label="Filter by Item Type"
                 fullWidth
                 options={[
                   { label: "All Types", value: null },
@@ -113,7 +113,7 @@ const LensList = () => {
             columns={[
               {
                 field: "name",
-                headerName: "Lens Name",
+                headerName: "Item Name",
               },
               {
                 field: "code",
@@ -126,7 +126,7 @@ const LensList = () => {
               },
               {
                 field: "lens_type",
-                headerName: "Lens Type",
+                headerName: "Item Type",
                 valueGetter: (item) => item.lens_type || "Unspecified",
               },
               {

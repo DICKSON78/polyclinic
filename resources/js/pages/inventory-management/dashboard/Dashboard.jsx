@@ -107,21 +107,21 @@ const Dashboard = () => {
               <InfoCard title="Stock Out Today" count={numberFormat(data.summary?.stock_out_today || 0)} icon={<StockOutIcon />} color={orange[400]} onClick={() => navigate("/inventory-management/stock-alerts")} />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-              <InfoCard title="Total Lens" count={numberFormat(data.summary?.total_lens || 0)} icon={<LensIcon />} color={blue[500]} onClick={() => navigate("/inventory-management/lens-list")} />
+              <InfoCard title="Total Dispensing Items" count={numberFormat(data.summary?.total_lens || 0)} icon={<LensIcon />} color={blue[500]} onClick={() => navigate("/inventory-management/lens-list")} />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
               <InfoCard title="Total Medicine" count={numberFormat(data.summary?.total_medicine || 0)} icon={<PharmacyIcon />} color={teal[500]} onClick={() => navigate("/inventory-management/stocktaking")} />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-              <InfoCard title="Total Frame" count={numberFormat(data.summary?.total_frame || 0)} icon={<FrameIcon />} color={purple[500]} onClick={() => navigate("/inventory-management/stocktaking")} />
+              <InfoCard title="Total Accessories" count={numberFormat(data.summary?.total_frame || 0)} icon={<FrameIcon />} color={purple[500]} onClick={() => navigate("/inventory-management/stocktaking")} />
             </Grid>
           </Grid>
 
           <Grid container spacing={{ xs: 2, md: 3 }}>
-            {/* Frame Categories */}
+            {/* Accessory Categories */}
             <Grid size={{ md: 6, sm: 12, xs: 12 }}>
               <Card>
-                <CardHeader title="Frame Categories" />
+                <CardHeader title="Accessory Categories" />
                 <Divider />
                 <CardContent>
                   {(data.statistics?.frame_categories || []).length > 0 ? (
@@ -147,10 +147,10 @@ const Dashboard = () => {
               </Card>
             </Grid>
 
-            {/* Top Sold Frames */}
+            {/* Top Sold Accessories */}
             <Grid size={{ md: 6, sm: 12, xs: 12 }}>
               <Card>
-                <CardHeader title="Top Sold Frames (Quantity)" />
+                <CardHeader title="Top Sold Accessories (Quantity)" />
                 <Divider />
                 <CardContent>
                   {(data.statistics?.sold_frames_pie_chart || []).length > 0 ? (

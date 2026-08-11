@@ -213,7 +213,22 @@ class PatientItemPaymentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'channel_id' => 'sometimes|exists:payment_channels,id',
+            'amount' => 'sometimes|numeric|min:0',
+            'discount' => 'sometimes|numeric|min:0',
+        ]);
+
+        $data = PatientItemPayment::with(['channel', 'creator', 'items.item.unit_of_measure'])->findOrFail($id);
+        $data->update($request->only('channel_id', 'amount', 'discount'));
+        $data->loadMissing([
+            'channel',
+            'creator',
+            'items.item.unit_of_measure',
+            'items.payment_mode',
+            'items.payment_cache.check_in.patient'
+        ]);
+        return $this->sendResponse($data, Response::HTTP_OK, 'Payment updated successfully.');
     }
 
     /**
@@ -224,6 +239,13 @@ class PatientItemPaymentsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = PatientItemPayment::findOrFail($id);
+
+        // Unlink paid items so they can be repaid, then remove the payment record
+        $data->items()->update(['item_payment_id' => null]);
+
+        $data->delete();
+
+        return $this->sendResponse(null, Response::HTTP_OK, 'Payment deleted successfully.');
     }
 }

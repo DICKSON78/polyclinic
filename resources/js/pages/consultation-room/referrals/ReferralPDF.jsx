@@ -11,254 +11,211 @@ import {
 } from "@react-pdf/renderer";
 import Header from "../../../components/pdf/Header";
 import Footer from "../../../components/pdf/Footer";
+import Descriptions from "../../../components/pdf/Descriptions";
+import Table, { styles as tableStyles } from "../../../components/pdf/Table";
 import { PDFReportDocument } from "../../patient-records/patient-file/PatientFilePDF";
+import { getAge } from "../../../helpers";
 
+// ── Shared styles (same as PatientFilePDF) ───────────────────
 const styles = StyleSheet.create({
-  page: {
-    padding: 30,
-    fontSize: 10,
+  text: {
+    fontSize: 8,
     fontFamily: "Helvetica",
-  },
-  section: {
-    marginBottom: 15,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 10,
-    color: "#1976d2",
-  },
-  subtitle: {
-    fontSize: 12,
-    fontWeight: "bold",
-    marginTop: 10,
-    marginBottom: 5,
-    color: "#424242",
-  },
-  label: {
-    fontSize: 9,
-    fontWeight: "bold",
-    color: "#666",
-    marginTop: 8,
-    marginBottom: 3,
-  },
-  value: {
-    fontSize: 10,
-    color: "#000",
-    marginBottom: 5,
-    lineHeight: 1.5,
-  },
-  divider: {
-    borderBottom: "1 solid #e0e0e0",
-    marginVertical: 10,
-  },
-  row: {
-    flexDirection: "row",
-    marginBottom: 8,
-  },
-  col: {
-    flex: 1,
-  },
-  statusBadge: {
-    backgroundColor: "#ff9800",
-    color: "#fff",
-    padding: "5 10",
-    borderRadius: 3,
-    fontSize: 9,
-    fontWeight: "bold",
-  },
-  statusBadgeSent: {
-    backgroundColor: "#2196f3",
-  },
-  statusBadgeAcknowledged: {
-    backgroundColor: "#1976d2",
-  },
-  statusBadgeCompleted: {
-    backgroundColor: "#4caf50",
-  },
-  notesBox: {
-    backgroundColor: "#f5f5f5",
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 5,
   },
 });
 
+// ── Subheader (same design as PatientFilePDF) ─────────────────
+const Subheader = ({ title, style }) => (
+  <Text
+    style={[
+      styles.text,
+      {
+        fontSize: 9,
+        paddingVertical: 4,
+        paddingHorizontal: 12,
+        color: "#fff",
+        backgroundColor: "#039be5",
+        borderRadius: 5,
+        marginBottom: 8,
+        ...style,
+      },
+    ]}
+  >
+    {title}
+  </Text>
+);
+
+// ── Referral Letter Document ───────────────────────────────────
 const ReferralPDFDocument = ({ referral, patient, clinic }) => {
-  const getStatusStyle = (status) => {
-    switch (status) {
-      case "Sent":
-        return styles.statusBadgeSent;
-      case "Acknowledged":
-        return styles.statusBadgeAcknowledged;
-      case "Completed":
-        return styles.statusBadgeCompleted;
-      default:
-        return styles.statusBadge;
-    }
-  };
+  const clinicData = clinic || window?.user?.clinic || {};
 
   return (
-    <Document>
-      <Page size="A4" style={styles.page}>
-        <Header
-          title="Referral Letter"
-          subtitle={`Patient: ${patient?.full_name || "N/A"}`}
+    <Document
+      title="Referral Letter"
+      creator={window.APP_NAME}
+      producer={window.APP_NAME}
+    >
+      <Page
+        size="A4"
+        style={{
+          width: "100%",
+          backgroundColor: "white",
+          paddingHorizontal: 24,
+          paddingTop: 24,
+          paddingBottom: 35,
+        }}
+        orientation="portrait"
+      >
+        {/* ── Header ── */}
+        <Header title="Referral Letter" subtitle={patient?.full_name} />
+
+        {/* ── Patient Information ── */}
+        <Subheader title="Patient Information" style={{ marginBottom: 8 }} />
+        <Descriptions
+          columns={3}
+          items={[
+            { label: "Patient Name",   value: patient?.full_name },
+            { label: "Patient Number", value: patient?.id },
+            { label: "Age",            value: getAge(patient?.date_of_birth) },
+            { label: "Gender",         value: patient?.gender },
+            { label: "Phone Number",   value: patient?.phone },
+            { label: "Address",        value: patient?.address },
+          ]}
+          containerStyle={{ marginBottom: 8 }}
         />
 
-        <View style={styles.section}>
-          <Text style={styles.title}>Referral Information</Text>
+        {/* ── Referral Details ── */}
+        <Subheader title="Referral Details" style={{ marginBottom: 8 }} />
+        <Descriptions
+          columns={3}
+          items={[
+            {
+              label: "Referral Date",
+              value: referral?.referral_date
+                ? new Date(referral.referral_date).toLocaleDateString()
+                : "N/A",
+            },
+            { label: "Status", value: referral?.status || "Pending" },
+            {
+              label: "Referred To",
+              value: referral?.referred_to_name
+                ? `${referral.referred_to_name}${referral.referred_to_type ? ` (${referral.referred_to_type})` : ""}`
+                : "N/A",
+            },
+            {
+              label: "Referred By",
+              value: referral?.creator?.full_name || "N/A",
+            },
+          ]}
+          containerStyle={{ marginBottom: 8 }}
+        />
 
-          <View style={styles.row}>
-            <View style={styles.col}>
-              <Text style={styles.label}>Referred To:</Text>
-              <Text style={styles.value}>
-                {referral.referred_to_name || "N/A"}
-              </Text>
-            </View>
-            <View style={styles.col}>
-              <Text style={styles.label}>Type:</Text>
-              <Text style={styles.value}>
-                {referral.referred_to_type || "N/A"}
-              </Text>
-            </View>
-          </View>
-
-          <View style={styles.row}>
-            <View style={styles.col}>
-              <Text style={styles.label}>Status:</Text>
-              <View style={{ marginTop: 3 }}>
-                <Text style={[getStatusStyle(referral.status), { width: "auto" }]}>
-                  {referral.status || "Pending"}
-                </Text>
-              </View>
-            </View>
-            <View style={styles.col}>
-              <Text style={styles.label}>Referral Date:</Text>
-              <Text style={styles.value}>
-                {referral.referral_date
-                  ? new Date(referral.referral_date).toLocaleDateString()
-                  : "N/A"}
-              </Text>
-            </View>
-          </View>
-
-          {referral.appointment_date && (
-            <View style={styles.row}>
-              <View style={styles.col}>
-                <Text style={styles.label}>Appointment Date:</Text>
-                <Text style={styles.value}>
-                  {new Date(referral.appointment_date).toLocaleDateString()}
-                </Text>
-              </View>
-            </View>
-          )}
-
-          <View style={styles.divider} />
-
-          <Text style={styles.subtitle}>Patient Information</Text>
-          <View style={styles.row}>
-            <View style={styles.col}>
-              <Text style={styles.label}>Name:</Text>
-              <Text style={styles.value}>
-                {patient?.full_name || patient?.first_name + " " + patient?.last_name || "N/A"}
-              </Text>
-            </View>
-            <View style={styles.col}>
-              <Text style={styles.label}>Patient ID:</Text>
-              <Text style={styles.value}>{patient?.id || "N/A"}</Text>
-            </View>
-          </View>
-
-          {patient?.date_of_birth && (
-            <View style={styles.row}>
-              <View style={styles.col}>
-                <Text style={styles.label}>Date of Birth:</Text>
-                <Text style={styles.value}>
-                  {new Date(patient.date_of_birth).toLocaleDateString()}
-                </Text>
-              </View>
-              <View style={styles.col}>
-                <Text style={styles.label}>Gender:</Text>
-                <Text style={styles.value}>{patient.gender || "N/A"}</Text>
-              </View>
-            </View>
-          )}
-
-          {patient?.phone && (
-            <View style={styles.row}>
-              <View style={styles.col}>
-                <Text style={styles.label}>Phone:</Text>
-                <Text style={styles.value}>{patient.phone}</Text>
-              </View>
-            </View>
-          )}
-
-          <View style={styles.divider} />
-
-          <Text style={styles.subtitle}>Clinical Information</Text>
-
-          {referral.referral_reason && (
-            <View style={styles.section}>
-              <Text style={styles.label}>Reason for Referral:</Text>
-              <Text style={styles.value}>{referral.referral_reason}</Text>
-            </View>
-          )}
-
-          {referral.clinical_summary && (
-            <View style={styles.section}>
-              <Text style={styles.label}>Clinical Summary:</Text>
-              <Text style={styles.value}>{referral.clinical_summary}</Text>
-            </View>
-          )}
-
-          {referral.notes && (
-            <View style={styles.section}>
-              <Text style={styles.label}>Additional Notes:</Text>
-              <View style={styles.notesBox}>
-                <Text style={styles.value}>{referral.notes}</Text>
-              </View>
-            </View>
-          )}
-
-          <View style={styles.divider} />
-
-          <View style={styles.section}>
-            <Text style={styles.label}>Referring Clinic:</Text>
-            <Text style={styles.value}>
-              {clinic?.name || "SIKAF Eye Care"}
+        {/* ── Action Taken ── */}
+        <Subheader title="Action Taken" style={{ marginBottom: 8 }} />
+        <View style={[tableStyles.table, { marginBottom: 8 }]}>
+          <View style={tableStyles.tableRow}>
+            <Text
+              style={[
+                styles.text,
+                tableStyles.tableCell,
+                { lineHeight: 1.5, minHeight: 40 },
+              ]}
+            >
+              {referral?.clinical_summary || "N/A"}
             </Text>
-            {clinic?.address && (
-              <Text style={[styles.value, { fontSize: 9, marginTop: 3 }]}>
-                {clinic.address}
-              </Text>
-            )}
-            {clinic?.phone && (
-              <Text style={[styles.value, { fontSize: 9 }]}>
-                Phone: {clinic.phone}
-              </Text>
-            )}
-          </View>
-
-          <View style={{ marginTop: 20, fontSize: 9, color: "#666" }}>
-            <Text>
-              Generated on: {new Date().toLocaleDateString()} at{" "}
-              {new Date().toLocaleTimeString()}
-            </Text>
-            {referral.creator && (
-              <Text style={{ marginTop: 5 }}>
-                Referred by: {referral.creator.full_name || "N/A"}
-              </Text>
-            )}
           </View>
         </View>
 
-        <Footer />
+        {/* ── Reason for Referral ── */}
+        <Subheader title="Reason for Referral" style={{ marginBottom: 8 }} />
+        <View style={[tableStyles.table, { marginBottom: 8 }]}>
+          <View style={tableStyles.tableRow}>
+            <Text
+              style={[
+                styles.text,
+                tableStyles.tableCell,
+                { lineHeight: 1.5, minHeight: 40 },
+              ]}
+            >
+              {referral?.referral_reason || "N/A"}
+            </Text>
+          </View>
+        </View>
+
+        {/* ── Referring Clinic ── */}
+        <Subheader title="Referring Clinic" style={{ marginBottom: 8 }} />
+        <Descriptions
+          columns={2}
+          items={[
+            { label: "Clinic Name", value: clinicData.name || "N/A" },
+            { label: "Address",     value: clinicData.address || "N/A" },
+            { label: "Phone",       value: clinicData.phone || "N/A" },
+            { label: "Email",       value: clinicData.email || "N/A" },
+          ]}
+          containerStyle={{ marginBottom: 8 }}
+        />
+
+        {/* ── Signature Line ── */}
+        <View
+          style={{
+            flexDirection: "row",
+            marginTop: 24,
+            justifyContent: "space-between",
+          }}
+        >
+          <View style={{ width: "45%" }}>
+            <View
+              style={{
+                borderBottom: "1pt solid #000",
+                marginBottom: 4,
+                height: 24,
+              }}
+            />
+            <Text style={[styles.text, { textAlign: "center" }]}>
+              Referring Doctor Signature
+            </Text>
+            <Text
+              style={[
+                styles.text,
+                { textAlign: "center", marginTop: 2, color: "#555" },
+              ]}
+            >
+              {referral?.creator?.full_name || ""}
+            </Text>
+          </View>
+          <View style={{ width: "45%" }}>
+            <View
+              style={{
+                borderBottom: "1pt solid #000",
+                marginBottom: 4,
+                height: 24,
+              }}
+            />
+            <Text style={[styles.text, { textAlign: "center" }]}>
+              Date
+            </Text>
+            <Text
+              style={[
+                styles.text,
+                { textAlign: "center", marginTop: 2, color: "#555" },
+              ]}
+            >
+              {new Date().toLocaleDateString()}
+            </Text>
+          </View>
+        </View>
+
+        <Footer
+          render={({ pageNumber, totalPages }) =>
+            `${pageNumber} / ${totalPages}`
+          }
+        />
       </Page>
     </Document>
   );
 };
 
+// ── Download Button Component ─────────────────────────────────
 const ReferralPDF = ({ referral, patient, clinic, ...rest }) => {
   const [loading, setLoading] = useState(false);
 
@@ -270,41 +227,35 @@ const ReferralPDF = ({ referral, patient, clinic, ...rest }) => {
 
     setLoading(true);
     try {
-      // If the referral is linked to a consultation, fetch that consultation
-      // and generate the full clinical notes PDF (excluding Diagnosis & Management
-      // because includeReferral is provided). Otherwise fall back to referral-only PDF.
-      let pdfDocument = (
-        <ReferralPDFDocument
-          referral={referral}
-          patient={patient}
-          clinic={clinic || window.user?.clinic}
-        />
-      );
+      // Always use ReferralPDFDocument (referral letter design)
+      // If consultation exists, fetch it to enrich the referral letter
+      let enrichedReferral = { ...referral };
 
       if (referral.consultation_id) {
         try {
           const resp = await fetch(
-            `/api/consultations/${referral.consultation_id}?with_diagnoses=Yes&with_items=Yes&with_item_templates=Yes&with_referral=Yes`
+            `/api/consultations/${referral.consultation_id}?with_referral=Yes`
           );
           if (resp.ok) {
             const json = await resp.json();
             const consultation = json?.data?.data;
-            if (consultation) {
-              pdfDocument = (
-                <PDFReportDocument
-                  consultation={consultation}
-                  patient={patient}
-                  includeReferral={referral}
-                />
-              );
+            if (consultation && consultation.creator) {
+              enrichedReferral.creator =
+                enrichedReferral.creator || consultation.creator;
             }
           }
-        } catch (fetchErr) {
-          console.warn("Failed to fetch consultation for referral PDF, falling back to referral-only:", fetchErr);
+        } catch (_) {
+          // use referral as-is
         }
       }
 
-      const blob = await pdf(pdfDocument).toBlob();
+      const blob = await pdf(
+        <ReferralPDFDocument
+          referral={enrichedReferral}
+          patient={patient}
+          clinic={clinic || window?.user?.clinic}
+        />
+      ).toBlob('application/pdf');
 
       if (!blob || blob.size === 0) {
         throw new Error("Generated PDF is empty");
@@ -313,23 +264,19 @@ const ReferralPDF = ({ referral, patient, clinic, ...rest }) => {
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.href = url;
-      const patientName = patient?.full_name || patient?.first_name || "patient";
-      const referralName = referral.referred_to_name || "referral";
-      link.download = `referral-${patientName}-${referralName}-${new Date()
-        .toISOString()
-        .split("T")[0]}.pdf`;
+      const patientName =
+        patient?.full_name || patient?.first_name || "patient";
+      link.download = `referral-letter-${patientName}-${
+        new Date().toISOString().split("T")[0]
+      }.pdf`;
       link.style.display = "none";
       document.body.appendChild(link);
       link.click();
-
       setTimeout(() => {
-        if (document.body.contains(link)) {
-          document.body.removeChild(link);
-        }
+        if (document.body.contains(link)) document.body.removeChild(link);
         window.URL.revokeObjectURL(url);
       }, 100);
     } catch (error) {
-      console.error("PDF generation failed:", error);
       alert(`Failed to generate PDF: ${error.message}`);
     } finally {
       setLoading(false);
@@ -352,4 +299,4 @@ const ReferralPDF = ({ referral, patient, clinic, ...rest }) => {
 };
 
 export default ReferralPDF;
-
+export { ReferralPDFDocument };

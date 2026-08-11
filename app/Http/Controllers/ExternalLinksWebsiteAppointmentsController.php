@@ -87,9 +87,8 @@ class ExternalLinksWebsiteAppointmentsController extends Controller
     private function sendAppointmentStatusEmail($appointment, $newStatus)
     {
         try {
-            // Get clinic_id (we'll use 1 as default since appointments are global, or try to get from user)
-            // For now, we'll use clinic_id = 1, but this should be configurable
-            $clinic_id = 1; // TODO: Get clinic_id from appointment or user context
+            // Resolve clinic from available clinics (appointments are clinic-global)
+            $clinic_id = \App\Models\Clinic::orderBy('id')->value('id') ?? 1;
 
             // Check if appointment notifications are enabled
             if (!EmailService::isNotificationEnabled($clinic_id, 'appointment_notifications')) {
@@ -98,7 +97,7 @@ class ExternalLinksWebsiteAppointmentsController extends Controller
             }
 
             // Prepare email content
-            $subject = 'Appointment ' . ucfirst(strtolower($newStatus)) . ' - SIKAF Eye Care';
+            $subject = 'Appointment ' . ucfirst(strtolower($newStatus)) . ' - Polyclinic HMS';
             
             $message = '';
             if ($newStatus === 'Approved') {
@@ -163,7 +162,7 @@ class ExternalLinksWebsiteAppointmentsController extends Controller
                 <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                     <tr>
                         <td style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #ffffff; padding: 30px; text-align: center;">
-                            <h1 style="margin: 0; font-size: 28px; font-weight: bold;">SIKAF Eye Care</h1>
+                            <h1 style="margin: 0; font-size: 28px; font-weight: bold;">Polyclinic HMS</h1>
                             <h2 style="margin: 10px 0 0 0; font-size: 20px; font-weight: normal;">Appointment ' . ucfirst(strtolower($status)) . '</h2>
                         </td>
                     </tr>
@@ -215,7 +214,7 @@ class ExternalLinksWebsiteAppointmentsController extends Controller
                     </tr>
                     <tr>
                         <td style="text-align: center; padding: 20px; color: #666666; font-size: 12px; border-top: 1px solid #e0e0e0; background-color: #ffffff;">
-                            <p style="margin: 5px 0;">This is an automated email from SIKAF Eye Care System.</p>
+                            <p style="margin: 5px 0;">This is an automated email from Polyclinic HMS System.</p>
                             <p style="margin: 5px 0;">For inquiries, please contact us directly.</p>
                         </td>
                     </tr>

@@ -216,7 +216,7 @@ const SurgeryRecordReport = ({ patient, paymentCacheitem }) => {
                   <Table className="no-hover-highlight">
                     <TableBody>
                       <TableRow>
-                        <TableCell component="th">Visual Acuity</TableCell>
+                        <TableCell component="th">Clinical Assessment</TableCell>
                         <TableCell>RE</TableCell>
                         <TableCell>
                           <Stack

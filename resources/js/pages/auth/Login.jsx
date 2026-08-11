@@ -110,7 +110,7 @@ const LogIn = () => {
             lineHeight: 1.6,
           }}
         >
-          Sign in to access your account and continue managing your eye care services.
+          Sign in to access your account and continue managing your healthcare services.
         </Typography>
       </Box>
       <Divider sx={{ mb: 3 }} />

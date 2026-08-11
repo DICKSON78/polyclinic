@@ -1,4 +1,4 @@
-// Navigation fix utility for SIKAF Eye Care system
+// Navigation fix utility for Polyclinic HMS system
 // This utility helps identify and fix navigation issues
 
 export const navigationFix = {

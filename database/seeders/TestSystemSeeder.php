@@ -18,7 +18,7 @@ class TestSystemSeeder extends Seeder
      */
     public function run()
     {
-        echo "Creating sample data for EyeChake system...\n";
+        echo "Creating sample data for Polyclinic HMS system...\n";
 
         // Create sample departments
         $departments = [
@@ -49,7 +49,7 @@ class TestSystemSeeder extends Seeder
         User::create([
             'first_name' => 'John',
             'last_name' => 'Doe',
-            'email' => 'john.doe@eyechake.com',
+            'email' => 'john.doe@polyclinic-hms.com',
             'username' => 'john_doe',
             'password' => bcrypt('password123'),
             'role' => 'Admin',
@@ -67,7 +67,7 @@ class TestSystemSeeder extends Seeder
         User::create([
             'first_name' => 'Jane',
             'last_name' => 'Smith',
-            'email' => 'jane.smith@eyechake.com',
+            'email' => 'jane.smith@polyclinic-hms.com',
             'username' => 'jane_smith',
             'password' => bcrypt('password123'),
             'role' => 'Client',
@@ -85,7 +85,7 @@ class TestSystemSeeder extends Seeder
         User::create([
             'first_name' => 'Alice',
             'last_name' => 'Johnson',
-            'email' => 'alice.johnson@eyechake.com',
+            'email' => 'alice.johnson@polyclinic-hms.com',
             'username' => 'alice_johnson',
             'password' => bcrypt('password123'),
             'role' => 'Client',
@@ -103,7 +103,7 @@ class TestSystemSeeder extends Seeder
         User::create([
             'first_name' => 'Michael',
             'last_name' => 'Brown',
-            'email' => 'michael.brown@eyechake.com',
+            'email' => 'michael.brown@polyclinic-hms.com',
             'username' => 'michael_brown',
             'password' => bcrypt('password123'),
             'role' => 'Client',
@@ -121,7 +121,7 @@ class TestSystemSeeder extends Seeder
         User::create([
             'first_name' => 'Dr. Robert',
             'last_name' => 'Williams',
-            'email' => 'robert.williams@eyechake.com',
+            'email' => 'robert.williams@polyclinic-hms.com',
             'username' => 'dr_williams',
             'password' => bcrypt('password123'),
             'role' => 'Client',
@@ -139,7 +139,7 @@ class TestSystemSeeder extends Seeder
         User::create([
             'first_name' => 'Sarah',
             'last_name' => 'Miller',
-            'email' => 'sarah.miller@eyechake.com',
+            'email' => 'sarah.miller@polyclinic-hms.com',
             'username' => 'sarah_miller',
             'password' => bcrypt('password123'),
             'role' => 'Client',
@@ -157,7 +157,7 @@ class TestSystemSeeder extends Seeder
         User::create([
             'first_name' => 'David',
             'last_name' => 'Taylor',
-            'email' => 'david.taylor@eyechake.com',
+            'email' => 'david.taylor@polyclinic-hms.com',
             'username' => 'david_taylor',
             'password' => bcrypt('password123'),
             'role' => 'Client',
@@ -175,7 +175,7 @@ class TestSystemSeeder extends Seeder
         User::create([
             'first_name' => 'Emily',
             'last_name' => 'Clark',
-            'email' => 'emily.clark@eyechake.com',
+            'email' => 'emily.clark@polyclinic-hms.com',
             'username' => 'emily_clark',
             'password' => bcrypt('password123'),
             'role' => 'Client',
@@ -193,7 +193,7 @@ class TestSystemSeeder extends Seeder
         User::create([
             'first_name' => 'James',
             'last_name' => 'Wilson',
-            'email' => 'james.wilson@eyechake.com',
+            'email' => 'james.wilson@polyclinic-hms.com',
             'username' => 'james_wilson',
             'password' => bcrypt('password123'),
             'role' => 'Client',
@@ -211,7 +211,7 @@ class TestSystemSeeder extends Seeder
         User::create([
             'first_name' => 'Kevin',
             'last_name' => 'Anderson',
-            'email' => 'kevin.anderson@eyechake.com',
+            'email' => 'kevin.anderson@polyclinic-hms.com',
             'username' => 'kevin_anderson',
             'password' => bcrypt('password123'),
             'role' => 'Client',
@@ -299,6 +299,6 @@ class TestSystemSeeder extends Seeder
         $this->command->info('  - Consultations: ' . count($consultations) . ' consultations');
         $this->command->info('  - Payments: ' . count($payments) . ' payments');
         $this->command->info('  - Expenses: ' . count($expenses) . ' expenses');
-        $this->command->info('Database: eyechake (XAMPP ready)');
+        $this->command->info('Database: polyclinic (XAMPP ready)');
     }
 }

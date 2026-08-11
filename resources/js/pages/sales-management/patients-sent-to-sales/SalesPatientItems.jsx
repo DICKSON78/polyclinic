@@ -181,7 +181,7 @@ const SalesPatientItems = () => {
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <ConsultationItemsCard
-                title="Glass"
+                title="Dispensing"
                 consultationType="Glass"
                 loading={loadingItems}
                 items={allItems}

@@ -85,7 +85,15 @@ class ConsultationDiagnosesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'disease_id' => 'sometimes|exists:diseases,id',
+            'diagnosis_type' => 'sometimes|in:Preliminary,Final',
+        ]);
+
+        $data = ConsultationDiagnosis::with(['disease', 'creator'])->findOrFail($id);
+        $data->update($request->only('disease_id', 'diagnosis_type'));
+        $data->load(['disease', 'creator']);
+        return $this->sendResponse($data, Response::HTTP_OK, 'Updated successfully.');
     }
 
     /**
