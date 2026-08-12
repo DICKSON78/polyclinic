@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ComprehensiveClinicalDataSeeder::class,
             SampleTransactionalDataSeeder::class,
+            DashboardDataSeeder::class,
         ]);
 
         $now = Carbon::now()->toDateTimeString();

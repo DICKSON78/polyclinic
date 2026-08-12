@@ -669,6 +669,24 @@ class FinancialManagementDashboardController extends Controller
             \Log::error('Error calculating category sales', ['error' => $e->getMessage()]);
         }
 
+        // Consulted patients (Consulted consultations in date range)
+        try {
+            $consultedQuery = DB::table('consultations as c')
+                ->join('patient_payment_cache_items as ppci', 'c.payment_cache_item_id', '=', 'ppci.id')
+                ->join('patient_payment_cache as ppc', 'ppci.payment_cache_id', '=', 'ppc.id')
+                ->join('users as u', 'ppc.created_by', '=', 'u.id')
+                ->where('c.status', 'Consulted')
+                ->whereDate('c.created_at', '>=', $start_date)
+                ->whereDate('c.created_at', '<=', $end_date);
+            if ($clinic_id) {
+                $consultedQuery->where('u.clinic_id', $clinic_id);
+            }
+            $data['summary']['consulted_patients'] = $consultedQuery->count();
+        } catch (\Exception $e) {
+            \Log::error('Error calculating consulted patients', ['error' => $e->getMessage()]);
+            $data['summary']['consulted_patients'] = 0;
+        }
+
         // Debug logging
         \Log::info('FinancialManagementDashboard data', [
             'clinic_id' => $clinic_id,

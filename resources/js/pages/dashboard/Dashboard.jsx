@@ -1130,7 +1130,7 @@ const Dashboard = ({ setSmsBalance }) => {
                             { x: "Consultation", y: financialData.summary?.consultation || 0 },
                             { x: "Pharmacy", y: financialData.summary?.pharmacy || 0 },
                             { x: "Outpatient Dispensing", y: financialData.summary?.glass || 0 },
-                            { x: "Others", y: (financialData.summary?.others || 0) - (financialData.summary?.consultation || 0) },
+                            { x: "Others", y: financialData.summary?.others || 0 },
                           ],
                         }]}
                         type="bar"

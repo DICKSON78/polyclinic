@@ -594,7 +594,7 @@ class DashboardController extends Controller
 
             // Mortuary statistics
             $data['summary']['mortuary_bodies'] = $this->safeQuery(function() use ($clinic_id) {
-                $query = \App\Models\MortuaryBody::query()->where('status', 'In Mortuary');
+                $query = \App\Models\MortuaryBody::query()->where('status', 'In-Storage');
                 if ($clinic_id) {
                     $query->whereHas('creator', function ($query) use ($clinic_id) {
                         $query->where('clinic_id', $clinic_id);
