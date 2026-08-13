@@ -12,9 +12,6 @@ import { usePost } from "../hooks";
 import { formatError } from "../helpers";
 import { getDefaultRoute } from "../helpers/privileges";
 
-// Use clinic logo from public folder for reliable serving
-const publicLogoUrl = "/logo.png";
-
 const Auth = () => {
   const navigate = useNavigate();
 
@@ -100,31 +97,17 @@ const Auth = () => {
           sx={{ position: 'relative', zIndex: 2 }}
         >
           <Card sx={{ boxShadow: '0 8px 32px rgba(0,0,0,0.3)', p: 3 }}>
-            <Box
-              component="img"
-              display="block"
-              width={160}
-              height={48}
-              sx={{ objectFit: 'contain' }}
-              mx="auto"
-              mb={3}
-              alt="Polyclinic HMS Logo"
-              src={publicLogoUrl}
-              onError={(e) => {
-                // Fallback: show text logo if image fails to load
-                e.target.style.display = 'none';
-                const textLogo = document.createElement('div');
-                textLogo.innerHTML = '<h2 style="color: #1E88E5; text-align: center; margin: 16px 0; font-weight: bold;">Polyclinic HMS</h2>';
-                e.target.parentNode.insertBefore(textLogo, e.target.nextSibling);
-              }}
-              onLoad={(e) => {
-                // Ensure any fallback text is removed when image loads
-                const fallback = e.target.nextElementSibling;
-                if (fallback && fallback.tagName === 'DIV') {
-                  fallback.remove();
-                }
-              }}
-            />
+            <Box sx={{ textAlign: 'center', mb: 3 }}>
+              <Typography
+                variant="h4"
+                sx={{
+                  fontWeight: 700,
+                  color: '#1E88E5',
+                }}
+              >
+                Polyclinic HMS
+              </Typography>
+            </Box>
 
             <Box sx={{ textAlign: 'center', mb: 3 }}>
               <Typography
