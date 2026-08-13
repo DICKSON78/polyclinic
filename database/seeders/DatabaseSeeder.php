@@ -26,14 +26,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $this->seedBaseData();
 
         $this->call([
             ComprehensiveClinicalDataSeeder::class,
             SampleTransactionalDataSeeder::class,
             DashboardDataSeeder::class,
         ]);
+    }
 
+    private function seedBaseData()
+    {
         $now = Carbon::now()->toDateTimeString();
 
         Clinic::insert([

@@ -16,10 +16,15 @@ class DashboardDataSeeder extends Seeder
         $this->now = Carbon::now();
         $this->today = $this->now->toDateString();
 
+        $this->fixReferenceData();
+
+        if (!$this->hasRequiredData()) {
+            $this->command->warn('Required data not found (doctors, cashiers, patients or diseases). Please run DatabaseSeeder first.');
+            return;
+        }
+
         DB::transaction(function () {
             $this->cleanup();
-
-            $this->fixReferenceData();
             $this->seedPatientTransactions();
             $this->seedClinicalDepartments();
             $this->seedSupportDepartments();
@@ -28,6 +33,34 @@ class DashboardDataSeeder extends Seeder
         });
 
         $this->command->info('DashboardDataSeeder complete.');
+    }
+
+    private function hasRequiredData()
+    {
+        return DB::table('users')->where('role', 'Doctor')->count() > 0
+            && DB::table('users')->where('role', 'Cashier')->count() > 0
+            && DB::table('patients')->count() > 0
+            && DB::table('diseases')->count() > 0
+            && DB::table('items')->whereIn('name', ['General Consultation - New', 'General Consultation - Return'])->count() > 0;
+    }
+
+    private function pick(array $array)
+    {
+        return $array ? $array[array_rand($array)] : null;
+    }
+
+    private function ensureItem($name, array $extra = [])
+    {
+        $id = DB::table('items')->where('name', $name)->value('id');
+        if (!$id) {
+            $id = DB::table('items')->insertGetId(array_merge([
+                'name' => $name,
+                'status' => 'Active',
+                'created_at' => $this->now,
+                'updated_at' => $this->now,
+            ], $extra));
+        }
+        return $id;
     }
 
     private function cleanup()
@@ -125,6 +158,49 @@ class DashboardDataSeeder extends Seeder
         DB::table('items')->where('name', 'Frame - Designer')->update(['item_type_id' => 4]);
         DB::table('items')->whereIn('name', ['Lens - Single Vision', 'Single Vision Lens', 'Progressive Lens'])
             ->update(['item_type_id' => $lensTypeId]);
+
+        // Ensure essential saleable items exist (fresh installations may lack them)
+        $serviceTypeId = DB::table('item_types')->where('name', 'Service')->value('id') ?: 1;
+        $pharmacyTypeId = DB::table('item_types')->where('name', 'Pharmaceutical')->value('id') ?: 2;
+        $generalId = DB::table('consultation_types')->where('name', 'General Consultation')->value('id');
+
+        $this->ensureItem('General Consultation - New', [
+            'code' => 'GC-NEW', 'item_type_id' => $serviceTypeId, 'consultation_type_id' => $generalId,
+            'is_consultation_item' => 'Yes', 'is_stock_item' => 'No', 'unit_buying_price' => 0,
+        ]);
+        $this->ensureItem('General Consultation - Return', [
+            'code' => 'GC-RET', 'item_type_id' => $serviceTypeId, 'consultation_type_id' => $generalId,
+            'is_consultation_item' => 'Yes', 'is_stock_item' => 'No', 'unit_buying_price' => 0,
+        ]);
+
+        $frameItemId = DB::table('items')->where('name', 'Frame - Designer')->value('id');
+        if (!$frameItemId) {
+            $this->ensureItem('Frame - Designer', [
+                'code' => 'FRAME-001', 'item_type_id' => 4, 'consultation_type_id' => $others,
+                'is_consultation_item' => 'No', 'is_stock_item' => 'Yes', 'balance' => 50, 'unit_buying_price' => 30000,
+            ]);
+        }
+        DB::table('items')->where('name', 'Frame - Designer')->update(['item_type_id' => 4]);
+
+        $lensItemId = DB::table('items')->where('name', 'like', '%Lens%')->value('id');
+        if (!$lensItemId) {
+            $this->ensureItem('Lens - Single Vision', [
+                'code' => 'LENS-001', 'item_type_id' => $lensTypeId, 'consultation_type_id' => $others,
+                'is_consultation_item' => 'No', 'is_stock_item' => 'Yes', 'balance' => 100, 'unit_buying_price' => 15000,
+            ]);
+        }
+        DB::table('items')->where('name', 'Lens - Single Vision')->update(['item_type_id' => $lensTypeId]);
+
+        if (DB::table('items')->where('item_type_id', $pharmacyTypeId)->count() === 0) {
+            DB::table('items')->insert([
+                ['name' => 'Paracetamol 500mg', 'code' => 'PARA500', 'item_type_id' => $pharmacyTypeId, 'consultation_type_id' => $generalId,
+                    'is_consultation_item' => 'No', 'is_stock_item' => 'Yes', 'balance' => 500, 'unit_buying_price' => 50, 'status' => 'Active',
+                    'created_at' => $this->now, 'updated_at' => $this->now],
+                ['name' => 'Amoxicillin 250mg Capsules', 'code' => 'AMOX250', 'item_type_id' => $pharmacyTypeId, 'consultation_type_id' => $generalId,
+                    'is_consultation_item' => 'No', 'is_stock_item' => 'Yes', 'balance' => 300, 'unit_buying_price' => 80, 'status' => 'Active',
+                    'created_at' => $this->now, 'updated_at' => $this->now],
+            ]);
+        }
     }
 
     private function seedPatientTransactions()
@@ -146,42 +222,48 @@ class DashboardDataSeeder extends Seeder
         $frameItemId = DB::table('items')->where('item_type_id', 4)->value('id');
         $procedureItemIds = DB::table('items')->whereIn('name', ['Gauze Roll', 'Alcohol Swabs', 'Surgical Gloves (Box)'])->pluck('id')->all();
 
+        $consultNewId = DB::table('items')->where('name', 'General Consultation - New')->value('id');
+        $consultReturnId = DB::table('items')->where('name', 'General Consultation - Return')->value('id');
+        $consultItemIds = array_values(array_filter([$consultNewId, $consultReturnId]));
+
         // Visit compositions (12 visits today)
         $compositions = [];
         for ($i = 0; $i < 12; $i++) {
-            $pharmacy = [['item_id' => $pharmacyItemIds[array_rand($pharmacyItemIds)], 'unit_price' => rand(2000, 8000), 'quantity' => rand(1, 2), 'consultation_type_id' => $pharmacyId]];
+            $pharmacy = [['item_id' => $this->pick($pharmacyItemIds), 'unit_price' => rand(2000, 8000), 'quantity' => rand(1, 2), 'consultation_type_id' => $pharmacyId]];
             switch ($i % 5) {
                 case 0:
-                    $items = array_merge([['item_id' => 11, 'unit_price' => 10000, 'quantity' => 1, 'consultation_type_id' => $othersId]], $pharmacy);
+                    $items = array_merge([['item_id' => $consultNewId, 'unit_price' => 10000, 'quantity' => 1, 'consultation_type_id' => $othersId]], $pharmacy);
                     break;
                 case 1:
-                    $items = array_merge([['item_id' => 12, 'unit_price' => 7000, 'quantity' => 1, 'consultation_type_id' => $othersId]], $pharmacy);
-                    $items[] = ['item_id' => $lensItemIds[array_rand($lensItemIds)], 'unit_price' => rand(20000, 35000), 'quantity' => 1, 'consultation_type_id' => $generalId];
+                    $items = array_merge([['item_id' => $consultReturnId, 'unit_price' => 7000, 'quantity' => 1, 'consultation_type_id' => $othersId]], $pharmacy);
+                    $items[] = ['item_id' => $this->pick($lensItemIds), 'unit_price' => rand(20000, 35000), 'quantity' => 1, 'consultation_type_id' => $generalId];
                     break;
                 case 2:
-                    $items = array_merge([['item_id' => 11, 'unit_price' => 10000, 'quantity' => 1, 'consultation_type_id' => $othersId]], $pharmacy);
+                    $items = array_merge([['item_id' => $consultNewId, 'unit_price' => 10000, 'quantity' => 1, 'consultation_type_id' => $othersId]], $pharmacy);
                     $items[] = ['item_id' => $frameItemId, 'unit_price' => rand(45000, 70000), 'quantity' => 1, 'consultation_type_id' => $generalId];
                     break;
                 case 3:
-                    $items = array_merge([['item_id' => 12, 'unit_price' => 7000, 'quantity' => 1, 'consultation_type_id' => $othersId]], $pharmacy);
-                    $items[] = ['item_id' => $procedureItemIds[array_rand($procedureItemIds)], 'unit_price' => rand(8000, 15000), 'quantity' => 1, 'consultation_type_id' => $procedureId];
+                    $items = array_merge([['item_id' => $consultReturnId, 'unit_price' => 7000, 'quantity' => 1, 'consultation_type_id' => $othersId]], $pharmacy);
+                    $items[] = ['item_id' => $this->pick($procedureItemIds), 'unit_price' => rand(8000, 15000), 'quantity' => 1, 'consultation_type_id' => $procedureId];
                     break;
                 case 4:
-                    $items = array_merge([['item_id' => 11, 'unit_price' => 10000, 'quantity' => 1, 'consultation_type_id' => $othersId]], $pharmacy);
-                    $items[] = ['item_id' => $lensItemIds[array_rand($lensItemIds)], 'unit_price' => rand(20000, 35000), 'quantity' => 1, 'consultation_type_id' => $generalId];
+                    $items = array_merge([['item_id' => $consultNewId, 'unit_price' => 10000, 'quantity' => 1, 'consultation_type_id' => $othersId]], $pharmacy);
+                    $items[] = ['item_id' => $this->pick($lensItemIds), 'unit_price' => rand(20000, 35000), 'quantity' => 1, 'consultation_type_id' => $generalId];
                     $items[] = ['item_id' => $frameItemId, 'unit_price' => rand(45000, 70000), 'quantity' => 1, 'consultation_type_id' => $generalId];
                     break;
             }
-            $compositions[] = $items;
+            $compositions[] = array_values(array_filter($items, function ($it) {
+                return $it['item_id'] !== null;
+            }));
         }
 
         foreach ($compositions as $i => $items) {
             $createdAt = Carbon::parse($this->today)->addHours(8 + ($i % 8))->addMinutes(rand(0, 55))->second(0);
             $ts = $createdAt->toDateTimeString();
-            $cashier = $cashierIds[array_rand($cashierIds)];
+            $cashier = $this->pick($cashierIds);
 
             $checkInId = DB::table('patient_check_ins')->insertGetId([
-                'patient_id' => $patientIds[array_rand($patientIds)],
+                'patient_id' => $this->pick($patientIds),
                 'payment_mode_id' => $cashMode,
                 'mode' => 'checkin',
                 'created_by' => $cashier,
@@ -206,7 +288,7 @@ class DashboardDataSeeder extends Seeder
                     'prescription_id' => null,
                     'prescription_item_id' => null,
                     'consultation_type_id' => $item['consultation_type_id'],
-                    'consultant_id' => $doctorIds[array_rand($doctorIds)],
+                    'consultant_id' => $this->pick($doctorIds),
                     'payment_mode_id' => $cashMode,
                     'unit_price' => $item['unit_price'],
                     'quantity' => $item['quantity'],
@@ -241,13 +323,13 @@ class DashboardDataSeeder extends Seeder
             // Consultation for the consultation item in this visit
             $consultItemKey = null;
             foreach ($items as $idx => $item) {
-                if (in_array($item['item_id'], [11, 12])) {
+                if (in_array($item['item_id'], $consultItemIds)) {
                     $consultItemKey = $idx;
                     break;
                 }
             }
             if ($consultItemKey !== null) {
-                $doctor = $doctorIds[array_rand($doctorIds)];
+                $doctor = $this->pick($doctorIds);
                 $status = ($i % 4 === 3) ? 'Pending' : 'Consulted';
                 $consultationId = DB::table('consultations')->insertGetId([
                     'payment_cache_item_id' => $ppciIds[$consultItemKey],
@@ -269,7 +351,7 @@ class DashboardDataSeeder extends Seeder
                     'created_at' => $ts,
                     'created_by' => $doctor,
                     'status' => $status,
-                    'require_glass' => in_array($items[$consultItemKey]['item_id'], [11, 12]) && ($i % 4 === 1 || $i % 4 === 4) ? 'Yes' : 'No',
+                    'require_glass' => in_array($items[$consultItemKey]['item_id'], $consultItemIds) && ($i % 4 === 1 || $i % 4 === 4) ? 'Yes' : 'No',
                     'lens_types' => null,
                     'sent_to_optician_at' => null,
                     'sent_to_optician_by' => null,
@@ -283,7 +365,7 @@ class DashboardDataSeeder extends Seeder
                     for ($d = 0; $d < $diagnosisCount; $d++) {
                         DB::table('consultation_diagnoses')->insert([
                             'consultation_id' => $consultationId,
-                            'disease_id' => $diseaseIds[array_rand($diseaseIds)],
+                            'disease_id' => $this->pick($diseaseIds),
                             'diagnosis_type' => 'Final',
                             'created_by' => $doctor,
                             'created_at' => $ts,
@@ -310,14 +392,14 @@ class DashboardDataSeeder extends Seeder
             $id = DB::table('lab_requests')->insertGetId([
                 'request_no' => 'LAB-D' . str_pad($i + 1, 4, '0', STR_PAD_LEFT),
                 'clinic_id' => $clinicId,
-                'patient_id' => $patientIds[array_rand($patientIds)],
-                'consultation_id' => $consultationIds[array_rand($consultationIds)],
-                'requested_by' => $doctorIds[array_rand($doctorIds)],
+                'patient_id' => $this->pick($patientIds),
+                'consultation_id' => $this->pick($consultationIds),
+                'requested_by' => $this->pick($doctorIds),
                 'priority' => ['Routine', 'Urgent', 'Stat'][$i % 3],
                 'status' => $completed ? 'Completed' : ['Pending', 'In Progress'][$i % 2],
                 'clinical_notes' => 'Routine laboratory investigation.',
                 'sample_collected_at' => $completed ? $ts : null,
-                'sample_collected_by' => $nurseIds[array_rand($nurseIds)],
+                'sample_collected_by' => $this->pick($nurseIds),
                 'completed_at' => $completed ? $ts : null,
                 'completed_by' => $completed ? DB::table('users')->where('role', 'Laboratory Technician')->value('id') : null,
                 'cancel_reason' => null,
@@ -352,9 +434,9 @@ class DashboardDataSeeder extends Seeder
             DB::table('radiology_requests')->insert([
                 'request_no' => 'RAD-D' . str_pad($i + 1, 4, '0', STR_PAD_LEFT),
                 'clinic_id' => $clinicId,
-                'patient_id' => $patientIds[array_rand($patientIds)],
-                'consultation_id' => $consultationIds[array_rand($consultationIds)],
-                'requested_by' => $doctorIds[array_rand($doctorIds)],
+                'patient_id' => $this->pick($patientIds),
+                'consultation_id' => $this->pick($consultationIds),
+                'requested_by' => $this->pick($doctorIds),
                 'priority' => ['Routine', 'Urgent', 'Stat'][$i % 3],
                 'status' => $i < 4 ? 'Completed' : 'Pending',
                 'clinical_notes' => 'Routine imaging request.',
@@ -375,9 +457,9 @@ class DashboardDataSeeder extends Seeder
             DB::table('prescriptions')->insert([
                 'prescription_no' => 'RX-D' . str_pad($i + 1, 4, '0', STR_PAD_LEFT),
                 'clinic_id' => $clinicId,
-                'patient_id' => $patientIds[array_rand($patientIds)],
-                'consultation_id' => $consultationIds[array_rand($consultationIds)],
-                'prescribed_by' => $doctorIds[array_rand($doctorIds)],
+                'patient_id' => $this->pick($patientIds),
+                'consultation_id' => $this->pick($consultationIds),
+                'prescribed_by' => $this->pick($doctorIds),
                 'date_prescribed' => $ts->toDateTimeString(),
                 'diagnosis' => 'General consultation diagnosis',
                 'clinical_notes' => 'Prescribed during consultation.',
@@ -397,10 +479,10 @@ class DashboardDataSeeder extends Seeder
             DB::table('er_visits')->insert([
                 'visit_no' => 'ER-D' . str_pad($i + 1, 4, '0', STR_PAD_LEFT),
                 'clinic_id' => $clinicId,
-                'patient_id' => $patientIds[array_rand($patientIds)],
-                'triaged_by' => $nurseIds[array_rand($nurseIds)],
-                'doctor_id' => $doctorIds[array_rand($doctorIds)],
-                'nurse_id' => $nurseIds[array_rand($nurseIds)],
+                'patient_id' => $this->pick($patientIds),
+                'triaged_by' => $this->pick($nurseIds),
+                'doctor_id' => $this->pick($doctorIds),
+                'nurse_id' => $this->pick($nurseIds),
                 'arrival_time' => $ts->toDateTimeString(),
                 'seen_time' => $ts->addMinutes(15)->toDateTimeString(),
                 'discharge_time' => $i % 2 === 0 ? $ts->addHours(2)->toDateTimeString() : null,
@@ -488,11 +570,11 @@ class DashboardDataSeeder extends Seeder
             $admissionIds[] = DB::table('admissions')->insertGetId([
                 'admission_no' => 'ADM-D' . str_pad($i + 1, 4, '0', STR_PAD_LEFT),
                 'clinic_id' => $clinicId,
-                'patient_id' => $patientIds[array_rand($patientIds)],
-                'hospital_ward_id' => $wardIds[array_rand($wardIds)],
-                'bed_id' => $bedIds[array_rand($bedIds)],
-                'admitted_by' => $doctorIds[array_rand($doctorIds)],
-                'doctor_id' => $doctorIds[array_rand($doctorIds)],
+                'patient_id' => $this->pick($patientIds),
+                'hospital_ward_id' => $this->pick($wardIds),
+                'bed_id' => $this->pick($bedIds),
+                'admitted_by' => $this->pick($doctorIds),
+                'doctor_id' => $this->pick($doctorIds),
                 'admission_date' => $ts->toDateTimeString(),
                 'admission_reason' => ['Pneumonia', 'Malaria', 'Surgical procedure', 'Observation'][$i],
                 'diagnosis' => 'Admission diagnosis',
@@ -500,7 +582,7 @@ class DashboardDataSeeder extends Seeder
                 'notes' => null,
                 'discharge_reason' => $admitted ? null : 'Condition improved',
                 'discharge_notes' => $admitted ? null : 'Discharged with follow-up plan.',
-                'discharged_by' => $admitted ? null : $doctorIds[array_rand($doctorIds)],
+                'discharged_by' => $admitted ? null : $this->pick($doctorIds),
                 'discharge_date' => $dischargeTs,
                 'status' => $admitted ? 'Admitted' : 'Discharged',
                 'created_at' => $ts->toDateTimeString(),
@@ -517,13 +599,13 @@ class DashboardDataSeeder extends Seeder
             DB::table('surgeries')->insert([
                 'surgery_no' => 'SUR-D' . str_pad($i + 1, 4, '0', STR_PAD_LEFT),
                 'clinic_id' => $clinicId,
-                'patient_id' => $patientIds[array_rand($patientIds)],
-                'theatre_id' => $theatreIds[array_rand($theatreIds)],
-                'admission_id' => $admissionIds[array_rand($admissionIds)],
-                'surgeon_id' => $doctorIds[array_rand($doctorIds)],
-                'assistant_surgeon_id' => $doctorIds[array_rand($doctorIds)],
-                'anesthesiologist_id' => $doctorIds[array_rand($doctorIds)],
-                'scrub_nurse_id' => $nurseIds[array_rand($nurseIds)],
+                'patient_id' => $this->pick($patientIds),
+                'theatre_id' => $this->pick($theatreIds),
+                'admission_id' => $this->pick($admissionIds),
+                'surgeon_id' => $this->pick($doctorIds),
+                'assistant_surgeon_id' => $this->pick($doctorIds),
+                'anesthesiologist_id' => $this->pick($doctorIds),
+                'scrub_nurse_id' => $this->pick($nurseIds),
                 'procedure_name' => $surgeryNames[$i],
                 'procedure_type' => ['Elective', 'Emergency', 'Urgent'][$i],
                 'scheduled_at' => $ts->toDateTimeString(),
@@ -540,7 +622,7 @@ class DashboardDataSeeder extends Seeder
                 'outcome' => $status === 'Completed' ? 'Surgery successful.' : null,
                 'status' => $status,
                 'cancel_reason' => null,
-                'created_by' => $userIds[array_rand($userIds)],
+                'created_by' => $this->pick($userIds),
                 'notes' => null,
                 'created_at' => $ts->toDateTimeString(),
                 'updated_at' => $ts->toDateTimeString(),
@@ -560,7 +642,7 @@ class DashboardDataSeeder extends Seeder
                 'date_of_death' => $this->today,
                 'cause_of_death' => ['Cardiac arrest', 'Respiratory failure'][$i],
                 'admitted_at' => $ts->toDateTimeString(),
-                'admitted_by' => $userIds[array_rand($userIds)],
+                'admitted_by' => $this->pick($userIds),
                 'storage_location' => 'Mortuary Rack ' . ($i + 1),
                 'status' => 'In-Storage',
                 'released_at' => null,
@@ -581,16 +663,16 @@ class DashboardDataSeeder extends Seeder
             DB::table('inpatient_bills')->insert([
                 'bill_no' => 'IB-D' . str_pad($i + 1, 4, '0', STR_PAD_LEFT),
                 'clinic_id' => $clinicId,
-                'admission_id' => $admissionIds[array_rand($admissionIds)],
-                'patient_id' => $patientIds[array_rand($patientIds)],
+                'admission_id' => $this->pick($admissionIds),
+                'patient_id' => $this->pick($patientIds),
                 'amount' => $amount,
                 'discount' => $discount,
                 'total' => $amount - $discount,
                 'status' => ['Open', 'Partial', 'Paid'][$i % 3],
                 'issued_at' => $ts->toDateTimeString(),
-                'issued_by' => $userIds[array_rand($userIds)],
+                'issued_by' => $this->pick($userIds),
                 'settled_at' => $i % 3 === 2 ? $ts->toDateTimeString() : null,
-                'settled_by' => $i % 3 === 2 ? $userIds[array_rand($userIds)] : null,
+                'settled_by' => $i % 3 === 2 ? $this->pick($userIds) : null,
                 'notes' => null,
                 'created_at' => $ts->toDateTimeString(),
                 'updated_at' => $ts->toDateTimeString(),
@@ -605,8 +687,8 @@ class DashboardDataSeeder extends Seeder
             $requestIds[] = DB::table('ambulance_requests')->insertGetId([
                 'request_no' => 'AMB-D' . str_pad($i + 1, 4, '0', STR_PAD_LEFT),
                 'clinic_id' => $clinicId,
-                'patient_id' => $patientIds[array_rand($patientIds)],
-                'requested_by' => $userIds[array_rand($userIds)],
+                'patient_id' => $this->pick($patientIds),
+                'requested_by' => $this->pick($userIds),
                 'pickup_location' => 'Dar es Salaam area',
                 'destination' => 'Polyclinic HMS',
                 'pickup_time' => $ts->toDateTimeString(),
@@ -625,9 +707,9 @@ class DashboardDataSeeder extends Seeder
                 'trip_no' => 'TRIP-D' . str_pad($i + 1, 4, '0', STR_PAD_LEFT),
                 'clinic_id' => $clinicId,
                 'request_id' => $requestIds[$i],
-                'vehicle_id' => $vehicleIds[array_rand($vehicleIds)],
-                'driver_id' => $userIds[array_rand($userIds)],
-                'attendant_id' => $userIds[array_rand($userIds)],
+                'vehicle_id' => $this->pick($vehicleIds),
+                'driver_id' => $this->pick($userIds),
+                'attendant_id' => $this->pick($userIds),
                 'dispatched_at' => $ts->toDateTimeString(),
                 'arrived_at_pickup' => $ts->addMinutes(20)->toDateTimeString(),
                 'departed_pickup' => $ts->addMinutes(30)->toDateTimeString(),
@@ -656,13 +738,13 @@ class DashboardDataSeeder extends Seeder
             $ts = Carbon::parse($this->today)->addHours(8 + $i)->addMinutes(rand(0, 55))->second(0);
             $amount = rand(50000, 800000);
             $expenseIds[] = DB::table('expenses')->insertGetId([
-                'category_id' => $categoryIds[array_rand($categoryIds)],
+                'category_id' => $this->pick($categoryIds),
                 'total_amount' => $amount,
                 'description' => 'Expense (Dashboard seed) ' . ($i + 1),
                 'running_cost' => $i < 3 ? 1 : 0,
                 'improvement_cost' => $i >= 3 ? 1 : 0,
                 'expense_date' => $this->today,
-                'created_by' => $userIds[array_rand($userIds)],
+                'created_by' => $this->pick($userIds),
                 'created_at' => $ts->toDateTimeString(),
                 'updated_at' => $ts->toDateTimeString(),
             ]);
@@ -672,10 +754,10 @@ class DashboardDataSeeder extends Seeder
         for ($i = 0; $i < 5; $i++) {
             $ts = Carbon::parse($this->today)->addHours(8 + $i)->addMinutes(rand(0, 55))->second(0);
             DB::table('expense_payments')->insert([
-                'expense_id' => $expenseIds[array_rand($expenseIds)],
+                'expense_id' => $this->pick($expenseIds),
                 'amount' => rand(10000, 400000),
                 'description' => 'Payment for expense',
-                'created_by' => $userIds[array_rand($userIds)],
+                'created_by' => $this->pick($userIds),
                 'created_at' => $ts->toDateTimeString(),
                 'updated_at' => $ts->toDateTimeString(),
             ]);
@@ -707,22 +789,22 @@ class DashboardDataSeeder extends Seeder
                 'last_name' => $lastNames[$i],
                 'gender' => $i % 2 ? 'Female' : 'Male',
                 'date_of_birth' => Carbon::now()->subYears(rand(1, 85))->toDateString(),
-                'region_id' => $regionIds[array_rand($regionIds)],
-                'district_id' => $districtIds[array_rand($districtIds)],
-                'ward_id' => $wardIds[array_rand($wardIds)],
+                'region_id' => $this->pick($regionIds),
+                'district_id' => $this->pick($districtIds),
+                'ward_id' => $this->pick($wardIds),
                 'address' => 'Street ' . rand(1, 200) . ', Dar es Salaam',
                 'national_id' => (string) rand(19800000000000, 19999999999999),
                 'phone' => '0712' . rand(100000, 999999),
                 'email' => 'seed' . ($i + 1) . '@polyclinic.local',
                 'occupation' => DB::table('occupations')->inRandomOrder()->value('name'),
-                'payment_mode_id' => $paymentModeIds[array_rand($paymentModeIds)],
-                'info_source_id' => $referralSourceId && $i < 2 ? $referralSourceId : $infoSourceIds[array_rand($infoSourceIds)],
+                'payment_mode_id' => $this->pick($paymentModeIds),
+                'info_source_id' => $referralSourceId && $i < 2 ? $referralSourceId : $this->pick($infoSourceIds),
                 'is_vip' => 0,
                 'is_student' => 0,
                 'is_businessperson' => 0,
                 'is_outreach' => 0,
                 'is_employee' => 0,
-                'created_by' => $userIds[array_rand($userIds)],
+                'created_by' => $this->pick($userIds),
                 'created_at' => $ts->toDateTimeString(),
                 'updated_at' => $ts->toDateTimeString(),
             ]);
@@ -736,7 +818,7 @@ class DashboardDataSeeder extends Seeder
                 'patient_id' => $pid,
                 'payment_mode_id' => DB::table('payment_modes')->where('name', 'Cash')->value('id') ?: 1,
                 'mode' => 'checkin',
-                'created_by' => $cashierIds[array_rand($cashierIds)],
+                'created_by' => $this->pick($cashierIds),
                 'created_at' => $ts->toDateTimeString(),
                 'updated_at' => $ts->toDateTimeString(),
             ]);
@@ -748,14 +830,14 @@ class DashboardDataSeeder extends Seeder
         foreach (['waiting', 'waiting', 'in_treatment'] as $i => $status) {
             $ts = Carbon::parse($this->today)->addHours(8 + $i)->addMinutes(rand(0, 55))->second(0);
             DB::table('patient_waiting_times')->insert([
-                'patient_id' => $patientIds[array_rand($patientIds)],
+                'patient_id' => $this->pick($patientIds),
                 'registration_time' => $ts->toDateTimeString(),
                 'treatment_start_time' => null,
                 'treatment_end_time' => null,
                 'waiting_duration_minutes' => $status === 'waiting' ? rand(5, 120) : null,
                 'treatment_duration_minutes' => null,
                 'status' => $status,
-                'doctor_id' => $doctorIds[array_rand($doctorIds)],
+                'doctor_id' => $this->pick($doctorIds),
                 'current_department' => 'Consultation',
                 'department_history' => null,
                 'created_at' => $ts->toDateTimeString(),
@@ -769,7 +851,7 @@ class DashboardDataSeeder extends Seeder
             DB::table('patient_item_bills')->insert([
                 'amount' => rand(20000, 200000),
                 'discount' => rand(0, 10000),
-                'created_by' => $cashierIds[array_rand($cashierIds)],
+                'created_by' => $this->pick($cashierIds),
                 'status' => 'Pending',
                 'cleared_at' => null,
                 'cleared_by' => null,
