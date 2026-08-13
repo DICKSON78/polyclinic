@@ -1,0 +1,1339 @@
+{
+  "_Add.4320f724.js": {
+    "file": "assets/Add.4320f724.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_ArrowBackRounded.352610b6.js": {
+    "file": "assets/ArrowBackRounded.352610b6.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_BlockRounded.bf9070ea.js": {
+    "file": "assets/BlockRounded.bf9070ea.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_CalendarTodayRounded.f790db20.js": {
+    "file": "assets/CalendarTodayRounded.f790db20.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_Cancel.07489bdb.js": {
+    "file": "assets/Cancel.07489bdb.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_CancelRounded.91802ca7.js": {
+    "file": "assets/CancelRounded.91802ca7.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_CataractSurgeryRecordPDF.3f00ef1d.js": {
+    "file": "assets/CataractSurgeryRecordPDF.3f00ef1d.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_Descriptions.3a03d26c.js"
+    ]
+  },
+  "_CheckRounded.80568c1c.js": {
+    "file": "assets/CheckRounded.80568c1c.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_ConfirmationDialog.b46d82ef.js": {
+    "file": "assets/ConfirmationDialog.b46d82ef.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_Consultation.9ef1e2f0.js": {
+    "file": "assets/Consultation.9ef1e2f0.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_Report.ec041919.js",
+      "_PatientFilters.5e3e6094.js",
+      "_PatientFilePDF.aafdbe52.js"
+    ]
+  },
+  "_DeleteRounded.ab3b3b4a.js": {
+    "file": "assets/DeleteRounded.ab3b3b4a.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_DescriptionRounded.c8a85d3e.js": {
+    "file": "assets/DescriptionRounded.c8a85d3e.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_Descriptions.3a03d26c.js": {
+    "file": "assets/Descriptions.3a03d26c.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_Descriptions.ad3309d4.js": {
+    "file": "assets/Descriptions.ad3309d4.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_DispensingRoutes.a2523d8b.js": {
+    "file": "assets/DispensingRoutes.a2523d8b.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_PatientFilters.9c0deb35.js",
+      "_PatientDetails.411c4f83.js",
+      "_ConfirmationDialog.b46d82ef.js",
+      "_usePatch.3d78de32.js",
+      "_Skeleton.f8ef561f.js"
+    ]
+  },
+  "_Download.a8db6d2e.js": {
+    "file": "assets/Download.a8db6d2e.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_Edit.7166a6f2.js": {
+    "file": "assets/Edit.7166a6f2.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_EditNoteRounded.6ff27ce4.js": {
+    "file": "assets/EditNoteRounded.6ff27ce4.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_EditPatient.369568dc.js": {
+    "file": "assets/EditPatient.369568dc.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_usePatch.3d78de32.js"
+    ]
+  },
+  "_EditRounded.a595fa4e.js": {
+    "file": "assets/EditRounded.a595fa4e.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_EventAvailableRounded.5c5f61a7.js": {
+    "file": "assets/EventAvailableRounded.5c5f61a7.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_Expenses.09129721.js": {
+    "file": "assets/Expenses.09129721.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_EditRounded.a595fa4e.js",
+      "_usePatch.3d78de32.js",
+      "_DeleteRounded.ab3b3b4a.js",
+      "_useDelete.42f61796.js",
+      "_Report.ec041919.js"
+    ]
+  },
+  "_FiberNewRounded.197377a2.js": {
+    "file": "assets/FiberNewRounded.197377a2.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_FileInput.2e3b7ca0.js": {
+    "file": "assets/FileInput.2e3b7ca0.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_FormLabelControl.9caa947b.js": {
+    "file": "assets/FormLabelControl.9caa947b.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_GlassPatientFilters.7a0396b6.js": {
+    "file": "assets/GlassPatientFilters.7a0396b6.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_CalendarTodayRounded.f790db20.js"
+    ]
+  },
+  "_HistoryRounded.6c804671.js": {
+    "file": "assets/HistoryRounded.6c804671.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_HourglassTopRounded.bf9f377b.js": {
+    "file": "assets/HourglassTopRounded.bf9f377b.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_ItemBalance.727661e1.js": {
+    "file": "assets/ItemBalance.727661e1.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_Report.ec041919.js"
+    ]
+  },
+  "_LensTracking.77f2fab3.js": {
+    "file": "assets/LensTracking.77f2fab3.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_ConfirmationDialog.b46d82ef.js",
+      "_Skeleton.f8ef561f.js",
+      "_Radio.ee4ea3da.js",
+      "_Tabs.1fb69db4.js"
+    ]
+  },
+  "_LocalShippingRounded.7dcd6451.js": {
+    "file": "assets/LocalShippingRounded.7dcd6451.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_MoreVertRounded.8f60026f.js": {
+    "file": "assets/MoreVertRounded.8f60026f.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_NoteAddRounded.d227adaa.js": {
+    "file": "assets/NoteAddRounded.d227adaa.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_PatientAttachments.025cb4ed.js": {
+    "file": "assets/PatientAttachments.025cb4ed.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_PatientFilePDF.aafdbe52.js",
+      "_EditRounded.a595fa4e.js",
+      "_Download.a8db6d2e.js",
+      "_FileInput.2e3b7ca0.js",
+      "_usePatch.3d78de32.js",
+      "_PrescriptionPDF.87c13076.js",
+      "_PatientDetails.411c4f83.js"
+    ]
+  },
+  "_PatientDetails.411c4f83.js": {
+    "file": "assets/PatientDetails.411c4f83.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_PersonRounded.19a8b33d.js",
+      "_Descriptions.3a03d26c.js",
+      "_CataractSurgeryRecordPDF.3f00ef1d.js",
+      "_Skeleton.f8ef561f.js"
+    ]
+  },
+  "_PatientFilePDF.aafdbe52.js": {
+    "file": "assets/PatientFilePDF.aafdbe52.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_Descriptions.3a03d26c.js",
+      "_CataractSurgeryRecordPDF.3f00ef1d.js"
+    ]
+  },
+  "_PatientFilters.35c47937.js": {
+    "file": "assets/PatientFilters.35c47937.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_PatientFilters.5e3e6094.js": {
+    "file": "assets/PatientFilters.5e3e6094.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_SelectDisease.eb3ae44d.js",
+      "_SelectUser.34276008.js"
+    ]
+  },
+  "_PatientFilters.9c0deb35.js": {
+    "file": "assets/PatientFilters.9c0deb35.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_PatientItems.4b14af82.js": {
+    "file": "assets/PatientItems.4b14af82.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_Report.ec041919.js"
+    ]
+  },
+  "_PendingActionsRounded.03c5347a.js": {
+    "file": "assets/PendingActionsRounded.03c5347a.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_PersonRounded.19a8b33d.js": {
+    "file": "assets/PersonRounded.19a8b33d.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_PlayArrowRounded.9508c691.js": {
+    "file": "assets/PlayArrowRounded.9508c691.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_PrescriptionPDF.87c13076.js": {
+    "file": "assets/PrescriptionPDF.87c13076.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_Descriptions.3a03d26c.js"
+    ]
+  },
+  "_Prescriptions.b73d0162.js": {
+    "file": "assets/Prescriptions.b73d0162.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_ConfirmationDialog.b46d82ef.js",
+      "_pdfDownload.458cf11c.js",
+      "_Save.6ecfb805.js",
+      "_Download.a8db6d2e.js",
+      "_Edit.7166a6f2.js",
+      "_VolunteerActivismRounded.4ba2d6d2.js",
+      "_CalendarTodayRounded.f790db20.js"
+    ]
+  },
+  "_Radio.ee4ea3da.js": {
+    "file": "assets/Radio.ee4ea3da.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_ReceiptLongRounded.36ecfbb1.js": {
+    "file": "assets/ReceiptLongRounded.36ecfbb1.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_Remove.d93b29cf.js": {
+    "file": "assets/Remove.d93b29cf.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_Report.ec041919.js": {
+    "file": "assets/Report.ec041919.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_Save.6ecfb805.js": {
+    "file": "assets/Save.6ecfb805.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_SaveRounded.38ceb480.js": {
+    "file": "assets/SaveRounded.38ceb480.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_SelectDisease.eb3ae44d.js": {
+    "file": "assets/SelectDisease.eb3ae44d.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_SelectItems.bfd0998c.js": {
+    "file": "assets/SelectItems.bfd0998c.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_DeleteRounded.ab3b3b4a.js",
+      "_SelectUser.34276008.js",
+      "_useDelete.42f61796.js",
+      "_Radio.ee4ea3da.js"
+    ]
+  },
+  "_SelectUser.34276008.js": {
+    "file": "assets/SelectUser.34276008.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_Skeleton.f8ef561f.js": {
+    "file": "assets/Skeleton.f8ef561f.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_SwapHorizRounded.da3338e5.js": {
+    "file": "assets/SwapHorizRounded.da3338e5.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_Switch.a4817e35.js": {
+    "file": "assets/Switch.a4817e35.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_Tabs.1fb69db4.js": {
+    "file": "assets/Tabs.1fb69db4.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_TaskAltRounded.32efcb3e.js": {
+    "file": "assets/TaskAltRounded.32efcb3e.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_TodayRounded.46f1fd06.js": {
+    "file": "assets/TodayRounded.46f1fd06.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_VerifiedRounded.e7bd8e6d.js": {
+    "file": "assets/VerifiedRounded.e7bd8e6d.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_VolunteerActivismRounded.4ba2d6d2.js": {
+    "file": "assets/VolunteerActivismRounded.4ba2d6d2.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_Work.06d0b25d.js": {
+    "file": "assets/Work.06d0b25d.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_pdfDownload.458cf11c.js": {
+    "dynamicImports": [
+      "node_modules/html2canvas/dist/html2canvas.esm.js",
+      "node_modules/jspdf/dist/jspdf.es.min.js"
+    ],
+    "file": "assets/pdfDownload.458cf11c.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_useDelete.42f61796.js": {
+    "file": "assets/useDelete.42f61796.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "_usePatch.3d78de32.js": {
+    "file": "assets/usePatch.3d78de32.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ]
+  },
+  "node_modules/canvg/lib/index.es.js": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/index.es.b74409b4.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ],
+    "isDynamicEntry": true,
+    "src": "node_modules/canvg/lib/index.es.js"
+  },
+  "node_modules/dompurify/dist/purify.es.mjs": {
+    "file": "assets/purify.es.1510d87d.js",
+    "isDynamicEntry": true,
+    "src": "node_modules/dompurify/dist/purify.es.mjs"
+  },
+  "node_modules/html2canvas/dist/html2canvas.esm.js": {
+    "file": "assets/html2canvas.esm.e0a7d97b.js",
+    "isDynamicEntry": true,
+    "src": "node_modules/html2canvas/dist/html2canvas.esm.js"
+  },
+  "node_modules/jspdf/dist/jspdf.es.min.js": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "dynamicImports": [
+      "node_modules/html2canvas/dist/html2canvas.esm.js",
+      "node_modules/dompurify/dist/purify.es.mjs",
+      "node_modules/canvg/lib/index.es.js"
+    ],
+    "file": "assets/jspdf.es.min.eba20620.js",
+    "imports": [
+      "resources/js/app.jsx"
+    ],
+    "isDynamicEntry": true,
+    "src": "node_modules/jspdf/dist/jspdf.es.min.js"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app.4121de28.css",
+    "isEntry": true,
+    "src": "resources/css/app.css"
+  },
+  "resources/images/loader.svg": {
+    "file": "assets/loader.80d3ba24.svg",
+    "src": "resources/images/loader.svg"
+  },
+  "resources/js/app.css": {
+    "file": "assets/app.e3b0c442.css",
+    "src": "resources/js/app.css"
+  },
+  "resources/js/app.jsx": {
+    "assets": [
+      "assets/loader.80d3ba24.svg"
+    ],
+    "css": [
+      "assets/app.e3b0c442.css",
+      "assets/app.4121de28.css"
+    ],
+    "dynamicImports": [
+      "resources/js/pages/reception/ReceptionRoutes.jsx",
+      "resources/js/pages/payment-center/PaymentCenterRoutes.jsx",
+      "resources/js/pages/consultation-room/ConsultationRoomRoutes.jsx",
+      "resources/js/pages/sales-center/SalesCenterRoutes.jsx",
+      "resources/js/pages/sales-management/SalesManagementRoutes.jsx",
+      "resources/js/pages/optician-center/OpticianCenterRoutes.jsx",
+      "resources/js/pages/medicine-center/MedicineCenterRoutes.jsx",
+      "resources/js/pages/procedure-room/ProcedureRoomRoutes.jsx",
+      "resources/js/pages/other-dispensing/OtherDispensingRoutes.jsx",
+      "resources/js/pages/dispensing/DispensingMainRoutes.jsx",
+      "resources/js/pages/inventory-management/InventoryManagementRoutes.jsx",
+      "resources/js/pages/financial-management/FinancialManagementRoutes.jsx",
+      "resources/js/pages/marketing/MarketingRoutes.jsx",
+      "resources/js/pages/user-management/UserManagementRoutes.jsx",
+      "resources/js/pages/director/DirectorRoutes.jsx",
+      "resources/js/pages/settings/SettingsRoutes.jsx",
+      "resources/js/pages/office-calendar/OfficeCalendarRoutes.jsx",
+      "resources/js/pages/patient-records/PatientRecordsRoutes.jsx",
+      "resources/js/pages/external-links/ExternalLinksRoutes.jsx",
+      "resources/js/pages/crm-reports/CRMReportsRoutes.jsx",
+      "resources/js/pages/optometry-reports/OptometryReportsRoutes.jsx",
+      "resources/js/pages/sales-reports/SalesReportsRoutes.jsx",
+      "resources/js/pages/triage/TriageRoutes.jsx",
+      "resources/js/pages/laboratory/LaboratoryRoutes.jsx",
+      "resources/js/pages/radiology/RadiologyRoutes.jsx",
+      "resources/js/pages/e-prescription/EPrescriptionRoutes.jsx",
+      "resources/js/pages/insurance/InsuranceRoutes.jsx",
+      "resources/js/pages/emergency/EmergencyRoutes.jsx",
+      "resources/js/pages/operating-theatre/OperatingTheatreRoutes.jsx",
+      "resources/js/pages/anesthesia/AnesthesiaRoutes.jsx",
+      "resources/js/pages/wards/WardsRoutes.jsx",
+      "resources/js/pages/blood-bank/BloodBankRoutes.jsx",
+      "resources/js/pages/ambulance/AmbulanceRoutes.jsx",
+      "resources/js/pages/mortuary/MortuaryRoutes.jsx",
+      "resources/js/pages/inpatient-billing/InpatientBillingRoutes.jsx",
+      "resources/js/pages/ward-records/WardRecordsRoutes.jsx"
+    ],
+    "file": "assets/app.93a40564.js",
+    "isEntry": true,
+    "src": "resources/js/app.jsx"
+  },
+  "resources/js/pages/ambulance/AmbulanceRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/AmbulanceRoutes.74689c0c.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_LocalShippingRounded.7dcd6451.js",
+      "_HourglassTopRounded.bf9f377b.js",
+      "_EventAvailableRounded.5c5f61a7.js",
+      "_usePatch.3d78de32.js",
+      "_EditRounded.a595fa4e.js",
+      "_Descriptions.ad3309d4.js",
+      "_ArrowBackRounded.352610b6.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/ambulance/AmbulanceRoutes.jsx"
+  },
+  "resources/js/pages/anesthesia/AnesthesiaRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/AnesthesiaRoutes.0c4990ed.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_EventAvailableRounded.5c5f61a7.js",
+      "_TaskAltRounded.32efcb3e.js",
+      "_HistoryRounded.6c804671.js",
+      "_PersonRounded.19a8b33d.js",
+      "_ArrowBackRounded.352610b6.js",
+      "_SaveRounded.38ceb480.js",
+      "_Descriptions.ad3309d4.js",
+      "_ConfirmationDialog.b46d82ef.js",
+      "_useDelete.42f61796.js",
+      "_PlayArrowRounded.9508c691.js",
+      "_CancelRounded.91802ca7.js",
+      "_DeleteRounded.ab3b3b4a.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/anesthesia/AnesthesiaRoutes.jsx"
+  },
+  "resources/js/pages/blood-bank/BloodBankRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/BloodBankRoutes.6566231d.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_PendingActionsRounded.03c5347a.js",
+      "_LocalShippingRounded.7dcd6451.js",
+      "_VolunteerActivismRounded.4ba2d6d2.js",
+      "_usePatch.3d78de32.js",
+      "_EditRounded.a595fa4e.js",
+      "_Descriptions.ad3309d4.js",
+      "_ConfirmationDialog.b46d82ef.js",
+      "_ArrowBackRounded.352610b6.js",
+      "_PlayArrowRounded.9508c691.js",
+      "_CheckRounded.80568c1c.js",
+      "_CancelRounded.91802ca7.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/blood-bank/BloodBankRoutes.jsx"
+  },
+  "resources/js/pages/consultation-room/ConsultationRoomRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/ConsultationRoomRoutes.9a4f4ab1.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_PatientFilters.5e3e6094.js",
+      "_CataractSurgeryRecordPDF.3f00ef1d.js",
+      "_PatientDetails.411c4f83.js",
+      "_ConfirmationDialog.b46d82ef.js",
+      "_DeleteRounded.ab3b3b4a.js",
+      "_useDelete.42f61796.js",
+      "_usePatch.3d78de32.js",
+      "_SelectItems.bfd0998c.js",
+      "_PrescriptionPDF.87c13076.js",
+      "_Descriptions.3a03d26c.js",
+      "_Download.a8db6d2e.js",
+      "_Skeleton.f8ef561f.js",
+      "_Consultation.9ef1e2f0.js",
+      "_pdfDownload.458cf11c.js",
+      "_Save.6ecfb805.js",
+      "_Edit.7166a6f2.js",
+      "_Remove.d93b29cf.js",
+      "_Add.4320f724.js",
+      "_PatientFilters.9c0deb35.js",
+      "_Descriptions.ad3309d4.js",
+      "_Radio.ee4ea3da.js",
+      "_FormLabelControl.9caa947b.js",
+      "_SelectDisease.eb3ae44d.js",
+      "_SelectUser.34276008.js",
+      "_PersonRounded.19a8b33d.js",
+      "_Report.ec041919.js",
+      "_PatientFilePDF.aafdbe52.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/consultation-room/ConsultationRoomRoutes.jsx"
+  },
+  "resources/js/pages/crm-reports/CRMReportsRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/CRMReportsRoutes.46ea3bcb.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_usePatch.3d78de32.js",
+      "_Edit.7166a6f2.js",
+      "_Save.6ecfb805.js",
+      "_Cancel.07489bdb.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/crm-reports/CRMReportsRoutes.jsx"
+  },
+  "resources/js/pages/director/DirectorRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/DirectorRoutes.b0683ed1.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_SelectDisease.eb3ae44d.js",
+      "_SelectUser.34276008.js",
+      "_CataractSurgeryRecordPDF.3f00ef1d.js",
+      "_Descriptions.3a03d26c.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/director/DirectorRoutes.jsx"
+  },
+  "resources/js/pages/dispensing/DispensingMainRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/DispensingMainRoutes.8b74ee89.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_DispensingRoutes.a2523d8b.js",
+      "_Report.ec041919.js",
+      "_PatientFilters.9c0deb35.js",
+      "_PatientDetails.411c4f83.js",
+      "_PersonRounded.19a8b33d.js",
+      "_Descriptions.3a03d26c.js",
+      "_CataractSurgeryRecordPDF.3f00ef1d.js",
+      "_Skeleton.f8ef561f.js",
+      "_ConfirmationDialog.b46d82ef.js",
+      "_usePatch.3d78de32.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/dispensing/DispensingMainRoutes.jsx"
+  },
+  "resources/js/pages/e-prescription/EPrescriptionRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/EPrescriptionRoutes.e78663db.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_PendingActionsRounded.03c5347a.js",
+      "_Tabs.1fb69db4.js",
+      "_CancelRounded.91802ca7.js",
+      "_Descriptions.3a03d26c.js",
+      "_ArrowBackRounded.352610b6.js",
+      "_HistoryRounded.6c804671.js",
+      "_DeleteRounded.ab3b3b4a.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/e-prescription/EPrescriptionRoutes.jsx"
+  },
+  "resources/js/pages/emergency/EmergencyRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/EmergencyRoutes.7d0fa827.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_HourglassTopRounded.bf9f377b.js",
+      "_EventAvailableRounded.5c5f61a7.js",
+      "_HistoryRounded.6c804671.js",
+      "_ArrowBackRounded.352610b6.js",
+      "_SaveRounded.38ceb480.js",
+      "_Descriptions.ad3309d4.js",
+      "_ConfirmationDialog.b46d82ef.js",
+      "_PlayArrowRounded.9508c691.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/emergency/EmergencyRoutes.jsx"
+  },
+  "resources/js/pages/external-links/ExternalLinksRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/ExternalLinksRoutes.8b2e50cb.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_usePatch.3d78de32.js",
+      "_SaveRounded.38ceb480.js",
+      "_Switch.a4817e35.js",
+      "_FiberNewRounded.197377a2.js",
+      "_CancelRounded.91802ca7.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/external-links/ExternalLinksRoutes.jsx"
+  },
+  "resources/js/pages/financial-management/FinancialManagementRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/FinancialManagementRoutes.dc96c1d3.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_Expenses.09129721.js",
+      "_Report.ec041919.js",
+      "_EditRounded.a595fa4e.js",
+      "_usePatch.3d78de32.js",
+      "_DeleteRounded.ab3b3b4a.js",
+      "_useDelete.42f61796.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/financial-management/FinancialManagementRoutes.jsx"
+  },
+  "resources/js/pages/inpatient-billing/InpatientBillingRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/InpatientBillingRoutes.fc42e7b1.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_ReceiptLongRounded.36ecfbb1.js",
+      "_DescriptionRounded.c8a85d3e.js",
+      "_EventAvailableRounded.5c5f61a7.js",
+      "_BlockRounded.bf9070ea.js",
+      "_Descriptions.ad3309d4.js",
+      "_ArrowBackRounded.352610b6.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/inpatient-billing/InpatientBillingRoutes.jsx"
+  },
+  "resources/js/pages/insurance/InsuranceRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/InsuranceRoutes.4fd4fb60.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_CancelRounded.91802ca7.js",
+      "_EditRounded.a595fa4e.js",
+      "_DeleteRounded.ab3b3b4a.js",
+      "_ConfirmationDialog.b46d82ef.js",
+      "_usePatch.3d78de32.js",
+      "_useDelete.42f61796.js",
+      "_Descriptions.ad3309d4.js",
+      "_Skeleton.f8ef561f.js",
+      "_ArrowBackRounded.352610b6.js",
+      "_SaveRounded.38ceb480.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/insurance/InsuranceRoutes.jsx"
+  },
+  "resources/js/pages/inventory-management/InventoryManagementRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/InventoryManagementRoutes.d063781d.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_LensTracking.77f2fab3.js",
+      "_ConfirmationDialog.b46d82ef.js",
+      "_useDelete.42f61796.js",
+      "_DeleteRounded.ab3b3b4a.js",
+      "_ItemBalance.727661e1.js",
+      "_Report.ec041919.js",
+      "_Skeleton.f8ef561f.js",
+      "_Radio.ee4ea3da.js",
+      "_Tabs.1fb69db4.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/inventory-management/InventoryManagementRoutes.jsx"
+  },
+  "resources/js/pages/laboratory/LaboratoryRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/LaboratoryRoutes.d16bd0c8.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_HourglassTopRounded.bf9f377b.js",
+      "_ConfirmationDialog.b46d82ef.js",
+      "_useDelete.42f61796.js",
+      "_usePatch.3d78de32.js",
+      "_EditRounded.a595fa4e.js",
+      "_DeleteRounded.ab3b3b4a.js",
+      "_Tabs.1fb69db4.js",
+      "_CancelRounded.91802ca7.js",
+      "_ArrowBackRounded.352610b6.js",
+      "_HistoryRounded.6c804671.js",
+      "_EditNoteRounded.6ff27ce4.js",
+      "_CheckRounded.80568c1c.js",
+      "_DescriptionRounded.c8a85d3e.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/laboratory/LaboratoryRoutes.jsx"
+  },
+  "resources/js/pages/marketing/MarketingRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/MarketingRoutes.022bb4aa.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_Skeleton.f8ef561f.js",
+      "_EditRounded.a595fa4e.js",
+      "_usePatch.3d78de32.js",
+      "_FileInput.2e3b7ca0.js",
+      "_Work.06d0b25d.js",
+      "_MoreVertRounded.8f60026f.js",
+      "_Save.6ecfb805.js",
+      "_EditPatient.369568dc.js",
+      "_GlassPatientFilters.7a0396b6.js",
+      "_Report.ec041919.js",
+      "_Consultation.9ef1e2f0.js",
+      "_ConfirmationDialog.b46d82ef.js",
+      "_pdfDownload.458cf11c.js",
+      "_Download.a8db6d2e.js",
+      "_Edit.7166a6f2.js",
+      "_Add.4320f724.js",
+      "_CalendarTodayRounded.f790db20.js",
+      "_PatientFilters.5e3e6094.js",
+      "_SelectDisease.eb3ae44d.js",
+      "_SelectUser.34276008.js",
+      "_PatientFilePDF.aafdbe52.js",
+      "_Descriptions.3a03d26c.js",
+      "_CataractSurgeryRecordPDF.3f00ef1d.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/marketing/MarketingRoutes.jsx"
+  },
+  "resources/js/pages/medicine-center/MedicineCenterRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/MedicineCenterRoutes.28d1e3ff.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_DispensingRoutes.a2523d8b.js",
+      "_Report.ec041919.js",
+      "_ConfirmationDialog.b46d82ef.js",
+      "_useDelete.42f61796.js",
+      "_EditRounded.a595fa4e.js",
+      "_DeleteRounded.ab3b3b4a.js",
+      "_usePatch.3d78de32.js",
+      "_ArrowBackRounded.352610b6.js",
+      "_SaveRounded.38ceb480.js",
+      "_CheckRounded.80568c1c.js",
+      "_PatientItems.4b14af82.js",
+      "_pdfDownload.458cf11c.js",
+      "_Save.6ecfb805.js",
+      "_Download.a8db6d2e.js",
+      "_Edit.7166a6f2.js",
+      "_Remove.d93b29cf.js",
+      "_Add.4320f724.js",
+      "_PatientFilters.9c0deb35.js",
+      "_PatientDetails.411c4f83.js",
+      "_PersonRounded.19a8b33d.js",
+      "_Descriptions.3a03d26c.js",
+      "_CataractSurgeryRecordPDF.3f00ef1d.js",
+      "_Skeleton.f8ef561f.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/medicine-center/MedicineCenterRoutes.jsx"
+  },
+  "resources/js/pages/mortuary/MortuaryRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/MortuaryRoutes.512236d3.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_SwapHorizRounded.da3338e5.js",
+      "_DescriptionRounded.c8a85d3e.js",
+      "_VerifiedRounded.e7bd8e6d.js",
+      "_EventAvailableRounded.5c5f61a7.js",
+      "_usePatch.3d78de32.js",
+      "_Descriptions.ad3309d4.js",
+      "_ArrowBackRounded.352610b6.js",
+      "_BlockRounded.bf9070ea.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/mortuary/MortuaryRoutes.jsx"
+  },
+  "resources/js/pages/office-calendar/OfficeCalendarRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/OfficeCalendarRoutes.0c25b30b.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_Tabs.1fb69db4.js",
+      "_usePatch.3d78de32.js",
+      "_useDelete.42f61796.js",
+      "_TodayRounded.46f1fd06.js",
+      "_FiberNewRounded.197377a2.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/office-calendar/OfficeCalendarRoutes.jsx"
+  },
+  "resources/js/pages/operating-theatre/OperatingTheatreRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/OperatingTheatreRoutes.e5f45c93.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_TaskAltRounded.32efcb3e.js",
+      "_TodayRounded.46f1fd06.js",
+      "_ConfirmationDialog.b46d82ef.js",
+      "_usePatch.3d78de32.js",
+      "_useDelete.42f61796.js",
+      "_EditRounded.a595fa4e.js",
+      "_DeleteRounded.ab3b3b4a.js",
+      "_PersonRounded.19a8b33d.js",
+      "_ArrowBackRounded.352610b6.js",
+      "_SaveRounded.38ceb480.js",
+      "_Descriptions.ad3309d4.js",
+      "_PlayArrowRounded.9508c691.js",
+      "_CancelRounded.91802ca7.js",
+      "_NoteAddRounded.d227adaa.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/operating-theatre/OperatingTheatreRoutes.jsx"
+  },
+  "resources/js/pages/optician-center/OpticianCenterRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/OpticianCenterRoutes.00c92380.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_PatientFilters.5e3e6094.js",
+      "_PatientDetails.411c4f83.js",
+      "_ConfirmationDialog.b46d82ef.js",
+      "_PatientFilePDF.aafdbe52.js",
+      "_Skeleton.f8ef561f.js",
+      "_CataractSurgeryRecordPDF.3f00ef1d.js",
+      "_PatientItems.4b14af82.js",
+      "_ItemBalance.727661e1.js",
+      "_SelectDisease.eb3ae44d.js",
+      "_SelectUser.34276008.js",
+      "_PersonRounded.19a8b33d.js",
+      "_Descriptions.3a03d26c.js",
+      "_Report.ec041919.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/optician-center/OpticianCenterRoutes.jsx"
+  },
+  "resources/js/pages/optometry-reports/OptometryReportsRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/OptometryReportsRoutes.ace9da1c.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_Edit.7166a6f2.js",
+      "_Save.6ecfb805.js",
+      "_Cancel.07489bdb.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/optometry-reports/OptometryReportsRoutes.jsx"
+  },
+  "resources/js/pages/other-dispensing/OtherDispensingRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/OtherDispensingRoutes.927272c5.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_DispensingRoutes.a2523d8b.js",
+      "_PatientItems.4b14af82.js",
+      "_ItemBalance.727661e1.js",
+      "_PatientFilters.9c0deb35.js",
+      "_PatientDetails.411c4f83.js",
+      "_PersonRounded.19a8b33d.js",
+      "_Descriptions.3a03d26c.js",
+      "_CataractSurgeryRecordPDF.3f00ef1d.js",
+      "_Skeleton.f8ef561f.js",
+      "_ConfirmationDialog.b46d82ef.js",
+      "_usePatch.3d78de32.js",
+      "_Report.ec041919.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/other-dispensing/OtherDispensingRoutes.jsx"
+  },
+  "resources/js/pages/patient-records/PatientRecordsRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/PatientRecordsRoutes.227da9d2.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_PatientAttachments.025cb4ed.js",
+      "_PatientDetails.411c4f83.js",
+      "_Skeleton.f8ef561f.js",
+      "_Tabs.1fb69db4.js",
+      "_PatientFilePDF.aafdbe52.js",
+      "_Descriptions.3a03d26c.js",
+      "_CataractSurgeryRecordPDF.3f00ef1d.js",
+      "_EditRounded.a595fa4e.js",
+      "_Download.a8db6d2e.js",
+      "_FileInput.2e3b7ca0.js",
+      "_usePatch.3d78de32.js",
+      "_PrescriptionPDF.87c13076.js",
+      "_PersonRounded.19a8b33d.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/patient-records/PatientRecordsRoutes.jsx"
+  },
+  "resources/js/pages/payment-center/PaymentCenterRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/PaymentCenterRoutes.3906f605.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_PatientFilters.35c47937.js",
+      "_PatientDetails.411c4f83.js",
+      "_ConfirmationDialog.b46d82ef.js",
+      "_Descriptions.3a03d26c.js",
+      "_Skeleton.f8ef561f.js",
+      "_Descriptions.ad3309d4.js",
+      "_DeleteRounded.ab3b3b4a.js",
+      "_useDelete.42f61796.js",
+      "_usePatch.3d78de32.js",
+      "_Expenses.09129721.js",
+      "_Report.ec041919.js",
+      "_pdfDownload.458cf11c.js",
+      "_Save.6ecfb805.js",
+      "_Download.a8db6d2e.js",
+      "_Edit.7166a6f2.js",
+      "_PersonRounded.19a8b33d.js",
+      "_CataractSurgeryRecordPDF.3f00ef1d.js",
+      "_EditRounded.a595fa4e.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/payment-center/PaymentCenterRoutes.jsx"
+  },
+  "resources/js/pages/procedure-room/ProcedureRoomRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/ProcedureRoomRoutes.fe2eb845.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_PatientFilters.9c0deb35.js",
+      "_PatientDetails.411c4f83.js",
+      "_ConfirmationDialog.b46d82ef.js",
+      "_usePatch.3d78de32.js",
+      "_Descriptions.ad3309d4.js",
+      "_CataractSurgeryRecordPDF.3f00ef1d.js",
+      "_Skeleton.f8ef561f.js",
+      "_Radio.ee4ea3da.js",
+      "_FormLabelControl.9caa947b.js",
+      "_PersonRounded.19a8b33d.js",
+      "_Descriptions.3a03d26c.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/procedure-room/ProcedureRoomRoutes.jsx"
+  },
+  "resources/js/pages/radiology/RadiologyRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/RadiologyRoutes.84afb784.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_HourglassTopRounded.bf9f377b.js",
+      "_ConfirmationDialog.b46d82ef.js",
+      "_useDelete.42f61796.js",
+      "_usePatch.3d78de32.js",
+      "_EditRounded.a595fa4e.js",
+      "_DeleteRounded.ab3b3b4a.js",
+      "_Tabs.1fb69db4.js",
+      "_CancelRounded.91802ca7.js",
+      "_ArrowBackRounded.352610b6.js",
+      "_HistoryRounded.6c804671.js",
+      "_EditNoteRounded.6ff27ce4.js",
+      "_CheckRounded.80568c1c.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/radiology/RadiologyRoutes.jsx"
+  },
+  "resources/js/pages/reception/ReceptionRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/ReceptionRoutes.9001aab6.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_EditRounded.a595fa4e.js",
+      "_MoreVertRounded.8f60026f.js",
+      "_VolunteerActivismRounded.4ba2d6d2.js",
+      "_ReceiptLongRounded.36ecfbb1.js",
+      "_PatientAttachments.025cb4ed.js",
+      "_EditPatient.369568dc.js",
+      "_PatientDetails.411c4f83.js",
+      "_SelectUser.34276008.js",
+      "_ConfirmationDialog.b46d82ef.js",
+      "_Skeleton.f8ef561f.js",
+      "_Radio.ee4ea3da.js",
+      "_Tabs.1fb69db4.js",
+      "_TodayRounded.46f1fd06.js",
+      "_PersonRounded.19a8b33d.js",
+      "_Report.ec041919.js",
+      "_pdfDownload.458cf11c.js",
+      "_Save.6ecfb805.js",
+      "_Download.a8db6d2e.js",
+      "_Edit.7166a6f2.js",
+      "_PatientFilePDF.aafdbe52.js",
+      "_Descriptions.3a03d26c.js",
+      "_CataractSurgeryRecordPDF.3f00ef1d.js",
+      "_FileInput.2e3b7ca0.js",
+      "_usePatch.3d78de32.js",
+      "_PrescriptionPDF.87c13076.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/reception/ReceptionRoutes.jsx"
+  },
+  "resources/js/pages/sales-center/SalesCenterRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/SalesCenterRoutes.2922a052.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_usePatch.3d78de32.js",
+      "_Edit.7166a6f2.js",
+      "_Save.6ecfb805.js",
+      "_Cancel.07489bdb.js",
+      "_CalendarTodayRounded.f790db20.js",
+      "_Prescriptions.b73d0162.js",
+      "_ConfirmationDialog.b46d82ef.js",
+      "_pdfDownload.458cf11c.js",
+      "_Download.a8db6d2e.js",
+      "_VolunteerActivismRounded.4ba2d6d2.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/sales-center/SalesCenterRoutes.jsx"
+  },
+  "resources/js/pages/sales-management/SalesManagementRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/SalesManagementRoutes.bc25ea12.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_VolunteerActivismRounded.4ba2d6d2.js",
+      "_DescriptionRounded.c8a85d3e.js",
+      "_MoreVertRounded.8f60026f.js",
+      "_Prescriptions.b73d0162.js",
+      "_LensTracking.77f2fab3.js",
+      "_GlassPatientFilters.7a0396b6.js",
+      "_PatientDetails.411c4f83.js",
+      "_ConfirmationDialog.b46d82ef.js",
+      "_usePatch.3d78de32.js",
+      "_SelectItems.bfd0998c.js",
+      "_PatientFilePDF.aafdbe52.js",
+      "_Skeleton.f8ef561f.js",
+      "_PatientFilters.35c47937.js",
+      "_Edit.7166a6f2.js",
+      "_pdfDownload.458cf11c.js",
+      "_Save.6ecfb805.js",
+      "_Download.a8db6d2e.js",
+      "_CalendarTodayRounded.f790db20.js",
+      "_Radio.ee4ea3da.js",
+      "_Tabs.1fb69db4.js",
+      "_PersonRounded.19a8b33d.js",
+      "_Descriptions.3a03d26c.js",
+      "_CataractSurgeryRecordPDF.3f00ef1d.js",
+      "_DeleteRounded.ab3b3b4a.js",
+      "_SelectUser.34276008.js",
+      "_useDelete.42f61796.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/sales-management/SalesManagementRoutes.jsx"
+  },
+  "resources/js/pages/sales-reports/SalesReportsRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/SalesReportsRoutes.21372318.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_Edit.7166a6f2.js",
+      "_Save.6ecfb805.js",
+      "_Cancel.07489bdb.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/sales-reports/SalesReportsRoutes.jsx"
+  },
+  "resources/js/pages/settings/SettingsRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/SettingsRoutes.cf2d618e.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_EditRounded.a595fa4e.js",
+      "_usePatch.3d78de32.js",
+      "_FormLabelControl.9caa947b.js",
+      "_DeleteRounded.ab3b3b4a.js",
+      "_useDelete.42f61796.js",
+      "_Tabs.1fb69db4.js",
+      "_SaveRounded.38ceb480.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/settings/SettingsRoutes.jsx"
+  },
+  "resources/js/pages/triage/TriageRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/TriageRoutes.d5341d44.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_Tabs.1fb69db4.js",
+      "_PersonRounded.19a8b33d.js",
+      "_HistoryRounded.6c804671.js",
+      "_ArrowBackRounded.352610b6.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/triage/TriageRoutes.jsx"
+  },
+  "resources/js/pages/user-management/UserManagementRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/UserManagementRoutes.c8562374.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_Work.06d0b25d.js",
+      "_Save.6ecfb805.js",
+      "_EditRounded.a595fa4e.js",
+      "_usePatch.3d78de32.js",
+      "_Cancel.07489bdb.js",
+      "_Switch.a4817e35.js",
+      "_MoreVertRounded.8f60026f.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/user-management/UserManagementRoutes.jsx"
+  },
+  "resources/js/pages/ward-records/WardRecordsRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/WardRecordsRoutes.732031a7.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_DescriptionRounded.c8a85d3e.js",
+      "_VerifiedRounded.e7bd8e6d.js",
+      "_EventAvailableRounded.5c5f61a7.js",
+      "_EditRounded.a595fa4e.js",
+      "_DeleteRounded.ab3b3b4a.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/ward-records/WardRecordsRoutes.jsx"
+  },
+  "resources/js/pages/wards/WardsRoutes.jsx": {
+    "css": [
+      "assets/app.4121de28.css"
+    ],
+    "file": "assets/WardsRoutes.4f7ebce8.js",
+    "imports": [
+      "resources/js/app.jsx",
+      "_PersonRounded.19a8b33d.js",
+      "_EventAvailableRounded.5c5f61a7.js",
+      "_Tabs.1fb69db4.js",
+      "_useDelete.42f61796.js",
+      "_ArrowBackRounded.352610b6.js",
+      "_HistoryRounded.6c804671.js",
+      "_NoteAddRounded.d227adaa.js",
+      "_DeleteRounded.ab3b3b4a.js",
+      "_SwapHorizRounded.da3338e5.js",
+      "_usePatch.3d78de32.js",
+      "_EditRounded.a595fa4e.js"
+    ],
+    "isDynamicEntry": true,
+    "src": "resources/js/pages/wards/WardsRoutes.jsx"
+  }
+}

@@ -1,5 +1,4 @@
 /node_modules
-/public/build
 /public/hot
 /public/storage
 /public/uploads
@@ -18,7 +17,6 @@ yarn-error.log
 /.vscode
 /bootstrap/cache/*.php
 /public/storage
-/public/build
 *.backup
 *.bak
 *.sh.backup

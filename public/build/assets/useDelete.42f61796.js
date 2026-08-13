@@ -1,0 +1,1 @@
+import{r as l}from"./app.93a40564.js";const i=(o=null)=>{const[r,e]=l.useState(),[u,t]=l.useState(!1),[c,a]=l.useState();return{data:r,loading:u,error:c,handleDelete:n=>{typeof n=="string"&&(o=n),e(null),t(!0),a(null),window.axios.delete("/"+o).then(s=>{e(s.data),t(!1)}).catch(s=>{t(!1),a(s)})},setData:e,setError:a}};export{i as u};

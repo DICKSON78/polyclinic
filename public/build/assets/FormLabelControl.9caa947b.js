@@ -1,0 +1,1 @@
+import{j as o,i as r,k as m}from"./app.93a40564.js";const l=({containerProps:s,label:n,required:t,children:e})=>o.jsxs(r,{component:"div",...s,children:[n?o.jsxs(m,{fontWeight:500,sx:{mx:.5,mb:.5},children:[n,t?o.jsx(r,{component:"span",color:"error.main",ml:.25,children:"*"}):null]}):null,e]});export{l as F};
